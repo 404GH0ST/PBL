@@ -3,7 +3,7 @@
 namespace App\Filament\Admin\Resources\Categories\Schemas;
 
 use Filament\Schemas\Schema;
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Illuminate\Support\Str;
@@ -30,7 +30,7 @@ class CategoryForm
                         Textarea::make('description')
                             ->label('Deskripsi')
                             ->columnSpanFull(),
-                    ])->columns(2),
+                    ]),
             ]);
     }
 }
