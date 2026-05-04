@@ -3,9 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'welcome')->name('home');
+Route::view('/katalog', 'catalog')->name('catalog');
 
 Route::get('/dashboard', function () {
     $user = auth()->user();

@@ -25,11 +25,11 @@
 
             <header class="relative z-30 px-6 pt-6 md:px-10 md:pt-8 lg:px-20 lg:pt-9">
                 <div class="mx-auto flex max-w-[1280px] items-center justify-between gap-4">
-                    <a href="/" aria-label="Beranda" class="block h-11 w-11 shrink-0 rounded-full bg-[#e3e3e3] lg:h-12 lg:w-12"></a>
+                    <a href="{{ route('home') }}" aria-label="Beranda" class="block h-11 w-11 shrink-0 rounded-full bg-[#e3e3e3] lg:h-12 lg:w-12"></a>
 
                     <nav class="hidden items-center rounded-full bg-white/12 px-3 py-2 text-[1.02rem] font-semibold text-white/35 lg:fixed lg:left-1/2 lg:top-8 lg:z-50 lg:flex lg:-translate-x-1/2">
-                        <a href="#" class="rounded-full px-4 py-1.5 text-white transition-colors">Beranda</a>
-                        <a href="#" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white focus:bg-white/8 focus:text-white focus:outline-none">Katalog</a>
+                        <a href="{{ route('home') }}" class="rounded-full px-4 py-1.5 text-white transition-colors">Beranda</a>
+                        <a href="{{ route('catalog') }}" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white focus:bg-white/8 focus:text-white focus:outline-none">Katalog</a>
                         <a href="#" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white focus:bg-white/8 focus:text-white focus:outline-none">Blog</a>
                         <a href="#" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white focus:bg-white/8 focus:text-white focus:outline-none">Lacak</a>
                     </nav>
@@ -70,8 +70,8 @@
                     class="mt-4 lg:hidden"
                 >
                     <div class="mx-auto max-w-[1280px] space-y-2 rounded-[1.5rem] bg-white/8 p-3 backdrop-blur-sm">
-                        <a href="#" class="block rounded-2xl px-4 py-3 text-sm font-semibold text-white">Beranda</a>
-                        <a href="#" class="block rounded-2xl px-4 py-3 text-sm font-semibold text-white/70">Katalog</a>
+                        <a href="{{ route('home') }}" class="block rounded-2xl px-4 py-3 text-sm font-semibold text-white">Beranda</a>
+                        <a href="{{ route('catalog') }}" class="block rounded-2xl px-4 py-3 text-sm font-semibold text-white/70">Katalog</a>
                         <a href="#" class="block rounded-2xl px-4 py-3 text-sm font-semibold text-white/70">Blog</a>
                         <a href="#" class="block rounded-2xl px-4 py-3 text-sm font-semibold text-white/70">Lacak</a>
                         @guest
@@ -99,7 +99,7 @@
                                 <p>Solusi konveksi dan printing paling lengkap.</p>
                             </div>
 
-                            <a href="#" class="mt-16 inline-flex items-center gap-1.5 text-[0.95rem] font-medium text-[#6b95b8] lg:mt-18">
+                            <a href="{{ route('catalog') }}" class="mt-16 inline-flex items-center gap-1.5 text-[0.95rem] font-medium text-[#6b95b8] lg:mt-18">
                                 Belanja Sekarang
                                 <span aria-hidden="true">→</span>
                             </a>
@@ -148,7 +148,7 @@
                                     >
                                 </div>
 
-                                <a href="#" class="mt-6 inline-flex items-center gap-1.5 text-[0.95rem] font-medium text-[#6b95b8]">
+                                <a href="{{ route('catalog') }}" class="mt-6 inline-flex items-center gap-1.5 text-[0.95rem] font-medium text-[#6b95b8]">
                                     Belanja Sekarang
                                     <span aria-hidden="true">→</span>
                                 </a>
@@ -604,8 +604,8 @@
                                 Navigasi Cepat
                             </h3>
                             <div class="mt-10 space-y-[1.55rem] text-[0.9375rem] font-medium tracking-[0.05em] text-white/92">
-                                <a href="#" class="block transition-opacity hover:opacity-75">Beranda</a>
-                                <a href="#" class="block transition-opacity hover:opacity-75">Katalog</a>
+                                <a href="{{ route('home') }}" class="block transition-opacity hover:opacity-75">Beranda</a>
+                                <a href="{{ route('catalog') }}" class="block transition-opacity hover:opacity-75">Katalog</a>
                                 <a href="#" class="block transition-opacity hover:opacity-75">Blog</a>
                                 <a href="#" class="block transition-opacity hover:opacity-75">Keranjang</a>
                                 <a href="#" class="block transition-opacity hover:opacity-75">Lacak Pesanan</a>
