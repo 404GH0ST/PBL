@@ -9,25 +9,20 @@ use Illuminate\Support\Str;
 
 class CategorySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        //
         $categories = [
-            'Jersey Futsal',
-            'Jersey Voli',
-            'Jersey Basket',
-            'Kaos Event'
+            ['name' => 'Jersey'],
+            ['name' => 'Banner / Spanduk'],
+            ['name' => 'Stempel'],
         ];
 
-        foreach ($categories as $categoryName) {
-            Category::updateOrCreate(
-                ['slug' => Str::slug($categoryName)], // Acuan agar tidak duplikat
+        foreach ($categories as $category) {
+            Category::firstOrCreate(
+                ['name' => $category['name']],
                 [
-                    'name' => $categoryName,
-                    'description' => 'Kategori untuk segala jenis pesanan ' . $categoryName,
+                    'name' => $category['name'],
+                    'slug' => Str::slug($category['name']),
                 ]
             );
         }
