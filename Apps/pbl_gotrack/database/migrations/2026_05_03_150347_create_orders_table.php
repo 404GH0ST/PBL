@@ -11,16 +11,28 @@ return new class extends Migration
      */
     public function up(): void
     {
-      Schema::create('orders', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('tracking_id')->unique(); 
+            $table->string('tracking_id')->unique(); // Ini yang sebelumnya kita sebut order_number
             $table->string('customer_name');
-            $table->string('customer_whatsapp');
+            $table->string('customer_whatsapp'); // Wajib diisi
             $table->foreignId('product_id')->nullable()->constrained('products')->onDelete('set null');
             $table->string('custom_product_name')->nullable();
+
+            // Kolom Fitur Variasi Dinamis (Addons)
+            $table->json('selected_addons')->nullable();
+
             $table->integer('quantity');
             $table->integer('total_price');
-            $table->string('completion_proof_path')->nullable(); 
+
+            // Kolom Fitur Pembayaran
+            $table->string('payment_status')->default('unpaid');
+            $table->integer('dp_amount')->nullable();
+
+            // Kolom Catatan Kasir (Penting untuk bisnis cetak)
+            $table->text('notes')->nullable();
+
+            $table->string('completion_proof_path')->nullable();
             $table->enum('status', ['processing', 'shipped', 'completed', 'cancelled'])->default('processing');
             $table->timestamps();
         });
