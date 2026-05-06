@@ -6,20 +6,99 @@
     <title>Detail Produk - Deenhag</title>
 
     @vite(['resources/css/product-detail.css', 'resources/js/app.js'])
-    @vite(['resources/css/product-detail.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
 </head>
 
 <body>
+@php
+    $recommendations = [
+        [
+            'category' => 'Kaos',
+            'title' => 'Sablon Hoodie Custom Panjang Sekali',
+            'image' => 'images/produk/rekomendasi-1.jpg',
+            'price' => 'Rp. 50.999',
+            'old_price' => 'Rp. 100.000',
+        ],
+        [
+            'category' => 'DTF',
+            'title' => 'Cetak DTF Setrika Kaos',
+            'image' => 'images/produk/rekomendasi-2.jpg',
+            'price' => 'Rp. 50.999',
+            'old_price' => 'Rp. 100.000',
+        ],
+        [
+            'category' => 'Kaos',
+            'title' => 'Banner Custom',
+            'image' => 'images/produk/rekomendasi-3.jpg',
+            'price' => 'Rp. 50.999',
+            'old_price' => 'Rp. 100.000',
+        ],
+        [
+            'category' => 'Kaos',
+            'title' => 'Tripod Banner',
+            'image' => 'images/produk/rekomendasi-4.jpg',
+            'price' => 'Rp. 50.999',
+            'old_price' => 'Rp. 100.000',
+        ],
+        [
+            'category' => 'Hoodie',
+            'title' => 'Sablon Hoodie Custom',
+            'image' => 'images/produk/rekomendasi-1.jpg',
+            'price' => 'Rp. 85.999',
+            'old_price' => 'Rp. 150.000',
+        ],
+        [
+            'category' => 'Stiker',
+            'title' => 'Stiker Custom',
+            'image' => 'images/produk/rekomendasi-2.jpg',
+            'price' => 'Rp. 25.999',
+            'old_price' => 'Rp. 50.000',
+        ],
+        [
+            'category' => 'Banner',
+            'title' => 'X Banner Custom',
+            'image' => 'images/produk/rekomendasi-3.jpg',
+            'price' => 'Rp. 75.999',
+            'old_price' => 'Rp. 120.000',
+        ],
+        [
+            'category' => 'Totebag',
+            'title' => 'Totebag Custom',
+            'image' => 'images/produk/rekomendasi-4.jpg',
+            'price' => 'Rp. 35.999',
+            'old_price' => 'Rp. 70.000',
+        ],
+        [
+            'category' => 'Polo',
+            'title' => 'Polo Custom',
+            'image' => 'images/produk/rekomendasi-1.jpg',
+            'price' => 'Rp. 65.999',
+            'old_price' => 'Rp. 110.000',
+        ],
+    ];
+
+    $reviews = [
+        ['name' => 'Ajeng Febria', 'date' => '1 bulan yang lalu'],
+        ['name' => 'Fahrul Kz', 'date' => '2 Bulan yang lalu'],
+        ['name' => 'Jefri Nichol', 'date' => '2 Bulan yang lalu'],
+        ['name' => 'Ajeng Febria', 'date' => '1 bulan yang lalu', 'hidden' => true],
+        ['name' => 'Fahrul Kz', 'date' => '2 Bulan yang lalu', 'hidden' => true],
+        ['name' => 'Jefri Nichol', 'date' => '2 Bulan yang lalu', 'hidden' => true],
+    ];
+@endphp
 
 <header class="header">
     <div class="container header-wrap">
-        <a href="#" class="brand">
+        <a href="#" class="brand" aria-label="Deenhag">
             <span class="brand-logo"></span>
             <span>DEENHAG</span>
         </a>
 
-        <nav class="nav">
+        <nav class="nav" aria-label="Navigasi utama">
             <a href="#" class="active">Beranda</a>
             <a href="#">Katalog</a>
             <a href="#">Blog</a>
@@ -27,30 +106,35 @@
         </nav>
 
         <div class="right-menu">
-            <div class="theme-toggle">
+            <div class="theme-toggle" aria-label="Theme toggle">
                 <span class="active">☀</span>
                 <span>☾</span>
             </div>
 
-            <img class="avatar" src="{{ asset('images/avatar.jpg') }}" alt="Avatar">
+            <img class="avatar" src="{{ asset('images/avatar.jpg') }}" alt="Avatar pengguna">
         </div>
     </div>
 </header>
 
 <main>
     <section class="container product-section">
-        <div>
-            <img id="mainImage" class="main-product-img" src="{{ asset('images/produk/sablon-kaos-custom.jpg') }}" alt="Sablon Kaos Custom">
+        <div class="product-gallery">
+            <img
+                id="mainImage"
+                class="main-product-img"
+                src="{{ asset('images/produk/sablon-kaos-custom.jpg') }}"
+                alt="Sablon Kaos Custom"
+            >
 
             <div class="thumb-list">
-                <img class="active" src="{{ asset('images/produk/sablon-kaos-custom.jpg') }}" alt="Thumbnail">
-                <img src="{{ asset('images/produk/thumb-1.jpg') }}" alt="Thumbnail">
-                <img src="{{ asset('images/produk/thumb-2.jpg') }}" alt="Thumbnail">
-                <img src="{{ asset('images/produk/thumb-3.jpg') }}" alt="Thumbnail">
+                <img class="active" src="{{ asset('images/produk/sablon-kaos-custom.jpg') }}" alt="Thumbnail produk 1">
+                <img src="{{ asset('images/produk/thumb-1.jpg') }}" alt="Thumbnail produk 2">
+                <img src="{{ asset('images/produk/thumb-2.jpg') }}" alt="Thumbnail produk 3">
+                <img src="{{ asset('images/produk/thumb-3.jpg') }}" alt="Thumbnail produk 4">
             </div>
         </div>
 
-        <div>
+        <div class="product-info">
             <p class="category">Kaos</p>
 
             <h1 class="product-title">Sablon Kaos Custom</h1>
@@ -72,56 +156,69 @@
 
             <p class="option-title">Ukuran</p>
             <div class="option-list">
-                <button>A6</button>
-                <button>A5</button>
-                <button>A4</button>
-                <button>A3</button>
-                <button>A5+A5</button>
-                <button>A4+A4</button>
-                <button>A4+A3</button>
-                <button>A3+A3</button>
-                <button>Logo + Nama</button>
+                <button type="button">A6</button>
+                <button type="button">A5</button>
+                <button type="button">A4</button>
+                <button type="button">A3</button>
+                <button type="button">A5+A5</button>
+                <button type="button">A4+A4</button>
+                <button type="button">A4+A3</button>
+                <button type="button">A3+A3</button>
+                <button type="button">Logo + Nama</button>
             </div>
 
             <p class="option-title">Size</p>
             <div class="option-list">
-                <button>XS - XL</button>
-                <button>XXL</button>
+                <button type="button">XS - XL</button>
+                <button type="button">XXL</button>
             </div>
 
             <div class="buy-row">
                 <div class="qty">
-                    <button type="button" onclick="minusQty()">-</button>
+                    <button class="qty-btn" type="button" data-qty="minus">-</button>
                     <span id="qtyValue">1</span>
-                    <button type="button" onclick="addQty()">+</button>
+                    <button class="qty-btn" type="button" data-qty="plus">+</button>
                 </div>
 
-                <button class="btn-buy">Beli Sekarang</button>
+                <button class="btn-buy" type="button">Beli Sekarang</button>
             </div>
 
             <div class="product-meta">
-                <p><b>SKU:</b> FH27634571267253G</p>
-                <p><b>Tags:</b> Kaos, Sablon, DTF</p>
-            <p>
-                <b>Share:</b>
-                <span class="share">
-                    <a href="#" class="share-icon facebook" aria-label="Share ke Facebook">
-                        <i class="fa-brands fa-facebook-f"></i>
-                    </a>
+                <div class="meta-row">
+                    <span class="meta-label">SKU</span>
+                    <span class="meta-colon">:</span>
+                    <span class="meta-value">FH27634571267253G</span>
+                </div>
 
-                    <a href="#" class="share-icon tiktok" aria-label="Share ke TikTok">
-                        <i class="fa-brands fa-tiktok"></i>
-                    </a>
+                <div class="meta-row">
+                    <span class="meta-label">Tags</span>
+                    <span class="meta-colon">:</span>
+                    <span class="meta-value">Kaos, Sablon, DTF</span>
+                </div>
 
-                    <a href="#" class="share-icon instagram" aria-label="Share ke Instagram">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
+                <div class="meta-row">
+                    <span class="meta-label">Share</span>
+                    <span class="meta-colon">:</span>
+                    <span class="meta-value">
+                        <span class="share">
+                            <a href="#" class="share-icon facebook" aria-label="Share ke Facebook">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </a>
 
-                    <a href="#" class="share-icon whatsapp" aria-label="Share ke WhatsApp">
-                        <i class="fa-brands fa-whatsapp"></i>
-                    </a>
-                </span>
-            </p>
+                            <a href="#" class="share-icon tiktok" aria-label="Share ke TikTok">
+                                <i class="fa-brands fa-tiktok"></i>
+                            </a>
+
+                            <a href="#" class="share-icon instagram" aria-label="Share ke Instagram">
+                                <i class="fa-brands fa-instagram"></i>
+                            </a>
+
+                            <a href="#" class="share-icon whatsapp" aria-label="Share ke WhatsApp">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </a>
+                        </span>
+                    </span>
+                </div>
             </div>
         </div>
     </section>
@@ -155,7 +252,7 @@
             </ul>
         </div>
 
-        <div class="tab-content active" id="informasi">
+        <div class="tab-content" id="informasi">
             <div class="info-table">
                 <div class="info-row info-head">
                     <div>Atribut</div>
@@ -257,152 +354,32 @@
                 </div>
 
                 <div class="review-list" id="reviewList">
-                    <article class="review-item">
-                        <div class="review-user-row">
-                            <div class="review-user">
-                                <img src="{{ asset('images/avatar.jpg') }}" alt="Ajeng Febria">
-                                <strong>Ajeng Febria</strong>
+                    @foreach ($reviews as $review)
+                        <article class="review-item {{ $review['hidden'] ?? false ? 'is-hidden' : '' }}">
+                            <div class="review-user-row">
+                                <div class="review-user">
+                                    <img src="{{ asset('images/avatar.jpg') }}" alt="{{ $review['name'] }}">
+                                    <strong>{{ $review['name'] }}</strong>
+                                </div>
+
+                                <span class="review-date">{{ $review['date'] }}</span>
                             </div>
 
-                            <span class="review-date">1 bulan yang lalu</span>
-                        </div>
+                            <div class="review-body">
+                                <h4>Saya sangat menyukai produk ini!</h4>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </p>
 
-                        <div class="review-body">
-                            <h4>Saya sangat menyukai produk ini!</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            </p>
-
-                            <div class="review-rating">
-                                <span>★★★★★</span>
-                                <small>5.0</small>
+                                <div class="review-rating">
+                                    <span>★★★★★</span>
+                                    <small>5.0</small>
+                                </div>
                             </div>
-                        </div>
-                    </article>
-
-                    <article class="review-item">
-                        <div class="review-user-row">
-                            <div class="review-user">
-                                <img src="{{ asset('images/avatar.jpg') }}" alt="Fahrul Kz">
-                                <strong>Fahrul Kz</strong>
-                            </div>
-
-                            <span class="review-date">2 Bulan yang lalu</span>
-                        </div>
-
-                        <div class="review-body">
-                            <h4>Saya sangat menyukai produk ini!</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            </p>
-
-                            <div class="review-rating">
-                                <span>★★★★★</span>
-                                <small>5.0</small>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="review-item">
-                        <div class="review-user-row">
-                            <div class="review-user">
-                                <img src="{{ asset('images/avatar.jpg') }}" alt="Jefri Nichol">
-                                <strong>Jefri Nichol</strong>
-                            </div>
-
-                            <span class="review-date">2 Bulan yang lalu</span>
-                        </div>
-
-                        <div class="review-body">
-                            <h4>Saya sangat menyukai produk ini!</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            </p>
-
-                            <div class="review-rating">
-                                <span>★★★★★</span>
-                                <small>5.0</small>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="review-item is-hidden">
-                        <div class="review-user-row">
-                            <div class="review-user">
-                                <img src="{{ asset('images/avatar.jpg') }}" alt="Ajeng Febria">
-                                <strong>Ajeng Febria</strong>
-                            </div>
-
-                            <span class="review-date">1 bulan yang lalu</span>
-                        </div>
-
-                        <div class="review-body">
-                            <h4>Saya sangat menyukai produk ini!</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
-                            </p>
-
-                            <div class="review-rating">
-                                <span>★★★★★</span>
-                                <small>5.0</small>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="review-item is-hidden">
-                        <div class="review-user-row">
-                            <div class="review-user">
-                                <img src="{{ asset('images/avatar.jpg') }}" alt="Fahrul Kz">
-                                <strong>Fahrul Kz</strong>
-                            </div>
-
-                            <span class="review-date">2 Bulan yang lalu</span>
-                        </div>
-
-                        <div class="review-body">
-                            <h4>Saya sangat menyukai produk ini!</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.
-                            </p>
-
-                            <div class="review-rating">
-                                <span>★★★★★</span>
-                                <small>5.0</small>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="review-item is-hidden">
-                        <div class="review-user-row">
-                            <div class="review-user">
-                                <img src="{{ asset('images/avatar.jpg') }}" alt="Jefri Nichol">
-                                <strong>Jefri Nichol</strong>
-                            </div>
-
-                            <span class="review-date">2 Bulan yang lalu</span>
-                        </div>
-
-                        <div class="review-body">
-                            <h4>Saya sangat menyukai produk ini!</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.
-                            </p>
-
-                            <div class="review-rating">
-                                <span>★★★★★</span>
-                                <small>5.0</small>
-                            </div>
-                        </div>
-                    </article>
+                        </article>
+                    @endforeach
                 </div>
 
                 <button class="review-toggle-btn" id="reviewToggleBtn" type="button" aria-label="Lihat review lainnya">
@@ -416,149 +393,29 @@
         <h2 class="section-title">Rekomendasi Produk</h2>
 
         <div class="product-grid">
-            <article class="product-card">
-                <img src="{{ asset('images/produk/rekomendasi-1.jpg') }}" alt="Sablon Kaos Custom">
-                <div class="card-top">
-                    <span>Kaos</span>
-                    <span class="rating-card">
-                    <span class="star-icon">★</span>
-                        <span class="rating-number">5.0</span>
-                    </span>
-                </div>
-                <h3 class="card-title">Sablon Kaos Custom</h3>
-                <div class="card-price">
-                    <span class="new">Rp. 50.999</span>
-                    <span class="old">Rp. 100.000</span>
-                </div>
-            </article>
+            @foreach ($recommendations as $item)
+                <article class="product-card">
+                    <img src="{{ asset($item['image']) }}" alt="{{ $item['title'] }}" loading="lazy">
 
-            <article class="product-card">
-                <img src="{{ asset('images/produk/rekomendasi-2.jpg') }}" alt="Cetak DTF Setrika Kaos">
-                <div class="card-top">
-                    <span>DTF</span>
-                    <span class="rating-card">
-                    <span class="star-icon">★</span>
-                        <span class="rating-number">5.0</span>
-                    </span>
-                </div>
-                <h3 class="card-title">Cetak DTF Setrika Kaos</h3>
-                <div class="card-price">
-                    <span class="new">Rp. 50.999</span>
-                    <span class="old">Rp. 100.000</span>
-                </div>
-            </article>
+                    <div class="card-top">
+                        <span>{{ $item['category'] }}</span>
 
-            <article class="product-card">
-                <img src="{{ asset('images/produk/rekomendasi-3.jpg') }}" alt="Banner Custom">
-                <div class="card-top">
-                    <span>Kaos</span>
-                    <span class="rating-card">
-                    <span class="star-icon">★</span>
-                        <span class="rating-number">5.0</span>
-                    </span>
-                </div>
-                <h3 class="card-title">Banner Custom</h3>
-                <div class="card-price">
-                    <span class="new">Rp. 50.999</span>
-                    <span class="old">Rp. 100.000</span>
-                </div>
-            </article>
+                        <span class="rating-card">
+                            <span class="star-icon">★</span>
+                            <span class="rating-number">5.0</span>
+                        </span>
+                    </div>
 
-            <article class="product-card">
-                <img src="{{ asset('images/produk/rekomendasi-4.jpg') }}" alt="Tripod Banner">
-                <div class="card-top">
-                    <span>Kaos</span>
-                    <span class="rating-card">
-                    <span class="star-icon">★</span>
-                        <span class="rating-number">5.0</span>
-                    </span>
-                </div>
-                <h3 class="card-title">Tripod Banner</h3>
-                <div class="card-price">
-                    <span class="new">Rp. 50.999</span>
-                    <span class="old">Rp. 100.000</span>
-                </div>
-            </article>
+                    <h3 class="card-title" title="{{ $item['title'] }}">
+                        <a href="#">{{ $item['title'] }}</a>
+                    </h3>
 
-            <article class="product-card">
-                <img src="{{ asset('images/produk/rekomendasi-1.jpg') }}" alt="Sablon Hoodie Custom">
-                <div class="card-top">
-                    <span>Hoodie</span>
-                    <span class="rating-card">
-                        <span class="star-icon">★</span>
-                        <span class="rating-number">5.0</span>
-                    </span>
-                </div>
-                <h3 class="card-title">Sablon Hoodie Custom</h3>
-                <div class="card-price">
-                    <span class="new">Rp. 85.999</span>
-                    <span class="old">Rp. 150.000</span>
-                </div>
-            </article>
-
-            <article class="product-card">
-                <img src="{{ asset('images/produk/rekomendasi-2.jpg') }}" alt="Stiker Custom">
-                <div class="card-top">
-                    <span>Stiker</span>
-                    <span class="rating-card">
-                        <span class="star-icon">★</span>
-                        <span class="rating-number">5.0</span>
-                    </span>
-                </div>
-                <h3 class="card-title">Stiker Custom</h3>
-                <div class="card-price">
-                    <span class="new">Rp. 25.999</span>
-                    <span class="old">Rp. 50.000</span>
-                </div>
-            </article>
-
-            <article class="product-card">
-                <img src="{{ asset('images/produk/rekomendasi-3.jpg') }}" alt="X Banner Custom">
-                <div class="card-top">
-                    <span>Banner</span>
-                    <span class="rating-card">
-                        <span class="star-icon">★</span>
-                        <span class="rating-number">5.0</span>
-                    </span>
-                </div>
-                <h3 class="card-title">X Banner Custom</h3>
-                <div class="card-price">
-                    <span class="new">Rp. 75.999</span>
-                    <span class="old">Rp. 120.000</span>
-                </div>
-            </article>
-
-            <article class="product-card">
-                <img src="{{ asset('images/produk/rekomendasi-4.jpg') }}" alt="Totebag Custom">
-                <div class="card-top">
-                    <span>Totebag</span>
-                    <span class="rating-card">
-                        <span class="star-icon">★</span>
-                        <span class="rating-number">5.0</span>
-                    </span>
-                </div>
-                <h3 class="card-title">Totebag Custom</h3>
-                <div class="card-price">
-                    <span class="new">Rp. 35.999</span>
-                    <span class="old">Rp. 70.000</span>
-                </div>
-            </article>
-
-            <article class="product-card">
-                <img src="{{ asset('images/produk/rekomendasi-1.jpg') }}" alt="Polo Custom">
-                <div class="card-top">
-                    <span>Polo</span>
-                    <span class="rating-card">
-                        <span class="star-icon">★</span>
-                        <span class="rating-number">5.0</span>
-                    </span>
-                </div>
-                <h3 class="card-title">Polo Custom</h3>
-                <div class="card-price">
-                    <span class="new">Rp. 65.999</span>
-                    <span class="old">Rp. 110.000</span>
-                </div>
-            </article>
+                    <div class="card-price">
+                        <span class="new">{{ $item['price'] }}</span>
+                        <span class="old">{{ $item['old_price'] }}</span>
+                    </div>
+                </article>
+            @endforeach
         </div>
     </section>
 </main>
@@ -579,40 +436,40 @@
                 </p>
 
                 <div class="social">
-                    <span>f</span>
-                    <span>t</span>
-                    <span>♪</span>
-                    <span>◎</span>
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
                 </div>
             </div>
 
             <div>
                 <h4>Navigasi Cepat</h4>
                 <ul>
-                    <li>Beranda</li>
-                    <li>Katalog</li>
-                    <li>Blog</li>
-                    <li>Keranjang</li>
-                    <li>Lacak Pesanan</li>
+                    <li><a href="#">Beranda</a></li>
+                    <li><a href="#">Katalog</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Keranjang</a></li>
+                    <li><a href="#">Lacak Pesanan</a></li>
                 </ul>
             </div>
 
             <div>
                 <h4>Layanan Kami</h4>
                 <ul>
-                    <li>Konveksi Apparel</li>
-                    <li>Media Promosi</li>
-                    <li>Cetak DTF</li>
-                    <li>Kebutuhan Bisnis</li>
+                    <li><a href="#">Konveksi Apparel</a></li>
+                    <li><a href="#">Media Promosi</a></li>
+                    <li><a href="#">Cetak DTF</a></li>
+                    <li><a href="#">Kebutuhan Bisnis</a></li>
                 </ul>
             </div>
 
             <div>
                 <h4>Hubungi Kami</h4>
                 <ul>
-                    <li>☏ +62 23456789123</li>
-                    <li>✉ deenhag@gmail.com</li>
-                    <li>⌖ Ponorogo, Indonesia</li>
+                    <li><i class="fa-brands fa-whatsapp"></i> +62 23456789123</li>
+                    <li><i class="fa-regular fa-envelope"></i> deenhag@gmail.com</li>
+                    <li><i class="fa-solid fa-location-dot"></i> Ponorogo, Indonesia</li>
                 </ul>
             </div>
         </div>
@@ -627,45 +484,53 @@
     const thumbnails = document.querySelectorAll('.thumb-list img');
     const mainImage = document.getElementById('mainImage');
     const qtyValue = document.getElementById('qtyValue');
+    const qtyButtons = document.querySelectorAll('.qty-btn');
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const reviewToggleBtn = document.getElementById('reviewToggleBtn');
+    const reviewList = document.getElementById('reviewList');
+    const reviewCountInfo = document.getElementById('reviewCountInfo');
 
     thumbnails.forEach((thumb) => {
         thumb.addEventListener('click', function () {
-            thumbnails.forEach(item => item.classList.remove('active'));
+            thumbnails.forEach((item) => item.classList.remove('active'));
             this.classList.add('active');
             mainImage.src = this.src;
         });
     });
 
-    function addQty() {
-        qtyValue.textContent = Number(qtyValue.textContent) + 1;
-    }
+    qtyButtons.forEach((button) => {
+        button.addEventListener('click', function () {
+            const action = this.dataset.qty;
+            let currentQty = Number(qtyValue.textContent);
 
-    function minusQty() {
-        const currentQty = Number(qtyValue.textContent);
+            if (action === 'plus') {
+                currentQty++;
+            }
 
-        if (currentQty > 1) {
-            qtyValue.textContent = currentQty - 1;
-        }
-    }
+            if (action === 'minus' && currentQty > 1) {
+                currentQty--;
+            }
 
-    const tabButtons = document.querySelectorAll('.tab-btn');
-    const tabContents = document.querySelectorAll('.tab-content');
+            qtyValue.textContent = currentQty;
+        });
+    });
 
     tabButtons.forEach((button) => {
         button.addEventListener('click', function () {
             const targetTab = this.dataset.tab;
+            const targetContent = document.getElementById(targetTab);
 
             tabButtons.forEach((btn) => btn.classList.remove('active'));
             tabContents.forEach((content) => content.classList.remove('active'));
 
             this.classList.add('active');
-            document.getElementById(targetTab).classList.add('active');
+
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
         });
     });
-
-    const reviewToggleBtn = document.getElementById('reviewToggleBtn');
-    const reviewList = document.getElementById('reviewList');
-    const reviewCountInfo = document.getElementById('reviewCountInfo');
 
     if (reviewToggleBtn && reviewList && reviewCountInfo) {
         reviewToggleBtn.addEventListener('click', function () {
@@ -679,6 +544,5 @@
         });
     }
 </script>
-
 </body>
 </html>
