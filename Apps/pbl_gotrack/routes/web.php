@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('home');
 Route::view('/katalog', 'catalog')->name('catalog');
+Route::view('/product-detail', 'product-detail')->name('product.detail');
 
 Route::get('/dashboard', function () {
     $user = auth()->user();
