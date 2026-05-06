@@ -10,13 +10,17 @@ class OrderProgress extends Model
     //
     use HasFactory;
 
-    protected $fillable = [
-        'order_id', 'staff_id', 'title', 'description'
-    ];
+    protected $fillable = ['order_id', 'production_stage_id', 'title', 'staff_id', 'notes', 'photo'];
 
     public function order()
     {
         return $this->belongsTo(Order::class);
+    }
+
+    // Relasi ke tabel tahapan agar nama tahapannya ikut berubah jika di-edit di master data
+    public function productionStage()
+    {
+        return $this->belongsTo(ProductionStage::class);
     }
 
     public function staff()

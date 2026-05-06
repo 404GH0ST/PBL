@@ -9,6 +9,7 @@ use App\Filament\Admin\Resources\ProductAddons\Schemas\ProductAddonForm;
 use App\Filament\Admin\Resources\ProductAddons\Tables\ProductAddonsTable;
 use App\Models\ProductAddon;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -18,7 +19,9 @@ class ProductAddonResource extends Resource
 {
     protected static ?string $model = ProductAddon::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-puzzle-piece';
+    protected static string|UnitEnum|null $navigationGroup = 'Katalog';
+    protected static ?int $navigationSort = 3;
 
     protected static ?string $recordTitleAttribute = 'name';
 

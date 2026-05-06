@@ -7,22 +7,39 @@ use App\Filament\Admin\Resources\Orders\Pages\EditOrder;
 use App\Filament\Admin\Resources\Orders\Pages\ListOrders;
 use App\Filament\Admin\Resources\Orders\Schemas\OrderForm;
 use App\Filament\Admin\Resources\Orders\Tables\OrdersTable;
+use App\Filament\Admin\Resources\Orders\Actions\NextProgressAction;
 use App\Models\Order;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Filament\Actions\ViewAction;
 use Filament\Actions\EditAction;
+use App\Filament\Admin\Resources\Orders\RelationManagers\ProgressRelationManager;
+
 
 class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-clipboard-document-list';
+    protected static string|UnitEnum|null $navigationGroup = 'Produksi';
+    protected static ?int $navigationSort = 1;
+
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('status', 'processing')->count() ?: null;
+    }
+
+    public static function getNavigationBadgeColor(): string|array|null
+    {
+        return 'warning';
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -32,16 +49,17 @@ class OrderResource extends Resource
     public static function table(Table $table): Table
     {
         return OrdersTable::configure($table)->actions([
-            //
             ViewAction::make('view'),
             EditAction::make(),
+
+            NextProgressAction::make(),
         ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+            ProgressRelationManager::class,
         ];
     }
 

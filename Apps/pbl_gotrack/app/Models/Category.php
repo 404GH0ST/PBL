@@ -21,4 +21,8 @@ class Category extends Model
     {
         return $this->hasMany(ProductAddon::class);
     }
+    public function productionStages()
+    {
+        return $this->hasMany(ProductionStage::class);
+    }
 }
