@@ -122,11 +122,6 @@ img { display: block; }
     font-size: 1rem;
     font-weight: 600;
     color: rgba(255, 255, 255, 0.35);
-    position: fixed;
-    left: 50%;
-    top: 32px;
-    z-index: 50;
-    transform: translateX(-50%);
 }
 
 @media (min-width: 1024px) {
