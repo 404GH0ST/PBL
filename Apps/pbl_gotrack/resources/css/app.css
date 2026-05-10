@@ -270,6 +270,22 @@
     --tracking-line-soft: rgba(0, 0, 0, 0.16);
     --tracking-modal: rgba(255, 255, 255, 0.92);
     --tracking-modal-border: rgba(0, 0, 0, 0.16);
+    --tracking-modal-text: #000000;
+    --tracking-modal-muted: #686b6c;
+    --tracking-modal-input: #ffffff;
+    --tracking-modal-input-border: rgba(0, 0, 0, 0.16);
+    --tracking-modal-secondary-text: #000000;
+    --tracking-modal-secondary-border: #686b6c;
+    --tracking-modal-primary: #000000;
+    --tracking-modal-primary-text: #ffffff;
+    --tracking-rating-idle-bg: #ffffff;
+    --tracking-rating-idle-border: rgba(0, 0, 0, 0.25);
+    --tracking-rating-idle-text: #6b7280;
+    --tracking-rating-active-bg: #000000;
+    --tracking-rating-active-text: #ffd21f;
+    --tracking-timeline-ring-bg: #2e3240;
+    --tracking-timeline-ring-border: rgba(255, 255, 255, 0.45);
+    --tracking-timeline-line: rgba(255, 255, 255, 0.36);
     background-color: var(--tracking-page);
     color: var(--tracking-text);
     transition:
@@ -281,14 +297,30 @@
     --tracking-page: #020202;
     --tracking-text: #f7fbff;
     --tracking-muted: #686b6c;
-    --tracking-card: #020202;
-    --tracking-card-text: #ffffff;
-    --tracking-card-muted: rgba(255, 255, 255, 0.75);
+    --tracking-card: #ffffff;
+    --tracking-card-text: #000000;
+    --tracking-card-muted: rgba(0, 0, 0, 0.75);
     --tracking-accent: #8db7d1;
-    --tracking-line: rgba(255, 255, 255, 0.36);
+    --tracking-line: rgba(0, 0, 0, 0.35);
     --tracking-line-soft: rgba(255, 255, 255, 0.16);
-    --tracking-modal: rgba(241, 245, 249, 0.96);
-    --tracking-modal-border: rgba(0, 0, 0, 0.12);
+    --tracking-modal: #000000;
+    --tracking-modal-border: rgba(255, 255, 255, 0.16);
+    --tracking-modal-text: #ffffff;
+    --tracking-modal-muted: #686b6c;
+    --tracking-modal-input: #000000;
+    --tracking-modal-input-border: rgba(255, 255, 255, 0.28);
+    --tracking-modal-secondary-text: #ffffff;
+    --tracking-modal-secondary-border: #686b6c;
+    --tracking-modal-primary: #ffffff;
+    --tracking-modal-primary-text: #000000;
+    --tracking-rating-idle-bg: #000000;
+    --tracking-rating-idle-border: rgba(255, 255, 255, 0.3);
+    --tracking-rating-idle-text: #8c8f93;
+    --tracking-rating-active-bg: #000000;
+    --tracking-rating-active-text: #ffd21f;
+    --tracking-timeline-ring-bg: #3d4150;
+    --tracking-timeline-ring-border: rgba(0, 0, 0, 0.38);
+    --tracking-timeline-line: rgba(0, 0, 0, 0.3);
 }
 
 .tracking-page {
@@ -338,8 +370,22 @@
     color: var(--tracking-card-text);
 }
 
+.tracking-confirm-button {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.tracking-shell[data-theme='dark'] .tracking-confirm-button {
+    background-color: #000000;
+    color: #ffffff;
+}
+
 .tracking-divider {
     border-color: var(--tracking-line);
+}
+
+.tracking-card-muted {
+    color: var(--tracking-card-muted);
 }
 
 .tracking-divider-soft {
@@ -357,6 +403,54 @@
 .tracking-modal {
     background-color: var(--tracking-modal);
     border-color: var(--tracking-modal-border);
+}
+
+.tracking-modal-text {
+    color: var(--tracking-modal-text);
+}
+
+.tracking-modal-muted {
+    color: var(--tracking-modal-muted);
+}
+
+.tracking-modal-input {
+    background-color: var(--tracking-modal-input);
+    border-color: var(--tracking-modal-input-border);
+    color: var(--tracking-modal-muted);
+}
+
+.tracking-modal-input::placeholder {
+    color: var(--tracking-modal-muted);
+}
+
+.tracking-modal-button-secondary {
+    border-color: var(--tracking-modal-secondary-border);
+    color: var(--tracking-modal-secondary-text);
+}
+
+.tracking-modal-button-primary {
+    background-color: var(--tracking-modal-primary);
+    color: var(--tracking-modal-primary-text);
+}
+
+.tracking-rating-idle {
+    background-color: var(--tracking-rating-idle-bg);
+    border-color: var(--tracking-rating-idle-border);
+    color: var(--tracking-rating-idle-text);
+}
+
+.tracking-rating-active {
+    background-color: var(--tracking-rating-active-bg);
+    color: var(--tracking-rating-active-text);
+}
+
+.tracking-timeline-ring {
+    background-color: var(--tracking-timeline-ring-bg);
+    border-color: var(--tracking-timeline-ring-border);
+}
+
+.tracking-timeline-line {
+    background-color: var(--tracking-timeline-line);
 }
 
 .tracking-search-card {

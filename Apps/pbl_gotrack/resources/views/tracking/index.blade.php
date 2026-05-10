@@ -24,10 +24,9 @@
             default => null,
         };
 
-        $statusMoment = $trackingItems[0]['occurred_at'] ?? $order?->updated_at;
         $statusDateLabel = $statusMoment?->locale('id')->translatedFormat('d F Y, l');
         $canConfirm = $order?->status === 'shipped' && $order?->review === null;
-        $addressText = filled($order?->notes) ? $order->notes : 'Data alamat belum tersedia pada pesanan ini.';
+        $addressText = filled($order?->shipping_address) ? $order->shipping_address : 'Data alamat belum tersedia pada pesanan ini.';
     @endphp
 
     <div
@@ -75,13 +74,6 @@
                             </span>
                         </button>
 
-                        <a
-                            href="{{ route('login') }}"
-                            class="overflow-hidden rounded-full ring-2 ring-black/10 transition hover:ring-black/25"
-                            aria-label="Login admin"
-                        >
-                            <img src="{{ asset('images/testimonials/ajeng-febria.png') }}" alt="" class="h-11 w-11 object-cover lg:h-[56px] lg:w-[56px]">
-                        </a>
                     </div>
                 </div>
 
@@ -133,7 +125,7 @@
                             </div>
                         </section>
                     @else
-                        <section class="mx-auto max-w-[1105px]">
+                        <section class="mx-auto max-w-[1105px] pb-24 lg:pb-28">
                             <div class="tracking-panel rounded-[20px] px-6 py-7 shadow-[0_38px_110px_rgba(2,2,2,0.28)] md:px-10 lg:px-[45px] lg:py-[38px]">
                                 <div class="grid gap-8 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-[45px]">
                                     <div class="border-b tracking-divider pb-6 lg:border-b-0 lg:border-r lg:pr-[45px] lg:pb-0">
@@ -144,17 +136,17 @@
                                         <div class="space-y-9 pt-6">
                                             <div class="space-y-3">
                                                 <p class="font-['Inter',sans-serif] text-[15px] font-bold">Nama Pelanggan</p>
-                                                <p class="font-['Plus_Jakarta_Sans',sans-serif] text-[17px] font-bold text-white/75">{{ $order->customer_name }}</p>
+                                                <p class="tracking-card-muted font-['Plus_Jakarta_Sans',sans-serif] text-[17px] font-bold">{{ $order->customer_name }}</p>
                                             </div>
 
                                             <div class="space-y-3">
                                                 <p class="font-['Inter',sans-serif] text-[15px] font-bold">Kontak Pelanggan</p>
-                                                <p class="font-['Plus_Jakarta_Sans',sans-serif] text-[17px] font-bold text-white/75">{{ $order->customer_whatsapp }}</p>
+                                                <p class="tracking-card-muted font-['Plus_Jakarta_Sans',sans-serif] text-[17px] font-bold">{{ $order->customer_whatsapp }}</p>
                                             </div>
 
                                             <div class="space-y-3">
                                                 <p class="font-['Inter',sans-serif] text-[15px] font-bold">Alamat Pengiriman</p>
-                                                <p class="font-['Plus_Jakarta_Sans',sans-serif] max-w-[280px] text-[17px] leading-[1.45] font-bold text-white/75">
+                                                <p class="tracking-card-muted font-['Plus_Jakarta_Sans',sans-serif] max-w-[280px] text-[17px] leading-[1.45] font-bold">
                                                     {{ $addressText }}
                                                 </p>
                                             </div>
@@ -166,7 +158,7 @@
                                                 <button
                                                     type="button"
                                                     @click="openReviewModal()"
-                                                    class="mt-4 rounded-[10px] bg-white px-4 py-1.5 text-[15px] font-semibold text-black transition hover:bg-white/90"
+                                                    class="tracking-confirm-button mt-4 rounded-[10px] px-4 py-1.5 text-[15px] font-semibold transition hover:opacity-90"
                                                 >
                                                     Konfirmasi
                                                 </button>
@@ -177,7 +169,7 @@
                                     <div>
                                         <div class="flex flex-col gap-6 border-b tracking-divider pb-6 md:flex-row md:items-start md:justify-between">
                                             <div>
-                                                <p class="font-['Plus_Jakarta_Sans',sans-serif] text-[17px] font-semibold text-white/75">No Pelacakan:</p>
+                                                <p class="tracking-card-muted font-['Plus_Jakarta_Sans',sans-serif] text-[17px] font-semibold">No Pelacakan:</p>
                                                 <p class="mt-2 font-['Plus_Jakarta_Sans',sans-serif] text-[20px] font-extrabold">#{{ $order->tracking_id }}</p>
                                             </div>
 
@@ -185,7 +177,7 @@
                                         </div>
 
                                         <div class="border-b tracking-divider py-10">
-                                            <p class="font-['Plus_Jakarta_Sans',sans-serif] text-[17px] font-bold text-white/75">Pesanan Anda</p>
+                                            <p class="tracking-card-muted font-['Plus_Jakarta_Sans',sans-serif] text-[17px] font-bold">Pesanan Anda</p>
                                             <p class="mt-3 font-['Plus_Jakarta_Sans',sans-serif] text-[35px] leading-none font-extrabold">{{ $statusLabel }}</p>
                                             @if ($statusDateLabel)
                                                 <p class="mt-3 font-['Plus_Jakarta_Sans',sans-serif] text-[17px] font-bold">
@@ -195,7 +187,7 @@
                                         </div>
 
                                         <div class="pt-5">
-                                            <p class="font-['Plus_Jakarta_Sans',sans-serif] text-[17px] font-bold text-white/75">Riwayat Pelacakan</p>
+                                            <p class="tracking-card-muted font-['Plus_Jakarta_Sans',sans-serif] text-[17px] font-bold">Riwayat Pelacakan</p>
 
                                             <div class="mt-8 space-y-6">
                                                 @forelse ($trackingItems as $item)
@@ -204,24 +196,27 @@
                                                             <p class="text-[17px] font-bold">
                                                                 {{ $item['occurred_at']?->locale('id')->translatedFormat('d F Y') }}
                                                             </p>
-                                                            <p class="mt-1 text-[15px] font-bold text-white/75">
+                                                            <p class="tracking-card-muted mt-1 text-[15px] font-bold">
                                                                 pukul {{ $item['occurred_at']?->format('H:i') }}
                                                             </p>
                                                         </div>
 
                                                         <div class="relative hidden min-h-[24px] justify-center sm:flex">
-                                                            <span class="relative z-10 mt-1 block h-[14px] w-[14px] rounded-full border border-white/45 bg-[#2e3240]"></span>
+                                                            <span class="relative z-10 block h-[24px] w-[24px]">
+                                                                <span class="tracking-timeline-ring absolute left-1/2 top-1/2 block h-[14px] w-[14px] -translate-x-1/2 -translate-y-1/2 rounded-full border"></span>
+                                                            </span>
                                                             @if ($item['is_current'])
-                                                                <span class="absolute top-[2px] z-20 h-[10px] w-[10px] rounded-full bg-[#16a34a] shadow-[0_0_0_3px_rgba(22,163,74,0.16)]"></span>
+                                                                <span class="absolute left-1/2 top-1/2 z-20 h-[10px] w-[10px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#16a34a] shadow-[0_0_0_3px_rgba(22,163,74,0.16)]"></span>
                                                             @endif
                                                             @if (!$loop->last)
-                                                                <span class="absolute left-1/2 top-[18px] h-[calc(100%+22px)] w-px -translate-x-1/2 bg-white/30"></span>
+                                                                <span class="tracking-timeline-line absolute left-1/2 top-[24px] h-[calc(100%+16px)] w-px -translate-x-1/2"></span>
                                                             @endif
                                                         </div>
 
                                                         <div class="pt-0.5">
                                                             <div class="flex items-start gap-3 sm:hidden">
-                                                                <span class="relative mt-1 block h-[14px] w-[14px] rounded-full border border-white/45 bg-[#2e3240]">
+                                                                <span class="relative block h-[24px] w-[24px] shrink-0">
+                                                                    <span class="tracking-timeline-ring absolute left-1/2 top-1/2 block h-[14px] w-[14px] -translate-x-1/2 -translate-y-1/2 rounded-full border"></span>
                                                                     @if ($item['is_current'])
                                                                         <span class="absolute left-1/2 top-1/2 h-[10px] w-[10px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#16a34a] shadow-[0_0_0_3px_rgba(22,163,74,0.16)]"></span>
                                                                     @endif
@@ -232,7 +227,7 @@
                                                         </div>
                                                     </div>
                                                 @empty
-                                                    <p class="font-['Plus_Jakarta_Sans',sans-serif] text-[15px] font-bold text-white/75">
+                                                    <p class="tracking-card-muted font-['Plus_Jakarta_Sans',sans-serif] text-[15px] font-bold">
                                                         Belum ada pembaruan pelacakan untuk pesanan ini.
                                                     </p>
                                                 @endforelse
@@ -334,20 +329,24 @@
                 >
                     <div class="flex items-start justify-between gap-3 border-b tracking-divider-soft px-[18px] pt-[11px] pb-3">
                         <div class="flex items-start gap-3">
-                            <span class="mt-0.5 flex h-[25px] w-[25px] items-center justify-center rounded-full bg-[#d9d9d9] text-[14px]">★</span>
+                            <span class="mt-0.5 flex h-[25px] w-[25px] shrink-0 items-center justify-center rounded-full border border-white/35">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" class="h-[13px] w-[13px] tracking-modal-text">
+                                    <path d="M12 2.75l2.04 5.21 5.59.39-4.3 3.58 1.41 5.42L12 14.2l-4.74 3.15 1.41-5.42-4.3-3.58 5.59-.39L12 2.75z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="1.8" />
+                                </svg>
+                            </span>
                             <div>
-                                <p class="font-['Plus_Jakarta_Sans',sans-serif] text-[15px] font-bold text-black">Nilai Produk Ini</p>
-                                <p class="font-['Plus_Jakarta_Sans',sans-serif] text-[10px] font-semibold text-[#686b6c]">Berikan kami masukan untuk produk ini</p>
+                                <p class="tracking-modal-text font-['Plus_Jakarta_Sans',sans-serif] text-[15px] font-bold">Nilai Produk Ini</p>
+                                <p class="tracking-modal-muted font-['Plus_Jakarta_Sans',sans-serif] text-[10px] font-semibold">Berikan kami masukan untuk produk ini</p>
                             </div>
                         </div>
-                        <button type="button" @click="closeReviewModal()" class="text-[10px] font-bold text-black">X</button>
+                        <button type="button" @click="closeReviewModal()" class="tracking-modal-text text-[10px] font-bold">X</button>
                     </div>
 
                     <form action="{{ route('tracking.review', $order->tracking_id) }}" method="POST" class="px-[18px] pt-3 pb-4">
                         @csrf
 
                         <div>
-                            <p class="font-['Plus_Jakarta_Sans',sans-serif] text-[15px] font-bold text-black">Peringkat Anda</p>
+                            <p class="tracking-modal-text font-['Plus_Jakarta_Sans',sans-serif] text-[15px] font-bold">Peringkat Anda</p>
                             <input type="hidden" name="rating" :value="rating">
 
                             <div class="mt-3 flex items-center gap-[12.5px]">
@@ -355,8 +354,8 @@
                                     <button
                                         type="button"
                                         @click="setRating(star)"
-                                        class="flex h-[31px] w-[31px] items-center justify-center rounded-[8px] border border-black/25 text-[21px] leading-none transition"
-                                        :class="rating >= star ? 'bg-black text-[#ffd21f]' : 'bg-white text-[#6b7280]'"
+                                        class="tracking-rating-idle flex h-[31px] w-[31px] items-center justify-center rounded-[8px] border text-[21px] leading-none transition"
+                                        :class="rating >= star ? 'tracking-rating-active' : 'tracking-rating-idle'"
                                         aria-label="Beri bintang"
                                     >
                                         ★
@@ -369,14 +368,14 @@
                         </div>
 
                         <div class="mt-5 border-t tracking-divider-soft pt-4">
-                            <label for="comment" class="font-['Plus_Jakarta_Sans',sans-serif] text-[15px] font-bold text-black">Ulasan Produk</label>
+                            <label for="comment" class="tracking-modal-text font-['Plus_Jakarta_Sans',sans-serif] text-[15px] font-bold">Ulasan Produk</label>
                             <textarea
                                 id="comment"
                                 name="comment"
                                 x-model="reviewComment"
-                                rows="3"
+                                rows="4"
                                 placeholder="Tulis ulasan Anda di sini..."
-                                class="mt-2 h-[52px] w-full resize-none rounded-[8px] border border-black/25 bg-white px-3 py-2 text-[10px] font-bold text-[#686b6c] outline-none placeholder:text-[#686b6c]"
+                                class="tracking-modal-input mt-2 h-[52px] w-full resize-none rounded-[8px] border px-3 py-2 text-[10px] font-bold outline-none"
                             ></textarea>
                             @error('comment')
                                 <p class="mt-2 text-[11px] font-semibold text-red-600">{{ $message }}</p>
@@ -385,12 +384,12 @@
 
                         <div class="mt-5 border-t tracking-divider-soft pt-4">
                             <div class="grid grid-cols-2 gap-[15px]">
-                                <button type="button" @click="closeReviewModal()" class="rounded-[5px] border border-[#686b6c] py-1.5 text-[10px] font-bold text-black">
+                                <button type="button" @click="closeReviewModal()" class="tracking-modal-button-secondary rounded-[5px] border py-1.5 text-[10px] font-bold">
                                     Batalkan
                                 </button>
                                 <button
                                     type="submit"
-                                    class="rounded-[5px] bg-black py-1.5 text-[10px] font-bold text-white disabled:cursor-not-allowed disabled:opacity-40"
+                                    class="tracking-modal-button-primary rounded-[5px] py-1.5 text-[10px] font-bold disabled:cursor-not-allowed disabled:opacity-40"
                                     :disabled="rating === 0"
                                 >
                                     Kirim
