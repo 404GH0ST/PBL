@@ -37,6 +37,7 @@ class OrdersTable
                     ->color(fn(string $state): string => match ($state) {
                         'pending' => 'warning',
                         'processing' => 'info',
+                        'shipped' => 'primary',
                         'completed' => 'success',
                         'cancelled' => 'danger',
                         default => 'gray',

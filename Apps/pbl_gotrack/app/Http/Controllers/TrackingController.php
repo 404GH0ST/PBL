@@ -16,6 +16,7 @@ class TrackingController extends Controller
         $trackingId = trim((string) $request->query('tracking_id'));
         $order = null;
         $trackingItems = [];
+        $statusMoment = null;
 
         if ($trackingId !== '') {
             $order = Order::query()
@@ -31,6 +32,7 @@ class TrackingController extends Controller
 
             if ($order) {
                 $trackingItems = $this->buildTrackingItems($order);
+                $statusMoment = $this->resolveStatusMoment($order);
             }
         }
 
@@ -38,6 +40,7 @@ class TrackingController extends Controller
             'order' => $order,
             'trackingId' => $trackingId,
             'trackingItems' => $trackingItems,
+            'statusMoment' => $statusMoment,
             'trackingNotFound' => $trackingId !== '' && $order === null,
         ]);
     }
@@ -64,7 +67,11 @@ class TrackingController extends Controller
         ]);
 
         if ($order->status !== 'completed') {
-            $order->update(['status' => 'completed']);
+            $order->update([
+                'status' => 'completed',
+                'customer_confirmed_at' => now(),
+                'completed_at' => now(),
+            ]);
         }
 
         return redirect()
@@ -86,7 +93,7 @@ class TrackingController extends Controller
             ->values();
 
         if ($order->status === 'completed') {
-            $completedAt = $order->review?->created_at ?? $order->updated_at;
+            $completedAt = $order->completed_at ?? $order->customer_confirmed_at ?? $order->review?->created_at ?? $order->updated_at;
 
             $items->prepend([
                 'title' => 'Pesanan Selesai',
@@ -100,5 +107,14 @@ class TrackingController extends Controller
         }
 
         return $items->all();
+    }
+
+    protected function resolveStatusMoment(Order $order)
+    {
+        return match ($order->status) {
+            'shipped' => $order->shipped_at ?? $order->progress->first()?->created_at ?? $order->updated_at,
+            'completed' => $order->completed_at ?? $order->customer_confirmed_at ?? $order->review?->created_at ?? $order->updated_at,
+            default => $order->updated_at,
+        };
     }
 }

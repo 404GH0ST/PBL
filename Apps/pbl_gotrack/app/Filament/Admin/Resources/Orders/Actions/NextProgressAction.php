@@ -86,13 +86,13 @@ class NextProgressAction
                     'staff_id' => Auth::id(),
                 ]);
 
-                // 2. SIHIR AUTO-SYNC STATUS PRODUKSI UTAMA
+                // Tahap final berarti barang keluar dari produksi dan siap ditracking publik.
                 $record->update([
-                    'status' => $isFinal ? 'completed' : 'processing'
+                    'status' => $isFinal ? 'shipped' : 'processing',
                 ]);
 
                 Notification::make()
-                    ->title($isFinal ? 'Pesanan Selesai!' : 'Tahapan Berhasil Diupdate!')
+                    ->title($isFinal ? 'Pesanan Masuk Tahap Pengiriman!' : 'Tahapan Berhasil Diupdate!')
                     ->success()
                     ->send();
             });
