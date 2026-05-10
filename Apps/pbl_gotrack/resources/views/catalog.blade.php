@@ -69,7 +69,7 @@
                         <a href="{{ route('home') }}" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white">Beranda</a>
                         <a href="{{ route('catalog') }}" class="rounded-full px-4 py-1.5 text-white">Katalog</a>
                         <a href="#" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white">Blog</a>
-                        <a href="#" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white">Lacak</a>
+                        <a href="{{ route('tracking.index') }}" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white">Lacak</a>
                     </nav>
 
                     <div class="flex items-center gap-3">
@@ -95,13 +95,6 @@
                             </span>
                         </button>
 
-                        <a
-                            href="{{ auth()->check() ? url('/dashboard') : route('login') }}"
-                            class="overflow-hidden rounded-full ring-2 ring-white/20 transition hover:ring-white/45"
-                            aria-label="{{ auth()->check() ? 'Dashboard' : 'Masuk' }}"
-                        >
-                            <img src="{{ asset('images/testimonials/ajeng-febria.png') }}" alt="" class="h-11 w-11 object-cover lg:h-12 lg:w-12">
-                        </a>
                     </div>
                 </div>
 
@@ -110,7 +103,7 @@
                     <a href="{{ route('home') }}" class="whitespace-nowrap rounded-full px-4 py-2">Beranda</a>
                     <a href="{{ route('catalog') }}" class="whitespace-nowrap rounded-full bg-white/14 px-4 py-2 text-white">Katalog</a>
                     <a href="#" class="whitespace-nowrap rounded-full px-4 py-2">Blog</a>
-                    <a href="#" class="whitespace-nowrap rounded-full px-4 py-2">Lacak</a>
+                    <a href="{{ route('tracking.index') }}" class="whitespace-nowrap rounded-full px-4 py-2">Lacak</a>
                     </nav>
                     <button
                         type="button"
@@ -341,7 +334,7 @@
             </div>
         </main>
 
-        <footer class="catalog-footer-gradient mt-[-1rem] overflow-hidden pt-24 pb-10">
+        <footer class="site-footer mt-[-1rem] overflow-hidden pt-24 pb-10">
             <div class="mx-auto max-w-[1300px] px-5 md:px-8 lg:px-14">
                 <div class="grid gap-14 lg:grid-cols-[1.45fr_0.8fr_0.85fr_1fr]">
                     <div class="max-w-[26rem]">
@@ -377,7 +370,7 @@
                             <a href="{{ route('catalog') }}" class="block transition hover:opacity-75">Katalog</a>
                             <a href="#" class="block transition hover:opacity-75">Blog</a>
                             <a href="#" class="block transition hover:opacity-75">Keranjang</a>
-                            <a href="#" class="block transition hover:opacity-75">Lacak Pesanan</a>
+                            <a href="{{ route('tracking.index') }}" class="block transition hover:opacity-75">Lacak Pesanan</a>
                         </div>
                     </div>
 
@@ -410,7 +403,7 @@
                     </div>
                 </div>
 
-                <div class="mt-12 border-t border-white/18 pt-6 text-center text-[0.9rem] text-white/70">
+                <div class="mt-12 border-t pt-6 text-center text-[0.9rem] text-[var(--site-footer-copy)]" style="border-color: var(--site-footer-border);">
                     © 2026 Deenhag. All rights reserved.
                 </div>
             </div>

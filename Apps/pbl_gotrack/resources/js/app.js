@@ -341,6 +341,64 @@ Alpine.data('catalogPage', (products = [], filters = []) => ({
     },
 }));
 
+Alpine.data('trackingPage', ({ initialModalOpen = false } = {}) => ({
+    rating: 0,
+    reviewComment: '',
+    reviewModalOpen: initialModalOpen,
+    syncSystemThemeHandler: null,
+    systemThemeQuery: null,
+    theme: 'light',
+
+    init() {
+        this.systemThemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        this.syncSystemThemeHandler = this.syncSystemTheme.bind(this);
+        this.initializeTheme();
+
+        this.systemThemeQuery.addEventListener('change', this.syncSystemThemeHandler);
+    },
+
+    destroy() {
+        this.systemThemeQuery?.removeEventListener('change', this.syncSystemThemeHandler);
+    },
+
+    initializeTheme() {
+        const savedTheme = window.localStorage.getItem('tracking-theme');
+
+        if (savedTheme === 'light' || savedTheme === 'dark') {
+            this.theme = savedTheme;
+
+            return;
+        }
+
+        this.theme = this.systemThemeQuery.matches ? 'dark' : 'light';
+    },
+
+    syncSystemTheme(event) {
+        if (window.localStorage.getItem('tracking-theme')) {
+            return;
+        }
+
+        this.theme = event.matches ? 'dark' : 'light';
+    },
+
+    toggleTheme() {
+        this.theme = this.theme === 'dark' ? 'light' : 'dark';
+        window.localStorage.setItem('tracking-theme', this.theme);
+    },
+
+    openReviewModal() {
+        this.reviewModalOpen = true;
+    },
+
+    closeReviewModal() {
+        this.reviewModalOpen = false;
+    },
+
+    setRating(value) {
+        this.rating = Number(value);
+    },
+}));
+
 window.Alpine = Alpine;
 
 Alpine.start();

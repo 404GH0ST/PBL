@@ -2,12 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductAddon;
-use App\Models\Order;
+use Illuminate\Database\Seeder;
 
 class OrderSeeder extends Seeder
 {
@@ -16,33 +15,70 @@ class OrderSeeder extends Seeder
         $jerseyCategory = Category::where('name', 'Jersey')->first();
         $jerseyProduct = Product::where('name', 'Jersey Voli (Atasan Saja)')->first();
 
-        if (!$jerseyCategory || !$jerseyProduct) return;
+        if (!$jerseyCategory || !$jerseyProduct) {
+            return;
+        }
 
         $selectedJerseyAddons = ProductAddon::where('category_id', $jerseyCategory->id)
             ->whereIn('name', ['Dropnidle', 'Kerah Resleting Full', 'Lengan Panjang', 'XXL'])
             ->pluck('id')
-            ->toArray();
+            ->values()
+            ->all();
 
-        Order::create([
-            'tracking_id' => 'CTX-DUMMY001',
-            'customer_name' => 'Budi Santoso (Tim FC Malang)',
-            'customer_whatsapp' => '081234567890',
+        $basePayload = [
             'product_id' => $jerseyProduct->id,
-            'status' => 'processing',
-
-            // --- STRUKTUR JSON BARU SESUAI FORMAT REPEATER ---
             'selected_addons' => [
                 [
-                    'addons' => $selectedJerseyAddons, // Berisi array ID variasi (misal XXL, Dropnidle)
-                    'quantity' => 12 // Qty khusus baris ini
-                ]
+                    'addons' => $selectedJerseyAddons,
+                    'quantity' => 12,
+                ],
             ],
-
-            'quantity' => 12, // Total kuantitas keseluruhan
+            'quantity' => 12,
             'total_price' => (90000 + 15000 + 25000 + 15000 + 10000) * 12,
             'payment_status' => 'dp',
             'dp_amount' => 1000000,
-            'notes' => 'Tolong dijahit yang rapi, lengan panjang semua.',
-        ]);
+        ];
+
+        Order::updateOrCreate(
+            ['tracking_id' => 'CTX-PROC001'],
+            array_merge($basePayload, [
+                'customer_name' => 'Budi Santoso (Tim FC Malang)',
+                'customer_whatsapp' => '081234567890',
+                'shipping_address' => 'Jl. Soekarno Hatta No. 19, Lowokwaru, Malang, Jawa Timur',
+                'notes' => 'Tolong dijahit yang rapi, lengan panjang semua.',
+                'status' => 'processing',
+                'shipped_at' => null,
+                'completed_at' => null,
+                'customer_confirmed_at' => null,
+            ])
+        );
+
+        Order::updateOrCreate(
+            ['tracking_id' => 'CTX-SHIP001'],
+            array_merge($basePayload, [
+                'customer_name' => 'Fahrul Kz',
+                'customer_whatsapp' => '+62 819 5963 1249',
+                'shipping_address' => 'Rt 41/Rw 11 Jln Kembang Turi No. 9A, Jatimulyo, Lowokwaru, Malang, Jawa Timur',
+                'notes' => 'Titip ke satpam kalau pengantaran di atas jam 5 sore.',
+                'status' => 'shipped',
+                'shipped_at' => now()->subDays(2)->setTime(14, 0),
+                'completed_at' => null,
+                'customer_confirmed_at' => null,
+            ])
+        );
+
+        Order::updateOrCreate(
+            ['tracking_id' => 'CTX-DONE001'],
+            array_merge($basePayload, [
+                'customer_name' => 'Ajeng Febria',
+                'customer_whatsapp' => '+62 812 3344 5566',
+                'shipping_address' => 'Jl. Candi Mendut No. 8, Blimbing, Malang, Jawa Timur',
+                'notes' => 'Nomor punggung 10, 11, dan 12 mohon dibedakan ukuran L.',
+                'status' => 'completed',
+                'shipped_at' => now()->subDays(4)->setTime(14, 0),
+                'completed_at' => now()->subDays(2)->setTime(16, 0),
+                'customer_confirmed_at' => now()->subDays(2)->setTime(16, 0),
+            ])
+        );
     }
 }
