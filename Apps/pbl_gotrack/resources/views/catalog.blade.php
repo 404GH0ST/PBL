@@ -95,13 +95,6 @@
                             </span>
                         </button>
 
-                        <a
-                            href="{{ auth()->check() ? url('/dashboard') : route('login') }}"
-                            class="overflow-hidden rounded-full ring-2 ring-white/20 transition hover:ring-white/45"
-                            aria-label="{{ auth()->check() ? 'Dashboard' : 'Masuk' }}"
-                        >
-                            <img src="{{ asset('images/testimonials/ajeng-febria.png') }}" alt="" class="h-11 w-11 object-cover lg:h-12 lg:w-12">
-                        </a>
                     </div>
                 </div>
 
