@@ -32,79 +32,77 @@
     class="pd-shell"
 >
 
-{{-- ===== HEADER (dark bg wrapper + glassmorphism pill nav) ===== --}}
-<div class="pd-header-bg">
-    <header class="pd-header">
-        <div class="pd-header-inner">
-            {{-- Brand --}}
-            <a href="{{ route('home') }}" class="pd-brand" aria-label="Beranda">
-                <span class="pd-brand-logo"></span>
-                <span class="pd-brand-name">DEENHAG</span>
-            </a>
+{{-- ===== HEADER ===== --}}
+<header class="relative z-20 px-5 pt-5 md:px-8 md:pt-7 lg:px-14 lg:pt-10">
+    <div class="mx-auto flex max-w-[1280px] items-center justify-between gap-4">
+        <a href="{{ route('home') }}" class="flex items-center gap-3" aria-label="Beranda">
+            <span class="block h-10 w-10 rounded-full bg-[#e3e3e3] lg:h-12 lg:w-12"></span>
+            <span class="text-sm font-extrabold tracking-[0.08em] lg:text-base">DEENHAG</span>
+        </a>
 
-            {{-- Centered pill nav (desktop) --}}
-            <nav class="pd-nav" aria-label="Navigasi utama">
-                <a href="{{ route('home') }}" class="pd-nav-link">Beranda</a>
-                <a href="{{ route('catalog') }}" class="pd-nav-link pd-nav-link--active">Katalog</a>
-                <a href="#" class="pd-nav-link">Blog</a>
-                <a href="{{ route('tracking.index') }}" class="pd-nav-link">Lacak</a>
-            </nav>
+        <nav class="hidden items-center rounded-full bg-black/10 px-2.5 py-2 text-sm font-semibold text-black/40 lg:flex">
+            <a href="{{ route('home') }}" class="rounded-full px-4 py-1.5 transition-colors hover:bg-black/8 hover:text-black">Beranda</a>
+            <a href="{{ route('catalog') }}" class="rounded-full px-4 py-1.5 text-black">Katalog</a>
+            <a href="#" class="rounded-full px-4 py-1.5 transition-colors hover:bg-black/8 hover:text-black">Blog</a>
+            <a href="{{ route('tracking.index') }}" class="rounded-full px-4 py-1.5 transition-colors hover:bg-black/8 hover:text-black">Lacak</a>
+        </nav>
 
-            {{-- Right: theme switch + mobile hamburger --}}
-            <div class="pd-header-right">
-                <button
-                    type="button"
-                    @click="toggleTheme()"
-                    :aria-pressed="(theme === 'dark').toString()"
-                    :aria-label="theme === 'dark' ? 'Aktifkan light mode' : 'Aktifkan dark mode'"
-                    :data-state="theme"
-                    class="catalog-theme-switch relative shrink-0"
-                >
-                    <span class="catalog-theme-thumb" aria-hidden="true"></span>
-                    <span class="catalog-theme-icon catalog-theme-icon--sun absolute left-[0.625rem] top-[0.625rem]">
-                        <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" aria-hidden="true">
-                            <circle cx="10" cy="10" r="3.2"></circle>
-                            <path d="M10 1.9v1.8M10 16.3v1.8M18.1 10h-1.8M3.7 10H1.9M15.73 4.27 14.45 5.55M5.55 14.45l-1.28 1.28M15.73 15.73l-1.28-1.28M5.55 5.55 4.27 4.27"></path>
-                        </svg>
-                    </span>
-                    <span class="catalog-theme-icon catalog-theme-icon--moon absolute left-[3.5rem] top-[0.625rem]">
-                        <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" aria-hidden="true">
-                            <path d="M12.4 2.35a6.75 6.75 0 1 0 5.25 9.9A6.95 6.95 0 0 1 12.4 2.35Z"></path>
-                        </svg>
-                    </span>
-                </button>
-
-                {{-- Mobile hamburger --}}
-                <button
-                    type="button"
-                    class="pd-hamburger"
-                    @click="mobileMenuOpen = !mobileMenuOpen"
-                    :aria-expanded="mobileMenuOpen.toString()"
-                    aria-label="Toggle navigation"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M4 12h16M4 17h16" />
+        <div class="flex items-center gap-3">
+            <button
+                type="button"
+                @click="toggleTheme()"
+                :aria-pressed="(theme === 'dark').toString()"
+                :aria-label="theme === 'dark' ? 'Aktifkan light mode' : 'Aktifkan dark mode'"
+                :data-state="theme"
+                class="catalog-theme-switch relative hidden shrink-0 lg:inline-flex"
+            >
+                <span class="catalog-theme-thumb" aria-hidden="true"></span>
+                <span class="catalog-theme-icon catalog-theme-icon--sun absolute left-[0.625rem] top-[0.625rem]">
+                    <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" aria-hidden="true">
+                        <circle cx="10" cy="10" r="3.2"></circle>
+                        <path d="M10 1.9v1.8M10 16.3v1.8M18.1 10h-1.8M3.7 10H1.9M15.73 4.27 14.45 5.55M5.55 14.45l-1.28 1.28M15.73 15.73l-1.28-1.28M5.55 5.55 4.27 4.27"></path>
                     </svg>
-                </button>
-            </div>
+                </span>
+                <span class="catalog-theme-icon catalog-theme-icon--moon absolute left-[3.5rem] top-[0.625rem]">
+                    <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" aria-hidden="true">
+                        <path d="M12.4 2.35a6.75 6.75 0 1 0 5.25 9.9A6.95 6.95 0 0 1 12.4 2.35Z"></path>
+                    </svg>
+                </span>
+            </button>
         </div>
+    </div>
 
-        {{-- Mobile nav dropdown --}}
-        <div
-            x-show="mobileMenuOpen"
-            x-transition.opacity.duration.200ms
-            style="display: none;"
-            class="pd-mobile-nav"
+    {{-- Mobile nav --}}
+    <div class="mx-auto mt-4 flex max-w-[1280px] items-center gap-3 lg:hidden">
+        <nav class="flex min-w-0 flex-1 gap-2 overflow-x-auto rounded-[1.25rem] bg-black/8 p-2 text-sm font-semibold text-black/60">
+            <a href="{{ route('home') }}" class="whitespace-nowrap rounded-full px-4 py-2">Beranda</a>
+            <a href="{{ route('catalog') }}" class="whitespace-nowrap rounded-full bg-black/10 px-4 py-2 text-black">Katalog</a>
+            <a href="#" class="whitespace-nowrap rounded-full px-4 py-2">Blog</a>
+            <a href="{{ route('tracking.index') }}" class="whitespace-nowrap rounded-full px-4 py-2">Lacak</a>
+        </nav>
+        <button
+            type="button"
+            @click="toggleTheme()"
+            :aria-pressed="(theme === 'dark').toString()"
+            :aria-label="theme === 'dark' ? 'Aktifkan light mode' : 'Aktifkan dark mode'"
+            :data-state="theme"
+            class="catalog-theme-switch relative shrink-0"
         >
-            <div class="pd-mobile-nav-inner">
-                <a href="{{ route('home') }}" class="pd-mobile-link">Beranda</a>
-                <a href="{{ route('catalog') }}" class="pd-mobile-link pd-mobile-link--active">Katalog</a>
-                <a href="#" class="pd-mobile-link">Blog</a>
-                <a href="{{ route('tracking.index') }}" class="pd-mobile-link">Lacak</a>
-            </div>
-        </div>
-    </header>
-</div>
+            <span class="catalog-theme-thumb" aria-hidden="true"></span>
+            <span class="catalog-theme-icon catalog-theme-icon--sun absolute left-[0.625rem] top-[0.625rem]">
+                <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" aria-hidden="true">
+                    <circle cx="10" cy="10" r="3.2"></circle>
+                    <path d="M10 1.9v1.8M10 16.3v1.8M18.1 10h-1.8M3.7 10H1.9M15.73 4.27 14.45 5.55M5.55 14.45l-1.28 1.28M15.73 15.73l-1.28-1.28M5.55 5.55 4.27 4.27"></path>
+                </svg>
+            </span>
+            <span class="catalog-theme-icon catalog-theme-icon--moon absolute left-[3.5rem] top-[0.625rem]">
+                <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" aria-hidden="true">
+                    <path d="M12.4 2.35a6.75 6.75 0 1 0 5.25 9.9A6.95 6.95 0 0 1 12.4 2.35Z"></path>
+                </svg>
+            </span>
+        </button>
+    </div>
+</header>
 
 <main>
     {{-- ===== PRODUCT SECTION ===== --}}
