@@ -399,6 +399,129 @@ Alpine.data('trackingPage', ({ initialModalOpen = false } = {}) => ({
     },
 }));
 
+Alpine.data('productDetailPage', ({
+    gallery = [],
+    productName = '',
+    reviews = [],
+    breakdown = [],
+} = {}) => ({
+    activeImage: gallery[0] ?? '',
+    activeTab: 'deskripsi',
+    breakdown,
+    expandedReviews: false,
+    gallery,
+    mobileMenuOpen: false,
+    productName,
+    quantity: 1,
+    reviews,
+    sortOption: 'latest',
+    syncSystemThemeHandler: null,
+    systemThemeQuery: null,
+    theme: 'light',
+
+    init() {
+        this.systemThemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        this.syncSystemThemeHandler = this.syncSystemTheme.bind(this);
+        this.initializeTheme();
+        this.systemThemeQuery.addEventListener('change', this.syncSystemThemeHandler);
+    },
+
+    destroy() {
+        this.systemThemeQuery?.removeEventListener('change', this.syncSystemThemeHandler);
+    },
+
+    setActiveImage(image) {
+        this.activeImage = image;
+    },
+
+    incrementQuantity() {
+        this.quantity += 1;
+    },
+
+    decrementQuantity() {
+        if (this.quantity > 1) {
+            this.quantity -= 1;
+        }
+    },
+
+    setTab(tab) {
+        this.activeTab = tab;
+    },
+
+    toggleExpandedReviews() {
+        this.expandedReviews = !this.expandedReviews;
+    },
+
+    sortedReviews() {
+        const sorted = [...this.reviews];
+
+        if (this.sortOption === 'latest') {
+            return sorted.reverse();
+        }
+
+        if (this.sortOption === 'oldest') {
+            return sorted;
+        }
+
+        if (this.sortOption === 'highest') {
+            return sorted.sort((a, b) => b.rating - a.rating);
+        }
+
+        return sorted;
+    },
+
+    visibleReviews() {
+        const sorted = this.sortedReviews();
+
+        if (this.expandedReviews) {
+            return sorted;
+        }
+
+        return sorted.slice(0, 3);
+    },
+
+    reviewSummary() {
+        const total = this.reviews.length;
+
+        if (total === 0) {
+            return 'Belum ada ulasan';
+        }
+
+        const visible = this.expandedReviews ? total : Math.min(3, total);
+
+        return `Menampilkan dari 1-${visible} dari ${total} hasil`;
+    },
+
+    initializeTheme() {
+        const savedTheme = window.localStorage.getItem('catalog-theme');
+
+        if (savedTheme === 'light' || savedTheme === 'dark') {
+            this.theme = savedTheme;
+
+            return;
+        }
+
+        this.theme = this.systemThemeQuery.matches ? 'dark' : 'light';
+    },
+
+    syncSystemTheme(event) {
+        if (window.localStorage.getItem('catalog-theme')) {
+            return;
+        }
+
+        this.theme = event.matches ? 'dark' : 'light';
+    },
+
+    toggleTheme() {
+        this.theme = this.theme === 'dark' ? 'light' : 'dark';
+        window.localStorage.setItem('catalog-theme', this.theme);
+    },
+
+    starLabel(rating) {
+        return '★'.repeat(Math.round(rating)) + '☆'.repeat(5 - Math.round(rating));
+    },
+}));
+
 window.Alpine = Alpine;
 
 Alpine.start();
