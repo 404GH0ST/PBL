@@ -44,7 +44,7 @@
                         <span class="font-['DM_Sans',sans-serif] text-lg font-extrabold tracking-[0.04em] lg:text-[25px]">DEENHAG</span>
                     </a>
 
-                    <nav class="tracking-nav tracking-nav-pill hidden items-center rounded-full px-2.5 py-2 text-sm font-semibold lg:flex">
+                    <nav class="tracking-nav tracking-nav-pill hidden items-center rounded-full px-2.5 py-2 text-sm font-semibold lg:fixed lg:left-1/2 lg:top-8 lg:z-50 lg:flex lg:-translate-x-1/2">
                         <a href="{{ route('home') }}" class="tracking-nav-link rounded-full px-4 py-1.5 transition hover:text-current">Beranda</a>
                         <a href="{{ route('catalog') }}" class="tracking-nav-link rounded-full px-4 py-1.5 transition hover:text-current">Katalog</a>
                         <a href="#" class="tracking-nav-link rounded-full px-4 py-1.5 transition hover:text-current">Blog</a>

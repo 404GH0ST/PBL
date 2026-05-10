@@ -15,38 +15,6 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-body antialiased">
-    @php
-        $catalogFilters = [
-            ['slug' => 'all', 'label' => 'Semua Produk', 'icon' => 'grid'],
-            ['slug' => 'kaos', 'label' => 'Kaos', 'icon' => 'shirt'],
-            ['slug' => 'jersey', 'label' => 'Jersey', 'icon' => 'jersey'],
-            ['slug' => 'dtf', 'label' => 'DTF', 'icon' => 'printer'],
-            ['slug' => 'banner', 'label' => 'Banner', 'icon' => 'banner'],
-            ['slug' => 'other', 'label' => 'Lainnya', 'icon' => 'dots'],
-            ['slug' => 'new', 'label' => 'Produk Baru', 'icon' => 'spark'],
-            ['slug' => 'top', 'label' => 'Terlaris', 'icon' => 'trophy'],
-        ];
-
-        $catalogProducts = [
-            ['slug' => 'sablon-kaos-custom', 'title' => 'Sablon Kaos Custom', 'category' => 'kaos', 'category_label' => 'Kaos', 'image' => asset('images/catalog/kaos-red.png'), 'rating' => 4.9, 'reviews' => '2.7K', 'price' => 50999, 'is_new' => true, 'is_top' => true, 'featured' => false],
-            ['slug' => 'cetak-banner-custom', 'title' => 'Cetak Banner Custom', 'category' => 'banner', 'category_label' => 'Banner', 'image' => asset('images/catalog/banner-custom.png'), 'rating' => 5.0, 'reviews' => '1.2K', 'price' => 15999, 'is_new' => false, 'is_top' => true, 'featured' => false],
-            ['slug' => 'cetak-paraloid', 'title' => 'Cetak Paraloid', 'category' => 'other', 'category_label' => 'Lainnya', 'image' => asset('images/catalog/paraloid.png'), 'rating' => 4.7, 'reviews' => '1.2K', 'price' => 10999, 'is_new' => true, 'is_top' => false, 'featured' => false],
-            ['slug' => 'cetak-stiker-dtf', 'title' => 'Cetak Stiker DTF', 'category' => 'dtf', 'category_label' => 'DTF', 'image' => asset('images/catalog/dtf-sticker.png'), 'rating' => 5.0, 'reviews' => '2K', 'price' => 13999, 'is_new' => true, 'is_top' => true, 'featured' => false],
-            ['slug' => 'tripod-banner', 'title' => 'Tripod Banner', 'category' => 'banner', 'category_label' => 'Banner', 'image' => asset('images/catalog/tripod-banner.png'), 'rating' => 5.0, 'reviews' => '2K', 'price' => 13999, 'is_new' => false, 'is_top' => true, 'featured' => false],
-            ['slug' => 'banner-photobooth-custom', 'title' => 'Banner Photobooth Custom', 'category' => 'banner', 'category_label' => 'Banner', 'image' => asset('images/catalog/photobooth.png'), 'rating' => 4.9, 'reviews' => '2K', 'price' => 70999, 'is_new' => false, 'is_top' => false, 'featured' => false],
-            ['slug' => 'x-banner', 'title' => 'X Banner', 'category' => 'banner', 'category_label' => 'Banner', 'image' => asset('images/catalog/x-banner.png'), 'rating' => 4.9, 'reviews' => '2K', 'price' => 50999, 'is_new' => false, 'is_top' => true, 'featured' => false],
-            ['slug' => 'cetak-kartu-nama', 'title' => 'Cetak Kartu Nama', 'category' => 'other', 'category_label' => 'Lainnya', 'image' => asset('images/catalog/kartu-nama.png'), 'rating' => 4.7, 'reviews' => '2K', 'price' => 10999, 'is_new' => true, 'is_top' => false, 'featured' => false],
-            ['slug' => 'poster-piala-dunia', 'title' => 'Poster Piala Dunia', 'category' => 'other', 'category_label' => 'Lainnya', 'image' => asset('images/catalog/poster-piala.png'), 'rating' => 5.0, 'reviews' => '2K', 'price' => 13999, 'is_new' => false, 'is_top' => false, 'featured' => false],
-            ['slug' => 'standing-banner', 'title' => 'Standing Banner Tajam', 'category' => 'banner', 'category_label' => 'Banner', 'image' => asset('images/catalog/standing-banner.png'), 'rating' => 5.0, 'reviews' => '2K', 'price' => 15999, 'is_new' => false, 'is_top' => true, 'featured' => true],
-            ['slug' => 'dtf-setrika', 'title' => 'Cetak DTF Setrika', 'category' => 'dtf', 'category_label' => 'DTF', 'image' => asset('images/catalog/dtf-kaos.png'), 'rating' => 5.0, 'reviews' => '2K', 'price' => 50999, 'is_new' => true, 'is_top' => true, 'featured' => true],
-            ['slug' => 'sablon-kaos-tajam', 'title' => 'Sablon Kaos Kualitas Tajam', 'category' => 'kaos', 'category_label' => 'Kaos', 'image' => asset('images/catalog/kaos-black.png'), 'rating' => 5.0, 'reviews' => '2K', 'price' => 50999, 'is_new' => false, 'is_top' => true, 'featured' => true],
-            ['slug' => 'jersey-komunitas-premium', 'title' => 'Jersey Komunitas Premium', 'category' => 'jersey', 'category_label' => 'Jersey', 'image' => asset('images/catalog/kaos-black.png'), 'rating' => 4.8, 'reviews' => '1.6K', 'price' => 89999, 'is_new' => true, 'is_top' => false, 'featured' => false],
-            ['slug' => 'jersey-event-fullprint', 'title' => 'Jersey Event Full Print', 'category' => 'jersey', 'category_label' => 'Jersey', 'image' => asset('images/catalog/kaos-red.png'), 'rating' => 4.9, 'reviews' => '1.4K', 'price' => 94999, 'is_new' => false, 'is_top' => true, 'featured' => false],
-            ['slug' => 'paket-promosi-usaha', 'title' => 'Paket Promosi Usaha', 'category' => 'other', 'category_label' => 'Lainnya', 'image' => asset('images/catalog/photobooth.png'), 'rating' => 4.8, 'reviews' => '1.1K', 'price' => 129999, 'is_new' => true, 'is_top' => false, 'featured' => false],
-            ['slug' => 'banner-expo-premium', 'title' => 'Banner Expo Premium', 'category' => 'banner', 'category_label' => 'Banner', 'image' => asset('images/catalog/tripod-banner.png'), 'rating' => 4.9, 'reviews' => '1.3K', 'price' => 65999, 'is_new' => false, 'is_top' => false, 'featured' => true],
-        ];
-    @endphp
-
     <div
         x-data="catalogPage({{ \Illuminate\Support\Js::from($catalogProducts) }}, {{ \Illuminate\Support\Js::from($catalogFilters) }})"
         x-bind:data-theme="theme"
@@ -65,7 +33,7 @@
                         <span class="font-['DM_Sans',sans-serif] text-sm font-bold tracking-[0.08em] lg:text-base">DEENHAG</span>
                     </a>
 
-                    <nav class="hidden items-center rounded-full bg-white/12 px-2.5 py-2 text-sm font-semibold text-white/45 backdrop-blur-xl lg:flex">
+                    <nav class="hidden items-center rounded-full bg-white/12 px-2.5 py-2 text-sm font-semibold text-white/45 backdrop-blur-xl lg:fixed lg:left-1/2 lg:top-8 lg:z-50 lg:flex lg:-translate-x-1/2">
                         <a href="{{ route('home') }}" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white">Beranda</a>
                         <a href="{{ route('catalog') }}" class="rounded-full px-4 py-1.5 text-white">Katalog</a>
                         <a href="#" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white">Blog</a>
@@ -213,12 +181,16 @@
                         <div class="grid gap-x-5 gap-y-8 sm:grid-cols-2 xl:grid-cols-4">
                             <template x-for="product in paginatedProducts()" :key="product.slug">
                                 <article class="group flex h-full flex-col">
-                                    <div class="catalog-card-media overflow-hidden rounded-[1rem] shadow-[var(--catalog-card-shadow)]">
+                                    <a :href="product.detail_url" class="catalog-card-media overflow-hidden rounded-[1rem] shadow-[var(--catalog-card-shadow)]">
                                         <img :src="product.image" :alt="product.title" class="h-[12.5rem] w-full object-cover transition duration-300 group-hover:scale-[1.03]">
-                                    </div>
+                                    </a>
 
                                     <div class="mt-3 flex flex-1 flex-col">
-                                        <p class="catalog-text min-h-[3rem] font-['DM_Sans',sans-serif] text-[1rem] font-bold leading-[1.2] tracking-[-0.04em]" x-text="product.title"></p>
+                                        <a
+                                            :href="product.detail_url"
+                                            class="catalog-text min-h-[3rem] font-['DM_Sans',sans-serif] text-[1rem] font-bold leading-[1.2] tracking-[-0.04em] transition hover:opacity-75"
+                                            x-text="product.title"
+                                        ></a>
 
                                         <div class="mt-3 flex items-center justify-between gap-3 text-[0.72rem]">
                                             <div class="catalog-text-muted flex items-center gap-1">
@@ -232,12 +204,12 @@
                                         </div>
 
                                         <div class="mt-4 flex items-center gap-2">
-                                            <button type="button" class="catalog-border-strong catalog-text rounded-full border px-3 py-1.5 text-[0.62rem] font-semibold transition hover:opacity-80">
-                                                Tambah Keranjang
-                                            </button>
-                                            <button type="button" class="catalog-primary-action rounded-full px-3 py-1.5 text-[0.62rem] font-semibold transition hover:opacity-90">
+                                            <a :href="product.detail_url" class="catalog-border-strong catalog-text rounded-full border px-3 py-1.5 text-[0.62rem] font-semibold transition hover:opacity-80">
+                                                Lihat Detail
+                                            </a>
+                                            <a :href="product.detail_url" class="catalog-primary-action rounded-full px-3 py-1.5 text-[0.62rem] font-semibold transition hover:opacity-90">
                                                 Beli Sekarang
-                                            </button>
+                                            </a>
                                         </div>
                                     </div>
                                 </article>
@@ -302,12 +274,16 @@
                     <div class="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
                         <template x-for="product in featuredProducts()" :key="`featured-${product.slug}`">
                             <article class="catalog-card-strong rounded-[1.15rem] p-3">
-                                <div class="catalog-card-soft overflow-hidden rounded-[1rem]">
+                                <a :href="product.detail_url" class="catalog-card-soft block overflow-hidden rounded-[1rem]">
                                     <img :src="product.image" :alt="product.title" class="h-[12rem] w-full object-cover">
-                                </div>
+                                </a>
 
                                 <div class="mt-3">
-                                    <p class="catalog-text font-['DM_Sans',sans-serif] text-[1rem] font-bold leading-[1.2] tracking-[-0.04em]" x-text="product.title"></p>
+                                    <a
+                                        :href="product.detail_url"
+                                        class="catalog-text font-['DM_Sans',sans-serif] text-[1rem] font-bold leading-[1.2] tracking-[-0.04em] transition hover:opacity-75"
+                                        x-text="product.title"
+                                    ></a>
                                     <div class="mt-3 flex items-center justify-between gap-3 text-[0.72rem]">
                                         <div class="catalog-text-muted flex items-center gap-1">
                                             <span class="text-[#f0bc1f]">★</span>
@@ -319,12 +295,12 @@
                                         </div>
                                     </div>
                                     <div class="mt-4 flex items-center gap-2">
-                                        <button type="button" class="catalog-border-strong catalog-text rounded-full border px-3 py-1.5 text-[0.62rem] font-semibold transition hover:opacity-80">
-                                            Tambah Keranjang
-                                        </button>
-                                        <button type="button" class="catalog-primary-action rounded-full px-3 py-1.5 text-[0.62rem] font-semibold transition hover:opacity-90">
+                                        <a :href="product.detail_url" class="catalog-border-strong catalog-text rounded-full border px-3 py-1.5 text-[0.62rem] font-semibold transition hover:opacity-80">
+                                            Lihat Detail
+                                        </a>
+                                        <a :href="product.detail_url" class="catalog-primary-action rounded-full px-3 py-1.5 text-[0.62rem] font-semibold transition hover:opacity-90">
                                             Beli Sekarang
-                                        </button>
+                                        </a>
                                     </div>
                                 </div>
                             </article>

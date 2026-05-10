@@ -40,7 +40,7 @@
             <span class="text-sm font-extrabold tracking-[0.08em] lg:text-base">DEENHAG</span>
         </a>
 
-        <nav class="hidden items-center rounded-full bg-black/10 px-2.5 py-2 text-sm font-semibold text-black/40 lg:flex">
+        <nav class="hidden items-center rounded-full bg-black/10 px-2.5 py-2 text-sm font-semibold text-black/40 lg:fixed lg:left-1/2 lg:top-8 lg:z-50 lg:flex lg:-translate-x-1/2">
             <a href="{{ route('home') }}" class="rounded-full px-4 py-1.5 transition-colors hover:bg-black/8 hover:text-black">Beranda</a>
             <a href="{{ route('catalog') }}" class="rounded-full px-4 py-1.5 text-black">Katalog</a>
             <a href="#" class="rounded-full px-4 py-1.5 transition-colors hover:bg-black/8 hover:text-black">Blog</a>
