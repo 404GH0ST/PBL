@@ -37,15 +37,17 @@
     <div class="mx-auto flex max-w-[1280px] items-center justify-between gap-4">
         <a href="{{ route('home') }}" class="flex items-center gap-3" aria-label="Beranda">
             <span class="block h-10 w-10 rounded-full bg-[#e3e3e3] lg:h-12 lg:w-12"></span>
-            <span class="text-sm font-extrabold tracking-[0.08em] lg:text-base">DEENHAG</span>
+            <span class="text-sm font-bold tracking-[0.08em] lg:text-base">DEENHAG</span>
         </a>
 
-        <nav class="hidden items-center rounded-full bg-white/12 px-3 py-2 text-[1.02rem] font-semibold text-black/35 lg:flex">
+        <nav class="hidden items-center rounded-full bg-black/10 px-3 py-2 text-[1.02rem] font-semibold text-black/35 lg:flex">
             <a href="{{ route('home') }}" class="rounded-full px-4 py-1.5 transition-colors hover:bg-black/8 hover:text-black">Beranda</a>
             <a href="{{ route('catalog') }}" class="rounded-full px-4 py-1.5 text-black">Katalog</a>
             <a href="#" class="rounded-full px-4 py-1.5 transition-colors hover:bg-black/8 hover:text-black">Blog</a>
             <a href="{{ route('tracking.index') }}" class="rounded-full px-4 py-1.5 transition-colors hover:bg-black/8 hover:text-black">Lacak</a>
         </nav>
+
+        <div class="flex items-center gap-3">
             <button
                 type="button"
                 @click="toggleTheme()"
@@ -70,8 +72,7 @@
         </div>
     </div>
 
-    {{-- Mobile nav --}}
-    <div class="mx-auto mt-4 flex max-w-[1280px] items-center gap-3 lg:hidden">
+    <div class="mx-auto mt-6 flex max-w-[1280px] items-center gap-3 lg:hidden">
         <nav class="flex min-w-0 flex-1 gap-2 overflow-x-auto rounded-[1.25rem] bg-black/8 p-2 text-sm font-semibold text-black/60">
             <a href="{{ route('home') }}" class="whitespace-nowrap rounded-full px-4 py-2">Beranda</a>
             <a href="{{ route('catalog') }}" class="whitespace-nowrap rounded-full bg-black/10 px-4 py-2 text-black">Katalog</a>
