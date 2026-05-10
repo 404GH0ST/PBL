@@ -31,7 +31,7 @@
                         <a href="{{ route('home') }}" class="rounded-full px-4 py-1.5 text-white transition-colors">Beranda</a>
                         <a href="{{ route('catalog') }}" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white focus:bg-white/8 focus:text-white focus:outline-none">Katalog</a>
                         <a href="#" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white focus:bg-white/8 focus:text-white focus:outline-none">Blog</a>
-                        <a href="#" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white focus:bg-white/8 focus:text-white focus:outline-none">Lacak</a>
+                        <a href="{{ route('tracking.index') }}" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white focus:bg-white/8 focus:text-white focus:outline-none">Lacak</a>
                     </nav>
 
                     <div class="hidden items-center gap-8 lg:flex">
@@ -73,7 +73,7 @@
                         <a href="{{ route('home') }}" class="block rounded-2xl px-4 py-3 text-sm font-semibold text-white">Beranda</a>
                         <a href="{{ route('catalog') }}" class="block rounded-2xl px-4 py-3 text-sm font-semibold text-white/70">Katalog</a>
                         <a href="#" class="block rounded-2xl px-4 py-3 text-sm font-semibold text-white/70">Blog</a>
-                        <a href="#" class="block rounded-2xl px-4 py-3 text-sm font-semibold text-white/70">Lacak</a>
+                        <a href="{{ route('tracking.index') }}" class="block rounded-2xl px-4 py-3 text-sm font-semibold text-white/70">Lacak</a>
                         @guest
                             <div class="flex gap-2 pt-2">
                                 <a href="{{ route('register') }}" class="flex-1 rounded-full bg-[linear-gradient(180deg,#7ea8c4_0%,#5d8aa7_100%)] px-4 py-3 text-center text-sm font-bold text-white">Sign In</a>
@@ -608,7 +608,7 @@
                                 <a href="{{ route('catalog') }}" class="block transition-opacity hover:opacity-75">Katalog</a>
                                 <a href="#" class="block transition-opacity hover:opacity-75">Blog</a>
                                 <a href="#" class="block transition-opacity hover:opacity-75">Keranjang</a>
-                                <a href="#" class="block transition-opacity hover:opacity-75">Lacak Pesanan</a>
+                                <a href="{{ route('tracking.index') }}" class="block transition-opacity hover:opacity-75">Lacak Pesanan</a>
                             </div>
                         </div>
 

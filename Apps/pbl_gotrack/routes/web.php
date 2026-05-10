@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('home');
 Route::view('/katalog', 'catalog')->name('catalog');
 Route::view('/product-detail', 'product-detail')->name('product.detail');
+Route::get('/lacak', [TrackingController::class, 'index'])->name('tracking.index');
+Route::post('/lacak/{trackingId}/review', [TrackingController::class, 'storeReview'])->name('tracking.review');
 
 Route::get('/dashboard', function () {
     $user = auth()->user();
