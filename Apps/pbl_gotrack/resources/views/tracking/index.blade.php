@@ -44,7 +44,7 @@
                         <span class="font-['DM_Sans',sans-serif] text-lg font-extrabold tracking-[0.04em] lg:text-[25px]">DEENHAG</span>
                     </a>
 
-                    <nav class="tracking-nav tracking-nav-pill hidden items-center rounded-full px-3 py-2 text-[1.02rem] font-semibold lg:fixed lg:left-1/2 lg:top-8 lg:z-50 lg:flex lg:-translate-x-1/2">
+                    <nav class="tracking-nav tracking-nav-pill hidden items-center rounded-full px-3 py-2 text-[1.02rem] font-semibold lg:flex">
                         <a href="{{ route('home') }}" class="tracking-nav-link rounded-full px-4 py-1.5 transition hover:text-current">Beranda</a>
                         <a href="{{ route('catalog') }}" class="tracking-nav-link rounded-full px-4 py-1.5 transition hover:text-current">Katalog</a>
                         <a href="#" class="tracking-nav-link rounded-full px-4 py-1.5 transition hover:text-current">Blog</a>
@@ -401,5 +401,10 @@
             </div>
         @endif
     </div>
+
+<button id="scroll-top" class="scroll-top-btn" aria-label="Kembali ke atas" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
+</button>
+<script>(function(){var b=document.getElementById("scroll-top");window.addEventListener("scroll",function(){b.classList.toggle("visible",window.scrollY>300)},{passive:true});})();</script>
 </body>
 </html>

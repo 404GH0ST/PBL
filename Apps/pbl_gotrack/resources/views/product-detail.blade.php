@@ -40,14 +40,12 @@
             <span class="text-sm font-extrabold tracking-[0.08em] lg:text-base">DEENHAG</span>
         </a>
 
-        <nav class="hidden items-center rounded-full bg-black/10 px-3 py-2 text-[1.02rem] font-semibold text-black/40 lg:fixed lg:left-1/2 lg:top-8 lg:z-50 lg:flex lg:-translate-x-1/2">
+        <nav class="hidden items-center rounded-full bg-white/12 px-3 py-2 text-[1.02rem] font-semibold text-black/35 lg:flex">
             <a href="{{ route('home') }}" class="rounded-full px-4 py-1.5 transition-colors hover:bg-black/8 hover:text-black">Beranda</a>
             <a href="{{ route('catalog') }}" class="rounded-full px-4 py-1.5 text-black">Katalog</a>
             <a href="#" class="rounded-full px-4 py-1.5 transition-colors hover:bg-black/8 hover:text-black">Blog</a>
             <a href="{{ route('tracking.index') }}" class="rounded-full px-4 py-1.5 transition-colors hover:bg-black/8 hover:text-black">Lacak</a>
         </nav>
-
-        <div class="flex items-center gap-3">
             <button
                 type="button"
                 @click="toggleTheme()"
@@ -431,5 +429,10 @@
 </footer>
 
 </div>{{-- end pd-shell --}}
+
+<button id="scroll-top" class="scroll-top-btn" aria-label="Kembali ke atas" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
+</button>
+<script>(function(){var b=document.getElementById("scroll-top");window.addEventListener("scroll",function(){b.classList.toggle("visible",window.scrollY>300)},{passive:true});})();</script>
 </body>
 </html>
