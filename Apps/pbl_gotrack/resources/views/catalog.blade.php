@@ -33,7 +33,7 @@
                         <span class="font-['DM_Sans',sans-serif] text-sm font-bold tracking-[0.08em] lg:text-base">DEENHAG</span>
                     </a>
 
-                    <nav class="hidden items-center rounded-full bg-white/12 px-2.5 py-2 text-sm font-semibold text-white/45 backdrop-blur-xl lg:fixed lg:left-1/2 lg:top-8 lg:z-50 lg:flex lg:-translate-x-1/2">
+                    <nav class="hidden items-center rounded-full bg-white/12 px-3 py-2 text-[1.02rem] font-semibold text-white/35 lg:fixed lg:left-1/2 lg:top-8 lg:z-50 lg:flex lg:-translate-x-1/2">
                         <a href="{{ route('home') }}" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white">Beranda</a>
                         <a href="{{ route('catalog') }}" class="rounded-full px-4 py-1.5 text-white">Katalog</a>
                         <a href="#" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white">Blog</a>
