@@ -185,6 +185,22 @@
     transition: border-color 220ms ease;
 }
 
+.catalog-text-body {
+    color: rgba(0, 0, 0, 0.8);
+    transition: color 220ms ease;
+}
+.catalog-shell[data-theme='dark'] .catalog-text-body {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.catalog-border-soft {
+    border-color: rgba(0, 0, 0, 0.15);
+    transition: border-color 220ms ease;
+}
+.catalog-shell[data-theme='dark'] .catalog-border-soft {
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
 .catalog-primary-action {
     background-color: var(--catalog-primary);
     color: var(--catalog-primary-text);
@@ -620,4 +636,52 @@
 .tracking-shell[data-theme='dark'] .site-nav-mobile--light a.is-active {
     background: rgba(255, 255, 255, 0.14) !important;
     color: #fff !important;
+}
+
+/* ===== Blog shell: dark mode overrides (mirror tracking-shell rules) ===== */
+.blog-shell[data-theme='dark'] {
+    background-color: #000 !important;
+    color: #fff;
+}
+.blog-shell[data-theme='dark'] .site-nav-pill--light {
+    background: rgba(255, 255, 255, 0.12) !important;
+    color: rgba(255, 255, 255, 0.35) !important;
+}
+.blog-shell[data-theme='dark'] .site-nav-pill--light a { color: rgba(255, 255, 255, 0.35) !important; }
+.blog-shell[data-theme='dark'] .site-nav-pill--light a:hover,
+.blog-shell[data-theme='dark'] .site-nav-pill--light a.is-active { color: #fff !important; }
+
+.blog-shell[data-theme='dark'] .site-nav-mobile--light {
+    background: rgba(255, 255, 255, 0.10) !important;
+    color: rgba(255, 255, 255, 0.80) !important;
+}
+.blog-shell[data-theme='dark'] .site-nav-mobile--light a.is-active {
+    background: rgba(255, 255, 255, 0.14) !important;
+    color: #fff !important;
+}
+
+/* Footer uses the same dark gradient as other shells */
+.blog-shell[data-theme='dark'] .site-footer {
+    --site-footer-gradient:
+        linear-gradient(180deg, #000000 0%, #030f19 56%, #04111d 100%);
+    --site-footer-border: rgba(255, 255, 255, 0.18);
+    --site-footer-copy: rgba(255, 255, 255, 0.72);
+}
+
+/* Light mode: footer begins with the page bg color (#f1f5f9) for seamless blend */
+.blog-shell[data-theme='light'] .site-footer {
+    --site-footer-gradient:
+        linear-gradient(180deg, #f1f5f9 0%, #d8e1e8 18%, #6d7782 54%, #0b1620 82%, #04111d 100%);
+}
+
+/* Theme switch colors match catalog-shell pattern already */
+
+.blog-section-label {
+    display: inline-block;
+    padding-bottom: 0.5rem;
+    border-bottom: 4px solid currentColor;
+    /* pull the thick underline down 1px so it caps on top of the container's thin line */
+    margin-bottom: -1px;
+    position: relative;
+    z-index: 1;
 }
