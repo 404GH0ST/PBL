@@ -10,7 +10,7 @@
     $links = [
         'home' => ['label' => 'Beranda', 'href' => route('home')],
         'catalog' => ['label' => 'Katalog', 'href' => route('catalog')],
-        'blog' => ['label' => 'Blog', 'href' => '#'],
+        'blog' => ['label' => 'Blog', 'href' => route('blog.index')],
         'tracking' => ['label' => 'Lacak', 'href' => route('tracking.index')],
     ];
 @endphp

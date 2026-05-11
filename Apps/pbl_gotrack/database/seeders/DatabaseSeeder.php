@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             OrderSeeder::class,
             OrderProgressSeeder::class,
             ReviewSeeder::class,
+            PostSeeder::class,
         ]);
     }
 }
