@@ -37,55 +37,7 @@
         class="tracking-shell min-h-screen"
     >
         <div class="tracking-page min-h-screen">
-            <header class="px-6 pt-6 md:px-10 md:pt-8 lg:px-20 lg:pt-10">
-                <div class="mx-auto flex max-w-[1320px] items-center justify-between gap-4">
-                    <a href="{{ route('home') }}" class="tracking-brand flex items-center gap-3" aria-label="Beranda">
-                        <span class="block h-10 w-10 rounded-full bg-[#dfdfdf] lg:h-[55px] lg:w-[55px]"></span>
-                        <span class="font-['DM_Sans',sans-serif] text-lg font-extrabold tracking-[0.04em] lg:text-[25px]">DEENHAG</span>
-                    </a>
-
-                    <nav class="tracking-nav tracking-nav-pill hidden items-center rounded-full px-2.5 py-2 text-sm font-semibold lg:flex">
-                        <a href="{{ route('home') }}" class="tracking-nav-link rounded-full px-4 py-1.5 transition hover:text-current">Beranda</a>
-                        <a href="{{ route('catalog') }}" class="tracking-nav-link rounded-full px-4 py-1.5 transition hover:text-current">Katalog</a>
-                        <a href="#" class="tracking-nav-link rounded-full px-4 py-1.5 transition hover:text-current">Blog</a>
-                        <a href="{{ route('tracking.index') }}" class="tracking-nav-link tracking-nav-link--active rounded-full px-4 py-1.5">Lacak</a>
-                    </nav>
-
-                    <div class="flex items-center gap-3">
-                        <button
-                            type="button"
-                            @click="toggleTheme()"
-                            :aria-pressed="(theme === 'dark').toString()"
-                            :aria-label="theme === 'dark' ? 'Aktifkan light mode' : 'Aktifkan dark mode'"
-                            :data-state="theme"
-                            class="catalog-theme-switch relative shrink-0"
-                        >
-                            <span class="catalog-theme-thumb" aria-hidden="true"></span>
-                            <span class="catalog-theme-icon catalog-theme-icon--sun absolute left-[0.625rem] top-[0.625rem]">
-                                <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" aria-hidden="true">
-                                    <circle cx="10" cy="10" r="3.2"></circle>
-                                    <path d="M10 1.9v1.8M10 16.3v1.8M18.1 10h-1.8M3.7 10H1.9M15.73 4.27 14.45 5.55M5.55 14.45l-1.28 1.28M15.73 15.73l-1.28-1.28M5.55 5.55 4.27 4.27"></path>
-                                </svg>
-                            </span>
-                            <span class="catalog-theme-icon catalog-theme-icon--moon absolute left-[3.5rem] top-[0.625rem]">
-                                <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" aria-hidden="true">
-                                    <path d="M12.4 2.35a6.75 6.75 0 1 0 5.25 9.9A6.95 6.95 0 0 1 12.4 2.35Z"></path>
-                                </svg>
-                            </span>
-                        </button>
-
-                    </div>
-                </div>
-
-                <div class="mx-auto mt-6 flex max-w-[1320px] items-center gap-3 lg:hidden">
-                    <nav class="tracking-nav tracking-nav-pill flex min-w-0 flex-1 gap-2 overflow-x-auto rounded-[1.25rem] p-2 text-sm font-semibold">
-                        <a href="{{ route('home') }}" class="tracking-nav-link whitespace-nowrap rounded-full px-4 py-2">Beranda</a>
-                        <a href="{{ route('catalog') }}" class="tracking-nav-link whitespace-nowrap rounded-full px-4 py-2">Katalog</a>
-                        <a href="#" class="tracking-nav-link whitespace-nowrap rounded-full px-4 py-2">Blog</a>
-                        <a href="{{ route('tracking.index') }}" class="tracking-nav-link tracking-nav-link--active whitespace-nowrap rounded-full bg-black/8 px-4 py-2">Lacak</a>
-                    </nav>
-                </div>
-            </header>
+            <x-site-navbar active="tracking" variant="light" />
 
             <main class="px-6 pt-12 pb-16 md:px-10 lg:px-20 lg:pt-16">
                 <div class="mx-auto max-w-[1320px] transition duration-200" :class="reviewModalOpen ? 'blur-[7.5px]' : ''">
@@ -241,79 +193,7 @@
                 </div>
             </main>
 
-            <footer class="site-footer mt-8 overflow-hidden pt-24 pb-10">
-                <div class="mx-auto max-w-[1300px] px-6 md:px-10 lg:px-14">
-                    <div class="grid gap-14 lg:grid-cols-[1.45fr_0.8fr_0.85fr_1fr]">
-                        <div class="max-w-[26rem]">
-                            <div class="flex items-center gap-4">
-                                <span class="block h-11 w-11 rounded-full bg-white/85"></span>
-                                <span class="font-['Montserrat',sans-serif] text-[1.95rem] font-bold text-white">Deenhag</span>
-                            </div>
-
-                            <p class="mt-8 text-[0.92rem] leading-[1.7] text-white/78">
-                                Kami melayani kebutuhan konveksi dan digital printing untuk personal, komunitas, maupun bisnis, mulai dari apparel custom, media promosi, hingga kebutuhan cetak usaha dengan kualitas yang rapi dan terpercaya.
-                            </p>
-
-                            <div class="mt-8 flex items-center gap-2.5">
-                                <a href="#" aria-label="Facebook" class="transition hover:opacity-75">
-                                    <img src="{{ asset('images/footer/facebook.png') }}" alt="" class="h-9 w-9 object-contain">
-                                </a>
-                                <a href="#" aria-label="Twitter" class="transition hover:opacity-75">
-                                    <img src="{{ asset('images/footer/twitter.png') }}" alt="" class="h-9 w-9 object-contain">
-                                </a>
-                                <a href="#" aria-label="TikTok" class="transition hover:opacity-75">
-                                    <img src="{{ asset('images/footer/tiktok.png') }}" alt="" class="h-9 w-9 object-contain">
-                                </a>
-                                <a href="#" aria-label="Instagram" class="transition hover:opacity-75">
-                                    <img src="{{ asset('images/footer/instagram.png') }}" alt="" class="h-9 w-9 object-contain">
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 class="font-['Montserrat',sans-serif] text-[1.2rem] font-bold text-[#72a3bf]">Navigasi Cepat</h3>
-                            <div class="mt-8 space-y-5 text-[0.92rem] font-medium tracking-[0.04em] text-white/85">
-                                <a href="{{ route('home') }}" class="block transition hover:opacity-75">Beranda</a>
-                                <a href="{{ route('catalog') }}" class="block transition hover:opacity-75">Katalog</a>
-                                <a href="#" class="block transition hover:opacity-75">Blog</a>
-                                <a href="{{ route('tracking.index') }}" class="block transition hover:opacity-75">Lacak Pesanan</a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 class="font-['Montserrat',sans-serif] text-[1.2rem] font-bold text-[#72a3bf]">Layanan Kami</h3>
-                            <div class="mt-8 space-y-5 text-[0.92rem] font-medium tracking-[0.04em] text-white/85">
-                                <p>Konveksi Apparel</p>
-                                <p>Media Promosi</p>
-                                <p>Cetak DTF</p>
-                                <p>Kebutuhan Bisnis</p>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 class="font-['Montserrat',sans-serif] text-[1.2rem] font-bold text-[#72a3bf]">Hubungi Kami</h3>
-                            <div class="mt-8 space-y-4 text-[0.92rem] font-medium tracking-[0.04em] text-white/85">
-                                <div class="flex items-center gap-3">
-                                    <img src="{{ asset('images/footer/whatsapp.png') }}" alt="" class="h-7 w-7 object-contain">
-                                    <span>+62 23456789123</span>
-                                </div>
-                                <div class="flex items-center gap-3">
-                                    <img src="{{ asset('images/footer/email.png') }}" alt="" class="h-7 w-7 object-contain">
-                                    <span>deenhag@gmail.com</span>
-                                </div>
-                                <div class="flex items-center gap-3">
-                                    <img src="{{ asset('images/footer/address.png') }}" alt="" class="h-7 w-7 object-contain">
-                                    <span>Ponorogo, Indonesia</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-12 border-t pt-6 text-center text-[0.9rem] text-[var(--site-footer-copy)]" style="border-color: var(--site-footer-border);">
-                        © 2026 Deenhag. All rights reserved.
-                    </div>
-                </div>
-            </footer>
+            <x-site-footer class="mt-8" />
         </div>
 
         @if ($canConfirm)
@@ -401,5 +281,7 @@
             </div>
         @endif
     </div>
+
+<x-scroll-top />
 </body>
 </html>
