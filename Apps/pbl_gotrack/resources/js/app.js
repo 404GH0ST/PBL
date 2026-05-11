@@ -273,7 +273,7 @@ Alpine.data('catalogPage', (products = [], filters = []) => ({
     },
 
     initializeTheme() {
-        const savedTheme = window.localStorage.getItem('catalog-theme');
+        const savedTheme = window.localStorage.getItem('site-theme');
 
         if (savedTheme === 'light' || savedTheme === 'dark') {
             this.theme = savedTheme;
@@ -285,7 +285,7 @@ Alpine.data('catalogPage', (products = [], filters = []) => ({
     },
 
     syncSystemTheme(event) {
-        if (window.localStorage.getItem('catalog-theme')) {
+        if (window.localStorage.getItem('site-theme')) {
             return;
         }
 
@@ -294,7 +294,7 @@ Alpine.data('catalogPage', (products = [], filters = []) => ({
 
     toggleTheme() {
         this.theme = this.theme === 'dark' ? 'light' : 'dark';
-        window.localStorage.setItem('catalog-theme', this.theme);
+        window.localStorage.setItem('site-theme', this.theme);
     },
 
     previousPage() {
@@ -362,7 +362,7 @@ Alpine.data('trackingPage', ({ initialModalOpen = false } = {}) => ({
     },
 
     initializeTheme() {
-        const savedTheme = window.localStorage.getItem('tracking-theme');
+        const savedTheme = window.localStorage.getItem('site-theme');
 
         if (savedTheme === 'light' || savedTheme === 'dark') {
             this.theme = savedTheme;
@@ -374,7 +374,7 @@ Alpine.data('trackingPage', ({ initialModalOpen = false } = {}) => ({
     },
 
     syncSystemTheme(event) {
-        if (window.localStorage.getItem('tracking-theme')) {
+        if (window.localStorage.getItem('site-theme')) {
             return;
         }
 
@@ -383,7 +383,7 @@ Alpine.data('trackingPage', ({ initialModalOpen = false } = {}) => ({
 
     toggleTheme() {
         this.theme = this.theme === 'dark' ? 'light' : 'dark';
-        window.localStorage.setItem('tracking-theme', this.theme);
+        window.localStorage.setItem('site-theme', this.theme);
     },
 
     openReviewModal() {
@@ -493,7 +493,7 @@ Alpine.data('productDetailPage', ({
     },
 
     initializeTheme() {
-        const savedTheme = window.localStorage.getItem('catalog-theme');
+        const savedTheme = window.localStorage.getItem('site-theme');
 
         if (savedTheme === 'light' || savedTheme === 'dark') {
             this.theme = savedTheme;
@@ -505,7 +505,7 @@ Alpine.data('productDetailPage', ({
     },
 
     syncSystemTheme(event) {
-        if (window.localStorage.getItem('catalog-theme')) {
+        if (window.localStorage.getItem('site-theme')) {
             return;
         }
 
@@ -514,7 +514,7 @@ Alpine.data('productDetailPage', ({
 
     toggleTheme() {
         this.theme = this.theme === 'dark' ? 'light' : 'dark';
-        window.localStorage.setItem('catalog-theme', this.theme);
+        window.localStorage.setItem('site-theme', this.theme);
     },
 
     starLabel(rating) {
@@ -523,5 +523,18 @@ Alpine.data('productDetailPage', ({
 }));
 
 window.Alpine = Alpine;
+
+// Cross-tab theme sync: if theme changes in another tab, update the current page
+window.addEventListener('storage', (event) => {
+    if (event.key !== 'site-theme') return;
+    if (event.newValue !== 'light' && event.newValue !== 'dark') return;
+
+    document.querySelectorAll('[x-data]').forEach((el) => {
+        const stack = el._x_dataStack;
+        if (stack && stack[0] && 'theme' in stack[0]) {
+            stack[0].theme = event.newValue;
+        }
+    });
+});
 
 Alpine.start();
