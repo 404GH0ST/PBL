@@ -29,9 +29,16 @@ class ProgressRelationManager extends RelationManager
         return $schema
             ->schema([
                 Select::make('production_stage_id')
-                    ->relationship('productionStage', 'name')
                     ->label('Tahapan Produksi')
-                    ->required(),
+                    ->required()
+                    ->options(function (RelationManager $livewire) {
+                        $categoryId = $livewire->getOwnerRecord()->product?->category_id;
+                        if (!$categoryId) return [];
+
+                        return \App\Models\ProductionStage::where('category_id', $categoryId)
+                            ->orderBy('sequence')
+                            ->pluck('name', 'id');
+                    }),
                 Textarea::make('notes')
                     ->label('Catatan'),
                 FileUpload::make('photo')
