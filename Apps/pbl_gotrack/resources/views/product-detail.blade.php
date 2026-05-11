@@ -7,13 +7,17 @@
 
     @vite(['resources/css/app.css', 'resources/css/product-detail.css', 'resources/js/app.js'])
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@700;800&family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     >
 </head>
 
-<body>
+<body class="font-body antialiased">
 @php
     $descriptionParagraphs = collect(preg_split('/\r\n|\r|\n/', trim((string) $product->description)))
         ->filter()
@@ -32,76 +36,7 @@
     class="pd-shell"
 >
 
-            <header class="relative z-20 px-5 pt-5 md:px-8 md:pt-7 lg:px-14 lg:pt-10">
-                <div class="mx-auto flex max-w-[1280px] items-center justify-between gap-4">
-                    <a href="{{ route('home') }}" class="flex items-center gap-3" aria-label="Beranda">
-                        <span class="block h-10 w-10 rounded-full bg-[#e3e3e3] lg:h-12 lg:w-12"></span>
-                        <span class="font-['DM_Sans',sans-serif] text-sm font-bold tracking-[0.08em] lg:text-base">DEENHAG</span>
-                    </a>
-
-                    <nav class="hidden items-center rounded-full bg-black/10 px-3 py-2 text-[1.02rem] font-semibold text-black/35 lg:flex">
-                        <a href="{{ route('home') }}" class="rounded-full px-4 py-1.5 transition-colors hover:bg-black/8 hover:text-black">Beranda</a>
-                        <a href="{{ route('catalog') }}" class="rounded-full px-4 py-1.5 text-black">Katalog</a>
-                        <a href="#" class="rounded-full px-4 py-1.5 transition-colors hover:bg-black/8 hover:text-black">Blog</a>
-                        <a href="{{ route('tracking.index') }}" class="rounded-full px-4 py-1.5 transition-colors hover:bg-black/8 hover:text-black">Lacak</a>
-                    </nav>
-
-                    <div class="flex items-center gap-3">
-                        <button
-                            type="button"
-                            @click="toggleTheme()"
-                            :aria-pressed="(theme === 'dark').toString()"
-                            :aria-label="theme === 'dark' ? 'Aktifkan light mode' : 'Aktifkan dark mode'"
-                            :data-state="theme"
-                            class="catalog-theme-switch relative hidden shrink-0 lg:inline-flex"
-                        >
-                            <span class="catalog-theme-thumb" aria-hidden="true"></span>
-                            <span class="catalog-theme-icon catalog-theme-icon--sun absolute left-[0.625rem] top-[0.625rem]">
-                                <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" aria-hidden="true">
-                                    <circle cx="10" cy="10" r="3.2"></circle>
-                                    <path d="M10 1.9v1.8M10 16.3v1.8M18.1 10h-1.8M3.7 10H1.9M15.73 4.27 14.45 5.55M5.55 14.45l-1.28 1.28M15.73 15.73l-1.28-1.28M5.55 5.55 4.27 4.27"></path>
-                                </svg>
-                            </span>
-                            <span class="catalog-theme-icon catalog-theme-icon--moon absolute left-[3.5rem] top-[0.625rem]">
-                                <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" aria-hidden="true">
-                                    <path d="M12.4 2.35a6.75 6.75 0 1 0 5.25 9.9A6.95 6.95 0 0 1 12.4 2.35Z"></path>
-                                </svg>
-                            </span>
-                        </button>
-
-                    </div>
-                </div>
-
-                <div class="mx-auto mt-6 flex max-w-[1280px] items-center gap-3 lg:hidden">
-                    <nav class="flex min-w-0 flex-1 gap-2 overflow-x-auto rounded-[1.25rem] bg-black/8 p-2 text-sm font-semibold text-black/60">
-                    <a href="{{ route('home') }}" class="whitespace-nowrap rounded-full px-4 py-2">Beranda</a>
-                    <a href="{{ route('catalog') }}" class="whitespace-nowrap rounded-full bg-black/10 px-4 py-2 text-black">Katalog</a>
-                    <a href="#" class="whitespace-nowrap rounded-full px-4 py-2">Blog</a>
-                    <a href="{{ route('tracking.index') }}" class="whitespace-nowrap rounded-full px-4 py-2">Lacak</a>
-                    </nav>
-                    <button
-                        type="button"
-                        @click="toggleTheme()"
-                        :aria-pressed="(theme === 'dark').toString()"
-                        :aria-label="theme === 'dark' ? 'Aktifkan light mode' : 'Aktifkan dark mode'"
-                        :data-state="theme"
-                        class="catalog-theme-switch relative shrink-0"
-                    >
-                        <span class="catalog-theme-thumb" aria-hidden="true"></span>
-                        <span class="catalog-theme-icon catalog-theme-icon--sun absolute left-[0.625rem] top-[0.625rem]">
-                            <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" aria-hidden="true">
-                                <circle cx="10" cy="10" r="3.2"></circle>
-                                <path d="M10 1.9v1.8M10 16.3v1.8M18.1 10h-1.8M3.7 10H1.9M15.73 4.27 14.45 5.55M5.55 14.45l-1.28 1.28M15.73 15.73l-1.28-1.28M5.55 5.55 4.27 4.27"></path>
-                            </svg>
-                        </span>
-                        <span class="catalog-theme-icon catalog-theme-icon--moon absolute left-[3.5rem] top-[0.625rem]">
-                            <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" aria-hidden="true">
-                                <path d="M12.4 2.35a6.75 6.75 0 1 0 5.25 9.9A6.95 6.95 0 0 1 12.4 2.35Z"></path>
-                            </svg>
-                        </span>
-                    </button>
-                </div>
-            </header>
+            <x-site-navbar active="catalog" variant="light" />
 
 <main>
     {{-- ===== PRODUCT SECTION ===== --}}
@@ -431,9 +366,6 @@
 
 </div>{{-- end pd-shell --}}
 
-<button id="scroll-top" class="scroll-top-btn" aria-label="Kembali ke atas" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
-</button>
-<script>(function(){var b=document.getElementById("scroll-top");window.addEventListener("scroll",function(){b.classList.toggle("visible",window.scrollY>300)},{passive:true});})();</script>
+<x-scroll-top />
 </body>
 </html>

@@ -26,76 +26,7 @@
                 <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,8,13,0.76)_0%,rgba(5,11,18,0.68)_44%,rgba(7,16,25,0.94)_100%)]"></div>
             </div>
 
-            <header class="relative z-20 px-5 pt-5 md:px-8 md:pt-7 lg:px-14 lg:pt-10">
-                <div class="mx-auto flex max-w-[1280px] items-center justify-between gap-4">
-                    <a href="{{ route('home') }}" class="flex items-center gap-3 text-white" aria-label="Beranda">
-                        <span class="block h-10 w-10 rounded-full bg-white/90 lg:h-12 lg:w-12"></span>
-                        <span class="font-['DM_Sans',sans-serif] text-sm font-bold tracking-[0.08em] lg:text-base">DEENHAG</span>
-                    </a>
-
-                    <nav class="hidden items-center rounded-full bg-white/12 px-3 py-2 text-[1.02rem] font-semibold text-white/35 lg:flex">
-                        <a href="{{ route('home') }}" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white">Beranda</a>
-                        <a href="{{ route('catalog') }}" class="rounded-full px-4 py-1.5 text-white">Katalog</a>
-                        <a href="#" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white">Blog</a>
-                        <a href="{{ route('tracking.index') }}" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white">Lacak</a>
-                    </nav>
-
-                    <div class="flex items-center gap-3">
-                        <button
-                            type="button"
-                            @click="toggleTheme()"
-                            :aria-pressed="(theme === 'dark').toString()"
-                            :aria-label="theme === 'dark' ? 'Aktifkan light mode' : 'Aktifkan dark mode'"
-                            :data-state="theme"
-                            class="catalog-theme-switch relative hidden shrink-0 lg:inline-flex"
-                        >
-                            <span class="catalog-theme-thumb" aria-hidden="true"></span>
-                            <span class="catalog-theme-icon catalog-theme-icon--sun absolute left-[0.625rem] top-[0.625rem]">
-                                <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" aria-hidden="true">
-                                    <circle cx="10" cy="10" r="3.2"></circle>
-                                    <path d="M10 1.9v1.8M10 16.3v1.8M18.1 10h-1.8M3.7 10H1.9M15.73 4.27 14.45 5.55M5.55 14.45l-1.28 1.28M15.73 15.73l-1.28-1.28M5.55 5.55 4.27 4.27"></path>
-                                </svg>
-                            </span>
-                            <span class="catalog-theme-icon catalog-theme-icon--moon absolute left-[3.5rem] top-[0.625rem]">
-                                <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" aria-hidden="true">
-                                    <path d="M12.4 2.35a6.75 6.75 0 1 0 5.25 9.9A6.95 6.95 0 0 1 12.4 2.35Z"></path>
-                                </svg>
-                            </span>
-                        </button>
-
-                    </div>
-                </div>
-
-                <div class="mx-auto mt-6 flex max-w-[1280px] items-center gap-3 lg:hidden">
-                    <nav class="flex min-w-0 flex-1 gap-2 overflow-x-auto rounded-[1.25rem] bg-white/10 p-2 text-sm font-semibold text-white/80 backdrop-blur-xl">
-                    <a href="{{ route('home') }}" class="whitespace-nowrap rounded-full px-4 py-2">Beranda</a>
-                    <a href="{{ route('catalog') }}" class="whitespace-nowrap rounded-full bg-white/14 px-4 py-2 text-white">Katalog</a>
-                    <a href="#" class="whitespace-nowrap rounded-full px-4 py-2">Blog</a>
-                    <a href="{{ route('tracking.index') }}" class="whitespace-nowrap rounded-full px-4 py-2">Lacak</a>
-                    </nav>
-                    <button
-                        type="button"
-                        @click="toggleTheme()"
-                        :aria-pressed="(theme === 'dark').toString()"
-                        :aria-label="theme === 'dark' ? 'Aktifkan light mode' : 'Aktifkan dark mode'"
-                        :data-state="theme"
-                        class="catalog-theme-switch relative shrink-0"
-                    >
-                        <span class="catalog-theme-thumb" aria-hidden="true"></span>
-                        <span class="catalog-theme-icon catalog-theme-icon--sun absolute left-[0.625rem] top-[0.625rem]">
-                            <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" aria-hidden="true">
-                                <circle cx="10" cy="10" r="3.2"></circle>
-                                <path d="M10 1.9v1.8M10 16.3v1.8M18.1 10h-1.8M3.7 10H1.9M15.73 4.27 14.45 5.55M5.55 14.45l-1.28 1.28M15.73 15.73l-1.28-1.28M5.55 5.55 4.27 4.27"></path>
-                            </svg>
-                        </span>
-                        <span class="catalog-theme-icon catalog-theme-icon--moon absolute left-[3.5rem] top-[0.625rem]">
-                            <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" aria-hidden="true">
-                                <path d="M12.4 2.35a6.75 6.75 0 1 0 5.25 9.9A6.95 6.95 0 0 1 12.4 2.35Z"></path>
-                            </svg>
-                        </span>
-                    </button>
-                </div>
-            </header>
+            <x-site-navbar active="catalog" variant="dark" />
 
             <div class="relative z-10 px-5 pt-16 pb-36 text-center md:px-8 md:pt-20 md:pb-40 lg:px-14 lg:pt-24 lg:pb-44">
                 <p class="font-['DM_Sans',sans-serif] text-[5.5rem] leading-none font-extrabold tracking-[-0.08em] text-white md:text-[8rem] lg:text-[13rem]">
@@ -310,85 +241,9 @@
             </div>
         </main>
 
-        <footer class="site-footer mt-[-1rem] overflow-hidden pt-24 pb-10">
-            <div class="mx-auto max-w-[1300px] px-5 md:px-8 lg:px-14">
-                <div class="grid gap-14 lg:grid-cols-[1.45fr_0.8fr_0.85fr_1fr]">
-                    <div class="max-w-[26rem]">
-                        <div class="flex items-center gap-4">
-                            <span class="block h-11 w-11 rounded-full bg-white/85"></span>
-                            <span class="font-['Montserrat',sans-serif] text-[1.95rem] font-bold text-white">Deenhag</span>
-                        </div>
-
-                        <p class="mt-8 text-[0.92rem] leading-[1.7] text-white/78">
-                            Kami melayani kebutuhan konveksi dan digital printing untuk personal, komunitas, maupun bisnis, mulai dari apparel custom, media promosi, hingga kebutuhan cetak usaha dengan kualitas yang rapi dan terpercaya.
-                        </p>
-
-                        <div class="mt-8 flex items-center gap-2.5">
-                            <a href="#" aria-label="Facebook" class="transition hover:opacity-75">
-                                <img src="{{ asset('images/footer/facebook.png') }}" alt="" class="h-9 w-9 object-contain">
-                            </a>
-                            <a href="#" aria-label="Twitter" class="transition hover:opacity-75">
-                                <img src="{{ asset('images/footer/twitter.png') }}" alt="" class="h-9 w-9 object-contain">
-                            </a>
-                            <a href="#" aria-label="TikTok" class="transition hover:opacity-75">
-                                <img src="{{ asset('images/footer/tiktok.png') }}" alt="" class="h-9 w-9 object-contain">
-                            </a>
-                            <a href="#" aria-label="Instagram" class="transition hover:opacity-75">
-                                <img src="{{ asset('images/footer/instagram.png') }}" alt="" class="h-9 w-9 object-contain">
-                            </a>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h3 class="font-['Montserrat',sans-serif] text-[1.2rem] font-bold text-[#72a3bf]">Navigasi Cepat</h3>
-                        <div class="mt-8 space-y-5 text-[0.92rem] font-medium tracking-[0.04em] text-white/85">
-                            <a href="{{ route('home') }}" class="block transition hover:opacity-75">Beranda</a>
-                            <a href="{{ route('catalog') }}" class="block transition hover:opacity-75">Katalog</a>
-                            <a href="#" class="block transition hover:opacity-75">Blog</a>
-                            <a href="#" class="block transition hover:opacity-75">Keranjang</a>
-                            <a href="{{ route('tracking.index') }}" class="block transition hover:opacity-75">Lacak Pesanan</a>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h3 class="font-['Montserrat',sans-serif] text-[1.2rem] font-bold text-[#72a3bf]">Layanan Kami</h3>
-                        <div class="mt-8 space-y-5 text-[0.92rem] font-medium tracking-[0.04em] text-white/85">
-                            <p>Konveksi Apparel</p>
-                            <p>Media Promosi</p>
-                            <p>Cetak DTF</p>
-                            <p>Kebutuhan Bisnis</p>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h3 class="font-['Montserrat',sans-serif] text-[1.2rem] font-bold text-[#72a3bf]">Hubungi Kami</h3>
-                        <div class="mt-8 space-y-4 text-[0.92rem] font-medium tracking-[0.04em] text-white/85">
-                            <div class="flex items-center gap-3">
-                                <img src="{{ asset('images/footer/whatsapp.png') }}" alt="" class="h-7 w-7 object-contain">
-                                <span>+62 23456789123</span>
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <img src="{{ asset('images/footer/email.png') }}" alt="" class="h-7 w-7 object-contain">
-                                <span>deenhag@gmail.com</span>
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <img src="{{ asset('images/footer/address.png') }}" alt="" class="h-7 w-7 object-contain">
-                                <span>Ponorogo, Indonesia</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mt-12 border-t pt-6 text-center text-[0.9rem] text-[var(--site-footer-copy)]" style="border-color: var(--site-footer-border);">
-                    © 2026 Deenhag. All rights reserved.
-                </div>
-            </div>
-        </footer>
+        <x-site-footer />
     </div>
 
-<button id="scroll-top" class="scroll-top-btn" aria-label="Kembali ke atas" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
-</button>
-<script>(function(){var b=document.getElementById("scroll-top");window.addEventListener("scroll",function(){b.classList.toggle("visible",window.scrollY>300)},{passive:true});})();</script>
+<x-scroll-top />
 </body>
 </html>

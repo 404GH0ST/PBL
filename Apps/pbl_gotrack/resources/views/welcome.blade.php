@@ -23,66 +23,7 @@
                 <img src="{{ asset('images/hero/jersey-front.png') }}" alt="" class="h-auto w-full -scale-x-100 object-contain">
             </div>
 
-            <header class="relative z-30 px-6 pt-6 md:px-10 md:pt-8 lg:px-20 lg:pt-9">
-                <div class="mx-auto flex max-w-[1280px] items-center justify-between gap-4">
-                    <a href="{{ route('home') }}" aria-label="Beranda" class="block h-11 w-11 shrink-0 rounded-full bg-[#e3e3e3] lg:h-12 lg:w-12"></a>
-
-                    <nav class="hidden items-center rounded-full bg-white/12 px-3 py-2 text-[1.02rem] font-semibold text-white/35 lg:flex">
-                        <a href="{{ route('home') }}" class="rounded-full px-4 py-1.5 text-white transition-colors">Beranda</a>
-                        <a href="{{ route('catalog') }}" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white focus:bg-white/8 focus:text-white focus:outline-none">Katalog</a>
-                        <a href="#" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white focus:bg-white/8 focus:text-white focus:outline-none">Blog</a>
-                        <a href="{{ route('tracking.index') }}" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white focus:bg-white/8 focus:text-white focus:outline-none">Lacak</a>
-                    </nav>
-
-                    <div class="hidden items-center gap-8 lg:flex">
-                        @auth
-                            <a href="{{ url('/dashboard') }}" class="text-[1.02rem] font-semibold text-white">Dashboard</a>
-                        @else
-                            <a
-                                href="{{ route('register') }}"
-                                class="rounded-full bg-[linear-gradient(180deg,#7ea8c4_0%,#5d8aa7_100%)] px-4 py-2 text-[1rem] font-bold leading-none text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]"
-                            >
-                                Sign In
-                            </a>
-                            <a href="{{ route('login') }}" class="text-[1.02rem] font-semibold text-white">Log in</a>
-                        @endauth
-                    </div>
-
-                    <button
-                        type="button"
-                        class="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white lg:hidden"
-                        @click="menuOpen = !menuOpen"
-                        :aria-expanded="menuOpen.toString()"
-                        aria-controls="mobile-nav"
-                        aria-label="Toggle navigation"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M4 12h16M4 17h16" />
-                        </svg>
-                    </button>
-                </div>
-
-                <div
-                    id="mobile-nav"
-                    x-show="menuOpen"
-                    x-transition.opacity.duration.200ms
-                    style="display: none;"
-                    class="mt-4 lg:hidden"
-                >
-                    <div class="mx-auto max-w-[1280px] space-y-2 rounded-[1.5rem] bg-white/8 p-3 backdrop-blur-sm">
-                        <a href="{{ route('home') }}" class="block rounded-2xl px-4 py-3 text-sm font-semibold text-white">Beranda</a>
-                        <a href="{{ route('catalog') }}" class="block rounded-2xl px-4 py-3 text-sm font-semibold text-white/70">Katalog</a>
-                        <a href="#" class="block rounded-2xl px-4 py-3 text-sm font-semibold text-white/70">Blog</a>
-                        <a href="{{ route('tracking.index') }}" class="block rounded-2xl px-4 py-3 text-sm font-semibold text-white/70">Lacak</a>
-                        @guest
-                            <div class="flex gap-2 pt-2">
-                                <a href="{{ route('register') }}" class="flex-1 rounded-full bg-[linear-gradient(180deg,#7ea8c4_0%,#5d8aa7_100%)] px-4 py-3 text-center text-sm font-bold text-white">Sign In</a>
-                                <a href="{{ route('login') }}" class="flex-1 rounded-full bg-white/10 px-4 py-3 text-center text-sm font-semibold text-white">Log in</a>
-                            </div>
-                        @endguest
-                    </div>
-                </div>
-            </header>
+            <x-site-navbar active="home" variant="dark" :show-theme-switch="false" />
 
             <main class="relative z-20 px-6 pt-10 md:px-10 md:pt-14 lg:px-20 lg:pt-24">
                 <div class="mx-auto max-w-[1280px]">
@@ -653,9 +594,6 @@
         </div>
     </div>
 
-<button id="scroll-top" class="scroll-top-btn" aria-label="Kembali ke atas" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
-</button>
-<script>(function(){var b=document.getElementById("scroll-top");window.addEventListener("scroll",function(){b.classList.toggle("visible",window.scrollY>300)},{passive:true});})();</script>
+<x-scroll-top />
 </body>
 </html>
