@@ -34,7 +34,7 @@
                 <div class="mt-8 space-y-5 text-[0.92rem] font-medium tracking-[0.04em] text-white/85">
                     <a href="{{ route('home') }}" class="block transition hover:opacity-75">Beranda</a>
                     <a href="{{ route('catalog') }}" class="block transition hover:opacity-75">Katalog</a>
-                    <a href="#" class="block transition hover:opacity-75">Blog</a>
+                    <a href="{{ route('blog.index') }}" class="block transition hover:opacity-75">Blog</a>
                     <a href="#" class="block transition hover:opacity-75">Keranjang</a>
                     <a href="{{ route('tracking.index') }}" class="block transition hover:opacity-75">Lacak Pesanan</a>
                 </div>
