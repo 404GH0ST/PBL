@@ -220,6 +220,7 @@
                                                 :class="activeService === {{ $serviceIndex }} ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'"
                                             >
                                                 <img
+                                                    data-feature-source-image
                                                     src="{{ asset($serviceItem['image']) }}"
                                                     alt=""
                                                     class="h-auto object-contain {{ $serviceItem['desktop_image_class'] }}"
@@ -234,10 +235,10 @@
                                                     {{ $serviceItem['title'] }}
                                                 </h3>
                                                 <p class="mt-2 text-[1rem] text-white/74">{{ $serviceItem['subtitle'] }}</p>
-                                                <a href="#" class="mt-8 inline-flex items-center gap-1.5 text-[0.95rem] font-semibold text-[#72a3bf]">
+                                                <button type="button" class="mt-8 inline-flex items-center gap-1.5 text-[0.95rem] font-semibold text-[#72a3bf]" @click="openFeatureProduct('{{ $serviceIndex === 4 ? 'stempel' : 'nota' }}')">
                                                     View more
                                                     <span aria-hidden="true">→</span>
-                                                </a>
+                                                </button>
                                             </div>
                                         </article>
                                     @endforeach
@@ -245,6 +246,86 @@
                             </div>
                         </div>
                     </section>
+
+                    <div
+                        x-cloak
+                        x-show="featureMode === 'product'"
+                        x-transition:enter="transition duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                        x-transition:enter-start="translate-x-full"
+                        x-transition:enter-end="translate-x-0"
+                        x-transition:leave="transition duration-[450ms] ease-[cubic-bezier(0.55,0,1,0.45)]"
+                        x-transition:leave-start="translate-x-0 opacity-100"
+                        x-transition:leave-end="translate-x-full opacity-100"
+                        class="fixed inset-0 z-[80] overflow-hidden bg-[#020607] feature-product-overlay"
+                        :class="[`is-${featurePhase}`, `is-switch-${featureSwitchPhase}`]"
+                    >
+                        <div class="feature-product-chrome">
+                            <x-site-navbar active="home" variant="dark" :show-theme-switch="false" />
+                        </div>
+
+                        <div
+                            aria-hidden="true"
+                            class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_68%_49%,rgba(84,104,111,0.28)_0%,rgba(9,31,42,0.96)_34%,#020607_74%)]"
+                        ></div>
+
+                        <div class="feature-product-stage relative mx-auto mt-[4.2rem] grid max-w-[1280px] grid-cols-[1fr_0.95fr] gap-12 px-14">
+                            <div class="feature-product-copy relative z-10">
+                                <div class="feature-product-meta flex items-center gap-1.5 text-[1.25rem] leading-none text-[#f7d328]" aria-label="Rated 4.5 out of 5">
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span><span class="text-white/55">★</span>
+                                </div>
+                                <h3 class="feature-product-title mt-4 font-display text-[8.7rem] leading-[0.8] font-extrabold tracking-[-0.06em] text-white" x-text="currentFeatureProduct().title"></h3>
+                                <p class="feature-product-description mt-8 max-w-[32rem] text-[1.02rem] leading-[1.5] text-white/66" x-text="currentFeatureProduct().description"></p>
+
+                                <div class="feature-product-actions mt-10 flex items-center gap-10">
+                                    <a href="{{ route('catalog') }}" class="inline-flex h-9 items-center rounded-full bg-white px-5 text-[0.72rem] font-extrabold uppercase tracking-[-0.01em] text-[#101820] transition-colors hover:bg-[#dceaf2]">
+                                        Pesan Sekarang
+                                    </a>
+                                    <a href="{{ route('catalog') }}" class="inline-flex items-center gap-1.5 text-[0.78rem] font-semibold text-white/88 transition-colors hover:text-white">
+                                        Lihat Semua Produk
+                                        <span aria-hidden="true">→</span>
+                                    </a>
+                                </div>
+
+                                <div class="mt-14 flex items-center gap-5">
+                                    <button
+                                        type="button"
+                                        class="feature-product-thumb"
+                                        :class="selectedFeatureProduct === 'nota' ? 'is-active' : ''"
+                                        @click="selectFeatureProduct('nota')"
+                                        aria-label="Show nota product"
+                                    >
+                                        <img src="{{ asset('images/product/media-promosi.png') }}" alt="" class="h-[3rem] w-auto object-contain">
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="feature-product-thumb"
+                                        :class="selectedFeatureProduct === 'stempel' ? 'is-active' : ''"
+                                        @click="selectFeatureProduct('stempel')"
+                                        aria-label="Show stempel product"
+                                    >
+                                        <img src="{{ asset('images/product/kebutuhan-bisnis.png') }}" alt="" class="h-[3.25rem] w-auto object-contain">
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="feature-product-visual relative flex min-h-[31rem] items-center justify-center">
+                                <img
+                                    :src="currentFeatureProduct().image"
+                                    :alt="currentFeatureProduct().title"
+                                    class="feature-product-hero h-auto max-h-[32rem] w-auto max-w-[28rem] object-contain"
+                                    :style="featureHeroStyle()"
+                                >
+                            </div>
+                        </div>
+
+                        <button
+                            type="button"
+                            class="feature-product-back absolute right-[6.4rem] bottom-[5rem] inline-flex items-center gap-1.5 text-[0.82rem] font-semibold text-white/88 transition-colors hover:text-white"
+                            @click="closeFeatureProduct()"
+                        >
+                            ← Kembali
+                        </button>
+                    </div>
 
                     @php
                         $orderSteps = [
