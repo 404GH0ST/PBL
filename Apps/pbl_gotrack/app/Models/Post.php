@@ -10,9 +10,27 @@ class Post extends Model
     //
     use HasFactory;
 
+    public const STATUS_DRAFT = 'draft';
+    public const STATUS_PUBLISHED = 'published';
+    public const STATUS_ARCHIVED = 'archived';
+
+    public const STATUSES = [
+        self::STATUS_DRAFT => 'Draft',
+        self::STATUS_PUBLISHED => 'Published',
+        self::STATUS_ARCHIVED => 'Archived',
+    ];
+
     protected $fillable = [
-        'author_id', 'title', 'slug', 'content', 
-        'image_path', 'is_published', 'published_at'
+        'author_id',
+        'title',
+        'slug',
+        'excerpt',
+        'content',
+        'featured_image',
+        'status',
+        'image_path',
+        'is_published',
+        'published_at',
     ];
 
     protected $casts = [
