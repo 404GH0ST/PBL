@@ -23,66 +23,7 @@
                 <img src="{{ asset('images/hero/jersey-front.png') }}" alt="" class="h-auto w-full -scale-x-100 object-contain">
             </div>
 
-            <header class="relative z-30 px-6 pt-6 md:px-10 md:pt-8 lg:px-20 lg:pt-9">
-                <div class="mx-auto flex max-w-[1280px] items-center justify-between gap-4">
-                    <a href="{{ route('home') }}" aria-label="Beranda" class="block h-11 w-11 shrink-0 rounded-full bg-[#e3e3e3] lg:h-12 lg:w-12"></a>
-
-                    <nav class="hidden items-center rounded-full bg-white/12 px-3 py-2 text-[1.02rem] font-semibold text-white/35 lg:fixed lg:left-1/2 lg:top-8 lg:z-50 lg:flex lg:-translate-x-1/2">
-                        <a href="{{ route('home') }}" class="rounded-full px-4 py-1.5 text-white transition-colors">Beranda</a>
-                        <a href="{{ route('catalog') }}" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white focus:bg-white/8 focus:text-white focus:outline-none">Katalog</a>
-                        <a href="#" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white focus:bg-white/8 focus:text-white focus:outline-none">Blog</a>
-                        <a href="#" class="rounded-full px-4 py-1.5 transition-colors hover:bg-white/8 hover:text-white focus:bg-white/8 focus:text-white focus:outline-none">Lacak</a>
-                    </nav>
-
-                    <div class="hidden items-center gap-8 lg:flex">
-                        @auth
-                            <a href="{{ url('/dashboard') }}" class="text-[1.02rem] font-semibold text-white">Dashboard</a>
-                        @else
-                            <a
-                                href="{{ route('register') }}"
-                                class="rounded-full bg-[linear-gradient(180deg,#7ea8c4_0%,#5d8aa7_100%)] px-4 py-2 text-[1rem] font-bold leading-none text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]"
-                            >
-                                Sign In
-                            </a>
-                            <a href="{{ route('login') }}" class="text-[1.02rem] font-semibold text-white">Log in</a>
-                        @endauth
-                    </div>
-
-                    <button
-                        type="button"
-                        class="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white lg:hidden"
-                        @click="menuOpen = !menuOpen"
-                        :aria-expanded="menuOpen.toString()"
-                        aria-controls="mobile-nav"
-                        aria-label="Toggle navigation"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M4 12h16M4 17h16" />
-                        </svg>
-                    </button>
-                </div>
-
-                <div
-                    id="mobile-nav"
-                    x-show="menuOpen"
-                    x-transition.opacity.duration.200ms
-                    style="display: none;"
-                    class="mt-4 lg:hidden"
-                >
-                    <div class="mx-auto max-w-[1280px] space-y-2 rounded-[1.5rem] bg-white/8 p-3 backdrop-blur-sm">
-                        <a href="{{ route('home') }}" class="block rounded-2xl px-4 py-3 text-sm font-semibold text-white">Beranda</a>
-                        <a href="{{ route('catalog') }}" class="block rounded-2xl px-4 py-3 text-sm font-semibold text-white/70">Katalog</a>
-                        <a href="#" class="block rounded-2xl px-4 py-3 text-sm font-semibold text-white/70">Blog</a>
-                        <a href="#" class="block rounded-2xl px-4 py-3 text-sm font-semibold text-white/70">Lacak</a>
-                        @guest
-                            <div class="flex gap-2 pt-2">
-                                <a href="{{ route('register') }}" class="flex-1 rounded-full bg-[linear-gradient(180deg,#7ea8c4_0%,#5d8aa7_100%)] px-4 py-3 text-center text-sm font-bold text-white">Sign In</a>
-                                <a href="{{ route('login') }}" class="flex-1 rounded-full bg-white/10 px-4 py-3 text-center text-sm font-semibold text-white">Log in</a>
-                            </div>
-                        @endguest
-                    </div>
-                </div>
-            </header>
+            <x-site-navbar active="home" variant="dark" :show-theme-switch="false" />
 
             <main class="relative z-20 px-6 pt-10 md:px-10 md:pt-14 lg:px-20 lg:pt-24">
                 <div class="mx-auto max-w-[1280px]">
@@ -279,6 +220,7 @@
                                                 :class="activeService === {{ $serviceIndex }} ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'"
                                             >
                                                 <img
+                                                    data-feature-source-image
                                                     src="{{ asset($serviceItem['image']) }}"
                                                     alt=""
                                                     class="h-auto object-contain {{ $serviceItem['desktop_image_class'] }}"
@@ -293,10 +235,10 @@
                                                     {{ $serviceItem['title'] }}
                                                 </h3>
                                                 <p class="mt-2 text-[1rem] text-white/74">{{ $serviceItem['subtitle'] }}</p>
-                                                <a href="#" class="mt-8 inline-flex items-center gap-1.5 text-[0.95rem] font-semibold text-[#72a3bf]">
+                                                <button type="button" class="mt-8 inline-flex items-center gap-1.5 text-[0.95rem] font-semibold text-[#72a3bf]" @click="openFeatureProduct('{{ $serviceIndex === 4 ? 'stempel' : 'nota' }}')">
                                                     View more
                                                     <span aria-hidden="true">→</span>
-                                                </a>
+                                                </button>
                                             </div>
                                         </article>
                                     @endforeach
@@ -304,6 +246,86 @@
                             </div>
                         </div>
                     </section>
+
+                    <div
+                        x-cloak
+                        x-show="featureMode === 'product'"
+                        x-transition:enter="transition duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                        x-transition:enter-start="translate-x-full"
+                        x-transition:enter-end="translate-x-0"
+                        x-transition:leave="transition duration-[450ms] ease-[cubic-bezier(0.55,0,1,0.45)]"
+                        x-transition:leave-start="translate-x-0 opacity-100"
+                        x-transition:leave-end="translate-x-full opacity-100"
+                        class="fixed inset-0 z-[80] overflow-hidden bg-[#020607] feature-product-overlay"
+                        :class="[`is-${featurePhase}`, `is-switch-${featureSwitchPhase}`]"
+                    >
+                        <div class="feature-product-chrome">
+                            <x-site-navbar active="home" variant="dark" :show-theme-switch="false" />
+                        </div>
+
+                        <div
+                            aria-hidden="true"
+                            class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_68%_49%,rgba(84,104,111,0.28)_0%,rgba(9,31,42,0.96)_34%,#020607_74%)]"
+                        ></div>
+
+                        <div class="feature-product-stage relative mx-auto mt-[4.2rem] grid max-w-[1280px] grid-cols-[1fr_0.95fr] gap-12 px-14">
+                            <div class="feature-product-copy relative z-10">
+                                <div class="feature-product-meta flex items-center gap-1.5 text-[1.25rem] leading-none text-[#f7d328]" aria-label="Rated 4.5 out of 5">
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span><span class="text-white/55">★</span>
+                                </div>
+                                <h3 class="feature-product-title mt-4 font-display text-[8.7rem] leading-[0.8] font-extrabold tracking-[-0.06em] text-white" x-text="currentFeatureProduct().title"></h3>
+                                <p class="feature-product-description mt-8 max-w-[32rem] text-[1.02rem] leading-[1.5] text-white/66" x-text="currentFeatureProduct().description"></p>
+
+                                <div class="feature-product-actions mt-10 flex items-center gap-10">
+                                    <a href="{{ route('catalog') }}" class="inline-flex h-9 items-center rounded-full bg-white px-5 text-[0.72rem] font-extrabold uppercase tracking-[-0.01em] text-[#101820] transition-colors hover:bg-[#dceaf2]">
+                                        Pesan Sekarang
+                                    </a>
+                                    <a href="{{ route('catalog') }}" class="inline-flex items-center gap-1.5 text-[0.78rem] font-semibold text-white/88 transition-colors hover:text-white">
+                                        Lihat Semua Produk
+                                        <span aria-hidden="true">→</span>
+                                    </a>
+                                </div>
+
+                                <div class="mt-14 flex items-center gap-5">
+                                    <button
+                                        type="button"
+                                        class="feature-product-thumb"
+                                        :class="selectedFeatureProduct === 'nota' ? 'is-active' : ''"
+                                        @click="selectFeatureProduct('nota')"
+                                        aria-label="Show nota product"
+                                    >
+                                        <img src="{{ asset('images/product/media-promosi.png') }}" alt="" class="h-[3rem] w-auto object-contain">
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="feature-product-thumb"
+                                        :class="selectedFeatureProduct === 'stempel' ? 'is-active' : ''"
+                                        @click="selectFeatureProduct('stempel')"
+                                        aria-label="Show stempel product"
+                                    >
+                                        <img src="{{ asset('images/product/kebutuhan-bisnis.png') }}" alt="" class="h-[3.25rem] w-auto object-contain">
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="feature-product-visual relative flex min-h-[31rem] items-center justify-center">
+                                <img
+                                    :src="currentFeatureProduct().image"
+                                    :alt="currentFeatureProduct().title"
+                                    class="feature-product-hero h-auto max-h-[32rem] w-auto max-w-[28rem] object-contain"
+                                    :style="featureHeroStyle()"
+                                >
+                            </div>
+                        </div>
+
+                        <button
+                            type="button"
+                            class="feature-product-back absolute right-[6.4rem] bottom-[5rem] inline-flex items-center gap-1.5 text-[0.82rem] font-semibold text-white/88 transition-colors hover:text-white"
+                            @click="closeFeatureProduct()"
+                        >
+                            ← Kembali
+                        </button>
+                    </div>
 
                     @php
                         $orderSteps = [
@@ -608,7 +630,7 @@
                                 <a href="{{ route('catalog') }}" class="block transition-opacity hover:opacity-75">Katalog</a>
                                 <a href="#" class="block transition-opacity hover:opacity-75">Blog</a>
                                 <a href="#" class="block transition-opacity hover:opacity-75">Keranjang</a>
-                                <a href="#" class="block transition-opacity hover:opacity-75">Lacak Pesanan</a>
+                                <a href="{{ route('tracking.index') }}" class="block transition-opacity hover:opacity-75">Lacak Pesanan</a>
                             </div>
                         </div>
 
@@ -652,5 +674,7 @@
             </footer>
         </div>
     </div>
+
+<x-scroll-top />
 </body>
 </html>

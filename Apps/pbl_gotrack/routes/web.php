@@ -1,11 +1,20 @@
 <?php
 
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('home');
-Route::view('/katalog', 'catalog')->name('catalog');
-Route::view('/product-detail', 'product-detail')->name('product.detail');
+Route::get('/katalog', [CatalogController::class, 'index'])->name('catalog');
+Route::get('/katalog/{product:slug}', [CatalogController::class, 'show'])->name('product.detail');
+Route::redirect('/product-detail', '/katalog');
+Route::get('/lacak', [TrackingController::class, 'index'])->name('tracking.index');
+Route::post('/lacak/{trackingId}/review', [TrackingController::class, 'storeReview'])->name('tracking.review');
+
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{post:slug}', [BlogController::class, 'show'])->name('blog.show');
 
 Route::get('/dashboard', function () {
     $user = auth()->user();

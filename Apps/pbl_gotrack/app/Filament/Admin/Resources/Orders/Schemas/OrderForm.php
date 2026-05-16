@@ -30,6 +30,11 @@ class OrderForm
                                 ->schema([
                                     TextInput::make('customer_name')->label('Nama Pemesan')->required(),
                                     TextInput::make('customer_whatsapp')->label('Nomor WhatsApp')->numeric()->required(),
+                                    Textarea::make('shipping_address')
+                                        ->label('Alamat Pengiriman')
+                                        ->rows(3)
+                                        ->columnSpanFull()
+                                        ->required(),
                                     Select::make('product_id')
                                         ->relationship('product', 'name')
                                         ->label('Pilih Produk Katalog')
@@ -50,7 +55,7 @@ class OrderForm
                                         ->options([
                                             'processing' => 'Sedang Diproses',
                                             'shipped' => 'Dalam Pengiriman',
-                                            'completed' => 'Selesai & Diambil',
+                                            'completed' => 'Selesai / Diterima Customer',
                                             'cancelled' => 'Dibatalkan',
                                         ])
                                         ->default('processing')

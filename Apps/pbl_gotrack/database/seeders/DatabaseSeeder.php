@@ -22,9 +22,11 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             ProductSeeder::class,
             ProductAddonSeeder::class,
-            OrderSeeder::class,
             ProductionStageSeeder::class,
+            OrderSeeder::class,
+            OrderProgressSeeder::class,
             ReviewSeeder::class,
+            PostSeeder::class,
         ]);
     }
 }

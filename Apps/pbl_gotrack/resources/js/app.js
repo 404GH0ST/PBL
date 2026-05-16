@@ -2,10 +2,102 @@ import './bootstrap';
 
 import Alpine from 'alpinejs';
 
+const getPreferredSiteTheme = () => {
+    const savedTheme = window.localStorage.getItem('site-theme');
+
+    if (savedTheme === 'light' || savedTheme === 'dark') {
+        return savedTheme;
+    }
+
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+};
+
+const applySiteTheme = (theme) => {
+    document.documentElement.dataset.siteTheme = theme;
+    document.documentElement.style.colorScheme = theme;
+};
+
+const initializePageTransitions = () => {
+    if (typeof window === 'undefined') {
+        return;
+    }
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const supportsViewTransitions = typeof document.startViewTransition === 'function';
+    const transitionStorageKey = 'deenhag-page-transition';
+
+    if (!prefersReducedMotion.matches && !supportsViewTransitions && window.sessionStorage.getItem(transitionStorageKey)) {
+        document.documentElement.classList.add('is-page-entering');
+        window.sessionStorage.removeItem(transitionStorageKey);
+
+        window.requestAnimationFrame(() => {
+            document.documentElement.classList.remove('is-page-entering');
+        });
+    }
+
+    document.addEventListener('click', (event) => {
+        if (
+            event.defaultPrevented
+            || event.button !== 0
+            || event.metaKey
+            || event.ctrlKey
+            || event.shiftKey
+            || event.altKey
+            || prefersReducedMotion.matches
+            || supportsViewTransitions
+        ) {
+            return;
+        }
+
+        if (!(event.target instanceof Element)) {
+            return;
+        }
+
+        const link = event.target.closest('a[href]');
+
+        if (!link || link.target || link.hasAttribute('download') || link.closest('[data-no-page-transition]')) {
+            return;
+        }
+
+        const nextUrl = new URL(link.href, window.location.href);
+        const currentUrl = new URL(window.location.href);
+
+        if (nextUrl.origin !== currentUrl.origin || (nextUrl.protocol !== 'http:' && nextUrl.protocol !== 'https:')) {
+            return;
+        }
+
+        if (
+            nextUrl.pathname === currentUrl.pathname
+            && nextUrl.search === currentUrl.search
+            && nextUrl.hash
+        ) {
+            return;
+        }
+
+        event.preventDefault();
+        window.sessionStorage.setItem(transitionStorageKey, '1');
+        document.documentElement.classList.add('is-page-leaving');
+
+        window.setTimeout(() => {
+            window.location.assign(nextUrl.href);
+        }, 170);
+    });
+};
+
+initializePageTransitions();
+
 Alpine.data('homePageMotion', () => ({
+    activeFeatureProduct: 'stempel',
     activeService: null,
     activeTestimonial: 0,
     cleanup: null,
+    featureAnimationTimer: null,
+    featureFloatTimer: null,
+    featureMode: 'services',
+    featurePhase: 'idle',
+    featureSwitchPhase: 'idle',
+    featureSwitchTimer: null,
+    selectedFeatureProduct: 'stempel',
     floatingJerseyStyle: '',
     frameRequested: false,
     menuOpen: false,
@@ -77,6 +169,10 @@ Alpine.data('homePageMotion', () => ({
     },
 
     destroy() {
+        window.clearTimeout(this.featureAnimationTimer);
+        window.clearTimeout(this.featureFloatTimer);
+        window.clearTimeout(this.featureSwitchTimer);
+        this.unlockPageScroll();
         this.cleanup?.();
     },
 
@@ -94,6 +190,83 @@ Alpine.data('homePageMotion', () => ({
 
     resetActiveService() {
         this.activeService = null;
+    },
+
+    currentFeatureProduct() {
+        const products = {
+            nota: {
+                title: 'NOTA',
+                description: 'Nota custom berkualitas untuk kebutuhan transaksi usaha, toko, dan bisnis dengan hasil cetak yang rapi dan profesional.',
+                image: '/images/product/media-promosi.png',
+            },
+            stempel: {
+                title: 'STEMPEL',
+                description: 'Layanan pembuatan stempel custom yang praktis dan profesional untuk menunjang identitas serta kebutuhan administrasi bisnis Anda.',
+                image: '/images/product/kebutuhan-bisnis.png',
+            },
+        };
+
+        return products[this.activeFeatureProduct] ?? products.stempel;
+    },
+
+    openFeatureProduct(product = 'stempel', event = null) {
+        this.activeFeatureProduct = product;
+        this.selectedFeatureProduct = product;
+        this.featureSwitchPhase = 'idle';
+        this.featureMode = 'product';
+        this.featurePhase = 'entering';
+        this.lockPageScroll();
+
+        window.clearTimeout(this.featureAnimationTimer);
+        window.clearTimeout(this.featureFloatTimer);
+        window.clearTimeout(this.featureSwitchTimer);
+        this.featureAnimationTimer = window.setTimeout(() => {
+            this.featurePhase = 'revealing';
+        }, 60);
+        this.featureFloatTimer = window.setTimeout(() => {
+            this.featurePhase = 'settled';
+        }, 960);
+    },
+
+    closeFeatureProduct() {
+        window.clearTimeout(this.featureAnimationTimer);
+        window.clearTimeout(this.featureFloatTimer);
+        window.clearTimeout(this.featureSwitchTimer);
+        this.featurePhase = 'idle';
+        this.featureSwitchPhase = 'idle';
+        this.featureMode = 'services';
+        this.unlockPageScroll();
+    },
+
+    selectFeatureProduct(product) {
+        if (product === this.activeFeatureProduct || this.featureSwitchPhase !== 'idle') {
+            return;
+        }
+
+        this.selectedFeatureProduct = product;
+        this.featureSwitchPhase = 'leaving';
+        window.clearTimeout(this.featureSwitchTimer);
+
+        this.featureSwitchTimer = window.setTimeout(() => {
+            this.activeFeatureProduct = product;
+            this.featureSwitchPhase = 'entering';
+
+            this.featureSwitchTimer = window.setTimeout(() => {
+                this.featureSwitchPhase = 'idle';
+            }, 520);
+        }, 160);
+    },
+
+    featureHeroStyle() {
+        return `--feature-product-scale: ${this.activeFeatureProduct === 'stempel' ? '1.08' : '1.18'}`;
+    },
+
+    lockPageScroll() {
+        document.documentElement.style.overflow = 'hidden';
+    },
+
+    unlockPageScroll() {
+        document.documentElement.style.overflow = '';
     },
 
     previousTestimonial() {
@@ -200,7 +373,7 @@ Alpine.data('catalogPage', (products = [], filters = []) => ({
     selectedFilter: 'all',
     syncSystemThemeHandler: null,
     systemThemeQuery: null,
-    theme: 'light',
+    theme: getPreferredSiteTheme(),
 
     init() {
         this.systemThemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -273,28 +446,23 @@ Alpine.data('catalogPage', (products = [], filters = []) => ({
     },
 
     initializeTheme() {
-        const savedTheme = window.localStorage.getItem('catalog-theme');
-
-        if (savedTheme === 'light' || savedTheme === 'dark') {
-            this.theme = savedTheme;
-
-            return;
-        }
-
-        this.theme = this.systemThemeQuery.matches ? 'dark' : 'light';
+        this.theme = getPreferredSiteTheme();
+        applySiteTheme(this.theme);
     },
 
     syncSystemTheme(event) {
-        if (window.localStorage.getItem('catalog-theme')) {
+        if (window.localStorage.getItem('site-theme')) {
             return;
         }
 
         this.theme = event.matches ? 'dark' : 'light';
+        applySiteTheme(this.theme);
     },
 
     toggleTheme() {
         this.theme = this.theme === 'dark' ? 'light' : 'dark';
-        window.localStorage.setItem('catalog-theme', this.theme);
+        window.localStorage.setItem('site-theme', this.theme);
+        applySiteTheme(this.theme);
     },
 
     previousPage() {
@@ -341,6 +509,230 @@ Alpine.data('catalogPage', (products = [], filters = []) => ({
     },
 }));
 
+Alpine.data('trackingPage', ({ initialModalOpen = false } = {}) => ({
+    rating: 0,
+    reviewComment: '',
+    reviewModalOpen: initialModalOpen,
+    syncSystemThemeHandler: null,
+    systemThemeQuery: null,
+    theme: getPreferredSiteTheme(),
+
+    init() {
+        this.systemThemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        this.syncSystemThemeHandler = this.syncSystemTheme.bind(this);
+        this.initializeTheme();
+
+        this.systemThemeQuery.addEventListener('change', this.syncSystemThemeHandler);
+    },
+
+    destroy() {
+        this.systemThemeQuery?.removeEventListener('change', this.syncSystemThemeHandler);
+    },
+
+    initializeTheme() {
+        this.theme = getPreferredSiteTheme();
+        applySiteTheme(this.theme);
+    },
+
+    syncSystemTheme(event) {
+        if (window.localStorage.getItem('site-theme')) {
+            return;
+        }
+
+        this.theme = event.matches ? 'dark' : 'light';
+        applySiteTheme(this.theme);
+    },
+
+    toggleTheme() {
+        this.theme = this.theme === 'dark' ? 'light' : 'dark';
+        window.localStorage.setItem('site-theme', this.theme);
+        applySiteTheme(this.theme);
+    },
+
+    openReviewModal() {
+        this.reviewModalOpen = true;
+    },
+
+    closeReviewModal() {
+        this.reviewModalOpen = false;
+    },
+
+    setRating(value) {
+        this.rating = Number(value);
+    },
+}));
+
+Alpine.data('themePage', () => ({
+    syncSystemThemeHandler: null,
+    systemThemeQuery: null,
+    theme: getPreferredSiteTheme(),
+
+    init() {
+        this.systemThemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        this.syncSystemThemeHandler = this.syncSystemTheme.bind(this);
+        this.initializeTheme();
+
+        this.systemThemeQuery.addEventListener('change', this.syncSystemThemeHandler);
+    },
+
+    destroy() {
+        this.systemThemeQuery?.removeEventListener('change', this.syncSystemThemeHandler);
+    },
+
+    initializeTheme() {
+        this.theme = getPreferredSiteTheme();
+        applySiteTheme(this.theme);
+    },
+
+    syncSystemTheme(event) {
+        if (window.localStorage.getItem('site-theme')) {
+            return;
+        }
+
+        this.theme = event.matches ? 'dark' : 'light';
+        applySiteTheme(this.theme);
+    },
+
+    toggleTheme() {
+        this.theme = this.theme === 'dark' ? 'light' : 'dark';
+        window.localStorage.setItem('site-theme', this.theme);
+        applySiteTheme(this.theme);
+    },
+}));
+
+Alpine.data('productDetailPage', ({
+    gallery = [],
+    productName = '',
+    reviews = [],
+    breakdown = [],
+} = {}) => ({
+    activeImage: gallery[0] ?? '',
+    activeTab: 'deskripsi',
+    breakdown,
+    expandedReviews: false,
+    gallery,
+    mobileMenuOpen: false,
+    productName,
+    quantity: 1,
+    reviews,
+    sortOption: 'latest',
+    syncSystemThemeHandler: null,
+    systemThemeQuery: null,
+    theme: getPreferredSiteTheme(),
+
+    init() {
+        this.systemThemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        this.syncSystemThemeHandler = this.syncSystemTheme.bind(this);
+        this.initializeTheme();
+        this.systemThemeQuery.addEventListener('change', this.syncSystemThemeHandler);
+    },
+
+    destroy() {
+        this.systemThemeQuery?.removeEventListener('change', this.syncSystemThemeHandler);
+    },
+
+    setActiveImage(image) {
+        this.activeImage = image;
+    },
+
+    incrementQuantity() {
+        this.quantity += 1;
+    },
+
+    decrementQuantity() {
+        if (this.quantity > 1) {
+            this.quantity -= 1;
+        }
+    },
+
+    setTab(tab) {
+        this.activeTab = tab;
+    },
+
+    toggleExpandedReviews() {
+        this.expandedReviews = !this.expandedReviews;
+    },
+
+    sortedReviews() {
+        const sorted = [...this.reviews];
+
+        if (this.sortOption === 'latest') {
+            return sorted.reverse();
+        }
+
+        if (this.sortOption === 'oldest') {
+            return sorted;
+        }
+
+        if (this.sortOption === 'highest') {
+            return sorted.sort((a, b) => b.rating - a.rating);
+        }
+
+        return sorted;
+    },
+
+    visibleReviews() {
+        const sorted = this.sortedReviews();
+
+        if (this.expandedReviews) {
+            return sorted;
+        }
+
+        return sorted.slice(0, 3);
+    },
+
+    reviewSummary() {
+        const total = this.reviews.length;
+
+        if (total === 0) {
+            return 'Belum ada ulasan';
+        }
+
+        const visible = this.expandedReviews ? total : Math.min(3, total);
+
+        return `Menampilkan dari 1-${visible} dari ${total} hasil`;
+    },
+
+    initializeTheme() {
+        this.theme = getPreferredSiteTheme();
+        applySiteTheme(this.theme);
+    },
+
+    syncSystemTheme(event) {
+        if (window.localStorage.getItem('site-theme')) {
+            return;
+        }
+
+        this.theme = event.matches ? 'dark' : 'light';
+        applySiteTheme(this.theme);
+    },
+
+    toggleTheme() {
+        this.theme = this.theme === 'dark' ? 'light' : 'dark';
+        window.localStorage.setItem('site-theme', this.theme);
+        applySiteTheme(this.theme);
+    },
+
+    starLabel(rating) {
+        return '★'.repeat(Math.round(rating)) + '☆'.repeat(5 - Math.round(rating));
+    },
+}));
+
 window.Alpine = Alpine;
+
+// Cross-tab theme sync: if theme changes in another tab, update the current page
+window.addEventListener('storage', (event) => {
+    if (event.key !== 'site-theme') return;
+    if (event.newValue !== 'light' && event.newValue !== 'dark') return;
+
+    applySiteTheme(event.newValue);
+
+    document.querySelectorAll('[x-data]').forEach((el) => {
+        const stack = el._x_dataStack;
+        if (stack && stack[0] && 'theme' in stack[0]) {
+            stack[0].theme = event.newValue;
+        }
+    });
+});
 
 Alpine.start();
