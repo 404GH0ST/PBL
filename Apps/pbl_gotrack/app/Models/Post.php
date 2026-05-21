@@ -11,14 +11,26 @@ class Post extends Model
 {
     use HasFactory;
 
+    public const STATUS_DRAFT = 'draft';
+    public const STATUS_PUBLISHED = 'published';
+    public const STATUS_ARCHIVED = 'archived';
+
+    public const STATUSES = [
+        self::STATUS_DRAFT => 'Draft',
+        self::STATUS_PUBLISHED => 'Published',
+        self::STATUS_ARCHIVED => 'Archived',
+    ];
+
     protected $fillable = [
         'author_id',
         'title',
         'slug',
         'category',
-        'content',
         'excerpt',
+        'content',
+        'featured_image',
         'image_path',
+        'status',
         'is_published',
         'published_at',
     ];
@@ -42,7 +54,7 @@ class Post extends Model
     protected function imageUrl(): Attribute
     {
         return Attribute::get(function () {
-            $path = $this->image_path;
+            $path = $this->image_path ?: $this->featured_image;
 
             if (! $path) {
                 $seed = $this->slug ?: ($this->id ?? 1);
