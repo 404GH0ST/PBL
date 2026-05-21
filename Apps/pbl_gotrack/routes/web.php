@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,8 @@ Route::post('/lacak/{trackingId}/review', [TrackingController::class, 'storeRevi
 
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{post:slug}', [BlogController::class, 'show'])->name('blog.show');
+
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 
 Route::get('/dashboard', function () {
     $user = auth()->user();

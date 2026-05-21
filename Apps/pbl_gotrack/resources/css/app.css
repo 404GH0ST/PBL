@@ -685,3 +685,163 @@
     position: relative;
     z-index: 1;
 }
+
+/* ===== Contact page shell ===== */
+.contact-shell {
+    background-color: var(--contact-page);
+    color: var(--contact-text);
+    transition:
+        background-color 220ms ease,
+        color 220ms ease;
+}
+
+.contact-shell[data-theme='light'] {
+    --contact-page: #f1f5f9;
+    --contact-text: #05070b;
+    --contact-text-soft: #686b6c;
+    --contact-input-bg: #ffffff;
+    --contact-input-border: rgba(0, 0, 0, 0.16);
+    --contact-input-text: #05070b;
+    --contact-input-placeholder: #9ca3af;
+    --contact-input-focus: rgba(0, 0, 0, 0.35);
+    --contact-btn-bg: #05070b;
+    --contact-btn-text: #ffffff;
+    --contact-section-bg: #f1f5f9;
+    --contact-heading: #05070b;
+    --contact-link: #05070b;
+    --contact-border: rgba(0, 0, 0, 0.10);
+    --contact-social-filter: brightness(0);
+}
+
+.contact-shell[data-theme='dark'] {
+    --contact-page: #0a0a0a;
+    --contact-text: #ffffff;
+    --contact-text-soft: #9ca3af;
+    --contact-input-bg: #1a1a1a;
+    --contact-input-border: rgba(255, 255, 255, 0.16);
+    --contact-input-text: #ffffff;
+    --contact-input-placeholder: #686b6c;
+    --contact-input-focus: rgba(255, 255, 255, 0.35);
+    --contact-btn-bg: #ffffff;
+    --contact-btn-text: #000000;
+    --contact-section-bg: #0a0a0a;
+    --contact-heading: #ffffff;
+    --contact-link: #ffffff;
+    --contact-border: rgba(255, 255, 255, 0.10);
+    --contact-social-filter: none;
+}
+
+.contact-input {
+    background-color: var(--contact-input-bg);
+    border: 1px solid var(--contact-input-border);
+    color: var(--contact-input-text);
+    transition:
+        background-color 220ms ease,
+        border-color 220ms ease,
+        color 220ms ease;
+}
+
+.contact-input::placeholder {
+    color: var(--contact-input-placeholder);
+}
+
+.contact-input:focus {
+    border-color: var(--contact-input-focus);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(120, 164, 198, 0.25);
+}
+
+.contact-heading {
+    color: var(--contact-heading);
+    transition: color 220ms ease;
+}
+
+.contact-text-soft {
+    color: var(--contact-text-soft);
+    transition: color 220ms ease;
+}
+
+.contact-btn {
+    background-color: var(--contact-btn-bg);
+    color: var(--contact-btn-text);
+    transition:
+        background-color 220ms ease,
+        color 220ms ease;
+}
+
+.contact-btn:hover {
+    opacity: 0.88;
+}
+
+.contact-border {
+    border-color: var(--contact-border);
+    transition: border-color 220ms ease;
+}
+
+/* Contact shell: dark mode navbar overrides (mirror blog-shell) */
+.contact-shell[data-theme='dark'] .site-nav-pill--light {
+    background: rgba(255, 255, 255, 0.12) !important;
+    color: rgba(255, 255, 255, 0.35) !important;
+}
+.contact-shell[data-theme='dark'] .site-nav-pill--light a { color: rgba(255, 255, 255, 0.35) !important; }
+.contact-shell[data-theme='dark'] .site-nav-pill--light a:hover,
+.contact-shell[data-theme='dark'] .site-nav-pill--light a.is-active { color: #fff !important; }
+
+.contact-shell[data-theme='dark'] .site-nav-mobile--light {
+    background: rgba(255, 255, 255, 0.10) !important;
+    color: rgba(255, 255, 255, 0.80) !important;
+}
+.contact-shell[data-theme='dark'] .site-nav-mobile--light a.is-active {
+    background: rgba(255, 255, 255, 0.14) !important;
+    color: #fff !important;
+}
+
+/* Contact shell: footer gradient overrides */
+.contact-shell[data-theme='dark'] .site-footer {
+    --site-footer-gradient:
+        linear-gradient(180deg, #0a0a0a 0%, #030f19 56%, #04111d 100%);
+    --site-footer-border: rgba(255, 255, 255, 0.18);
+    --site-footer-copy: rgba(255, 255, 255, 0.72);
+}
+
+.contact-shell[data-theme='light'] .site-footer {
+    --site-footer-gradient:
+        linear-gradient(180deg, #f1f5f9 0%, #d8e1e8 18%, #6d7782 54%, #0b1620 82%, #04111d 100%);
+}
+
+/* Social icons filter for dark mode */
+.contact-social-icon {
+    filter: var(--contact-social-filter);
+    transition: filter 220ms ease;
+}
+
+/* FAQ section styles */
+.contact-faq-title {
+    color: var(--contact-heading);
+    transition: color 220ms ease;
+}
+
+.contact-faq-question {
+    color: var(--contact-text);
+    transition: color 220ms ease;
+}
+
+.contact-faq-answer {
+    color: var(--contact-text-soft);
+    transition: color 220ms ease;
+}
+
+/* Ensure the html/body background perfectly matches the page background for a seamless visual transition */
+body:has(.contact-shell[data-theme='dark']) {
+    background-color: #0a0a0a;
+}
+body:has(.contact-shell[data-theme='light']) {
+    background-color: #f1f5f9;
+}
+
+/* Premium dark mode Google Maps filter */
+.contact-shell[data-theme='dark'] iframe {
+    filter: grayscale(1) invert(0.9) contrast(1.2) opacity(0.85);
+    transition: filter 220ms ease, opacity 220ms ease;
+}
+
