@@ -1,8 +1,20 @@
-@props(['class' => ''])
+@props(['class' => '', 'contact' => null, 'fallback' => []])
+
+@php
+    $title = data_get($contact, 'title') ?: data_get($fallback, 'title', 'Hubungi Kami');
+    $email = data_get($contact, 'email') ?: data_get($fallback, 'email', 'deenhag@gmail.com');
+    $phone = data_get($contact, 'phone_number') ?: data_get($contact, 'whatsapp_number') ?: data_get($fallback, 'phone_number', '+62 23456789123');
+    $address = data_get($contact, 'address') ?: data_get($fallback, 'address', '03240 Desa, Kecamatan, Ponorogo, Jawa Timur, Indonesia');
+    $googleMapsUrl = data_get($contact, 'google_maps_url') ?: data_get($fallback, 'google_maps_url');
+    $facebookUrl = data_get($contact, 'facebook_url') ?: data_get($fallback, 'facebook_url', '#');
+    $instagramUrl = data_get($contact, 'instagram_url') ?: data_get($fallback, 'instagram_url', '#');
+    $twitterUrl = data_get($contact, 'twitter_url') ?: data_get($fallback, 'twitter_url', '#');
+    $tiktokUrl = data_get($contact, 'tiktok_url') ?: data_get($fallback, 'tiktok_url', '#');
+@endphp
 
 <section {{ $attributes->merge(['class' => "relative z-10 mx-auto w-full max-w-[1280px] px-5 md:px-8 lg:px-14 {$class}"]) }}>
     <h1 class="contact-heading font-['Plus_Jakarta_Sans',sans-serif] text-[2rem] font-bold tracking-[-0.02em] md:text-[2.4rem]">
-        Hubungi Kami
+        {{ $title }}
     </h1>
 
     <div class="mt-8 grid gap-10 lg:mt-10 lg:grid-cols-[1fr_1fr] lg:gap-16">
@@ -57,7 +69,7 @@
                     Email Kami
                 </h3>
                 <p class="contact-text-soft mt-1 font-['Inter',sans-serif] text-[0.88rem]">
-                    deenhag@gmail.com
+                    {{ $email }}
                 </p>
             </div>
 
@@ -67,7 +79,7 @@
                     Hubungi Kami
                 </h3>
                 <p class="contact-text-soft mt-1 font-['Inter',sans-serif] text-[0.88rem]">
-                    +62 23456789123
+                    {{ $phone }}
                 </p>
             </div>
 
@@ -77,16 +89,16 @@
                     Mengikuti
                 </h3>
                 <div class="mt-2 flex items-center gap-2">
-                    <a href="#" aria-label="Facebook" class="transition hover:opacity-75">
+                    <a href="{{ $facebookUrl }}" aria-label="Facebook" class="transition hover:opacity-75">
                         <img src="{{ asset('images/footer/facebook.png') }}" alt="" class="contact-social-icon h-7 w-7 object-contain">
                     </a>
-                    <a href="#" aria-label="Instagram" class="transition hover:opacity-75">
+                    <a href="{{ $instagramUrl }}" aria-label="Instagram" class="transition hover:opacity-75">
                         <img src="{{ asset('images/footer/instagram.png') }}" alt="" class="contact-social-icon h-7 w-7 object-contain">
                     </a>
-                    <a href="#" aria-label="Twitter" class="transition hover:opacity-75">
+                    <a href="{{ $twitterUrl }}" aria-label="Twitter" class="transition hover:opacity-75">
                         <img src="{{ asset('images/footer/twitter.png') }}" alt="" class="contact-social-icon h-7 w-7 object-contain">
                     </a>
-                    <a href="#" aria-label="TikTok" class="transition hover:opacity-75">
+                    <a href="{{ $tiktokUrl }}" aria-label="TikTok" class="transition hover:opacity-75">
                         <img src="{{ asset('images/footer/tiktok.png') }}" alt="" class="contact-social-icon h-7 w-7 object-contain">
                     </a>
                 </div>
@@ -97,9 +109,15 @@
                 <h3 class="contact-heading font-['Plus_Jakarta_Sans',sans-serif] text-[1rem] font-bold">
                     Kunjungi Kami
                 </h3>
-                <p class="contact-text-soft mt-1 font-['Inter',sans-serif] text-[0.88rem] max-w-[20rem]">
-                    03240 Desa, Kecamatan, Ponorogo, Jawa Timur, Indonesia
-                </p>
+                @if ($googleMapsUrl)
+                    <a href="{{ $googleMapsUrl }}" target="_blank" rel="noopener" class="contact-text-soft mt-1 block max-w-[20rem] font-['Inter',sans-serif] text-[0.88rem] transition hover:opacity-75">
+                        {{ $address }}
+                    </a>
+                @else
+                    <p class="contact-text-soft mt-1 font-['Inter',sans-serif] text-[0.88rem] max-w-[20rem]">
+                        {{ $address }}
+                    </p>
+                @endif
             </div>
         </div>
     </div>

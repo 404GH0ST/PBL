@@ -27,6 +27,8 @@ class DatabaseSeeder extends Seeder
             OrderProgressSeeder::class,
             ReviewSeeder::class,
             PostSeeder::class,
+            ContactSeeder::class,
+            FaqSeeder::class,
         ]);
     }
 }
