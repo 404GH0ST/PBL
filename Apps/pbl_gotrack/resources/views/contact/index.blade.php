@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hubungi Kami - Deenhag</title>
-    <meta name="description" content="Hubungi Deenhag untuk kebutuhan konveksi dan digital printing Anda. Konsultasi gratis, respons cepat.">
+    <title>{{ data_get($contact, 'title') ?: data_get($contactFallback, 'title', 'Hubungi Kami') }} - Deenhag</title>
+    <meta name="description" content="{{ data_get($contact, 'description') ?: data_get($contactFallback, 'description') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,12 +36,12 @@
             {{-- ============================================================ --}}
             {{-- HUBUNGI KAMI (Contact Form + Info)                             --}}
             {{-- ============================================================ --}}
-            <x-contact-form />
+            <x-contact-form :contact="$contact" :fallback="$contactFallback" />
 
             {{-- ============================================================ --}}
             {{-- GOOGLE MAPS EMBED                                              --}}
             {{-- ============================================================ --}}
-            <x-map-section class="mt-14 lg:mt-18" />
+            <x-map-section :contact="$contact" :fallback="$contactFallback" class="mt-14 lg:mt-18" />
 
             {{-- ============================================================ --}}
             {{-- F.A.Q SECTION                                                  --}}

@@ -7,7 +7,7 @@
 
     <div class="mt-10 grid gap-x-12 gap-y-8 md:grid-cols-2 lg:mt-12">
         @foreach ($faqs as $faq)
-            <x-faq-item :question="$faq['question']" :answer="$faq['answer']" />
+            <x-faq-item :question="data_get($faq, 'question')" :answer="data_get($faq, 'answer')" />
         @endforeach
     </div>
 </section>
