@@ -18,6 +18,129 @@ html[data-site-theme='dark'] {
     color-scheme: dark;
 }
 
+.login-page {
+    background: #f1f5f9;
+    color: #000000;
+}
+
+.login-page[data-theme='dark'] {
+    background: #000000;
+    color: #ffffff;
+}
+
+.login-orb {
+    position: absolute;
+    width: clamp(24rem, 42vw, 38.5rem);
+    aspect-ratio: 1;
+    border-radius: 9999px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(241, 245, 249, 0.72) 42%, rgba(241, 245, 249, 0) 70%);
+    opacity: 0.95;
+}
+
+.login-page[data-theme='dark'] .login-orb {
+    background: radial-gradient(circle, rgba(82, 86, 87, 0.76) 0%, rgba(36, 38, 39, 0.52) 42%, rgba(0, 0, 0, 0) 72%);
+    opacity: 0.82;
+}
+
+.login-orb--top {
+    right: min(-12rem, -8vw);
+    top: min(-13.5rem, -16vw);
+}
+
+.login-orb--bottom {
+    bottom: min(-12.5rem, -12vw);
+    left: min(-12.25rem, -10vw);
+}
+
+.login-glow {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: min(72vw, 39.375rem);
+    height: min(82vh, 44.625rem);
+    background: #686b6c;
+    filter: blur(150px);
+    opacity: 0.82;
+    transform: translate(-50%, -50%);
+}
+
+.login-panel {
+    min-height: 514px;
+    background: #ffffff;
+}
+
+.login-page[data-theme='dark'] .login-panel {
+    background: #000000;
+}
+
+.login-logo-mark {
+    background: #d9d9d9;
+}
+
+.login-helper,
+.login-input::placeholder,
+.login-register {
+    color: #686b6c;
+}
+
+.login-input {
+    border-color: #000000;
+    color: #000000;
+}
+
+.login-page[data-theme='dark'] .login-input {
+    border-color: #ffffff;
+    color: #ffffff;
+}
+
+.login-input:focus {
+    border-color: #686b6c;
+    box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 13%, transparent);
+}
+
+.login-checkbox {
+    border-color: currentColor;
+    color: currentColor;
+}
+
+.login-button {
+    background: #000000;
+    color: #ffffff;
+}
+
+.login-button:hover {
+    background: #222222;
+}
+
+.login-page[data-theme='dark'] .login-button {
+    background: #ffffff;
+    color: #000000;
+}
+
+.login-page[data-theme='dark'] .login-button:hover {
+    background: #e7e7e7;
+}
+
+.login-link {
+    color: currentColor;
+    text-decoration-color: transparent;
+    text-underline-offset: 3px;
+}
+
+.login-link:hover {
+    text-decoration-line: underline;
+    text-decoration-color: currentColor;
+}
+
+.login-status {
+    background: rgba(34, 197, 94, 0.12);
+    color: #15803d;
+}
+
+.login-page[data-theme='dark'] .login-status {
+    background: rgba(34, 197, 94, 0.16);
+    color: #86efac;
+}
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
@@ -1182,6 +1305,27 @@ html[data-site-theme='light'] .blog-shell:not([data-theme='dark']) .site-footer 
     transition: color 220ms ease;
 }
 
+.faq-accordion-icon {
+    border-color: var(--contact-border);
+    color: var(--contact-heading);
+    transition:
+        border-color 220ms ease,
+        color 220ms ease,
+        transform 180ms ease;
+}
+
+.faq-accordion[open] .faq-accordion-icon {
+    transform: rotate(180deg);
+}
+
+.faq-accordion-answer :where(p, ul, ol) {
+    margin-block: 0;
+}
+
+.faq-accordion-answer :where(p + p, ul + p, ol + p) {
+    margin-top: 0.75rem;
+}
+
 /* Ensure the html/body background perfectly matches the page background for a seamless visual transition */
 body:has(.contact-shell[data-theme='dark']) {
     background-color: #0a0a0a;
@@ -1196,3 +1340,42 @@ body:has(.contact-shell[data-theme='light']) {
     transition: filter 220ms ease, opacity 220ms ease;
 }
 
+.about-figma-form {
+    border-color: #686b6c;
+    min-height: 320px;
+}
+
+.about-figma-input {
+    background: #000000;
+    color: #ffffff;
+}
+
+.about-figma-input::placeholder {
+    color: #ffffff;
+    opacity: 1;
+}
+
+.about-figma-social {
+    align-items: center;
+    color: var(--contact-heading);
+    display: inline-flex;
+    font-size: 0.95rem;
+    font-weight: 700;
+    height: 30px;
+    justify-content: center;
+    line-height: 1;
+    width: 30px;
+}
+
+.about-figma-map iframe {
+    display: block;
+}
+
+.about-figma-shell[data-theme='dark'] .about-figma-input {
+    background: #ffffff;
+    color: #000000;
+}
+
+.about-figma-shell[data-theme='dark'] .about-figma-input::placeholder {
+    color: #000000;
+}

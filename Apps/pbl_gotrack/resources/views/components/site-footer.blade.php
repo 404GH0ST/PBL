@@ -33,6 +33,7 @@
                 <h3 class="font-['Montserrat',sans-serif] text-[1.2rem] font-bold text-[#72a3bf]">Navigasi Cepat</h3>
                 <div class="mt-8 space-y-5 text-[0.92rem] font-medium tracking-[0.04em] text-white/85">
                     <a href="{{ route('home') }}" class="block transition hover:opacity-75">Beranda</a>
+                    <a href="{{ route('about') }}" class="block transition hover:opacity-75">About</a>
                     <a href="{{ route('catalog') }}" class="block transition hover:opacity-75">Katalog</a>
                     <a href="{{ route('blog.index') }}" class="block transition hover:opacity-75">Blog</a>
                     <a href="#" class="block transition hover:opacity-75">Keranjang</a>
