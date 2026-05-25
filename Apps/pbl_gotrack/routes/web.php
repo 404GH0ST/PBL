@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AboutController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\ContactController;
@@ -9,7 +8,6 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('home');
-Route::get('/about', AboutController::class)->name('about');
 Route::get('/katalog', [CatalogController::class, 'index'])->name('catalog');
 Route::get('/katalog/{product:slug}', [CatalogController::class, 'show'])->name('product.detail');
 Route::redirect('/product-detail', '/katalog');

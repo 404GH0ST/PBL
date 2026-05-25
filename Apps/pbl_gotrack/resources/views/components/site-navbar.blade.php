@@ -9,7 +9,7 @@
 
     $links = [
         'home' => ['label' => 'Beranda', 'href' => route('home')],
-        'about' => ['label' => 'About', 'href' => route('about')],
+        'contact' => ['label' => 'Contact', 'href' => route('contact')],
         'catalog' => ['label' => 'Katalog', 'href' => route('catalog')],
         'blog' => ['label' => 'Blog', 'href' => route('blog.index')],
         'tracking' => ['label' => 'Lacak', 'href' => route('tracking.index')],

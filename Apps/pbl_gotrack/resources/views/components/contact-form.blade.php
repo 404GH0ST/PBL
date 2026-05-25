@@ -1,15 +1,15 @@
 @props(['class' => '', 'contact' => null, 'fallback' => []])
 
 @php
-    $title = data_get($contact, 'title') ?: data_get($fallback, 'title', 'Hubungi Kami');
-    $email = data_get($contact, 'email') ?: data_get($fallback, 'email', 'deenhag@gmail.com');
-    $phone = data_get($contact, 'phone_number') ?: data_get($contact, 'whatsapp_number') ?: data_get($fallback, 'phone_number', '+62 23456789123');
-    $address = data_get($contact, 'address') ?: data_get($fallback, 'address', '03240 Desa, Kecamatan, Ponorogo, Jawa Timur, Indonesia');
-    $googleMapsUrl = data_get($contact, 'google_maps_url') ?: data_get($fallback, 'google_maps_url');
-    $facebookUrl = data_get($contact, 'facebook_url') ?: data_get($fallback, 'facebook_url', '#');
-    $instagramUrl = data_get($contact, 'instagram_url') ?: data_get($fallback, 'instagram_url', '#');
-    $twitterUrl = data_get($contact, 'twitter_url') ?: data_get($fallback, 'twitter_url', '#');
-    $tiktokUrl = data_get($contact, 'tiktok_url') ?: data_get($fallback, 'tiktok_url', '#');
+    $title = data_get($contact, 'title', 'Hubungi Kami');
+    $email = data_get($contact, 'email');
+    $phone = data_get($contact, 'phone_number') ?: data_get($contact, 'whatsapp_number');
+    $address = data_get($contact, 'address');
+    $googleMapsUrl = data_get($contact, 'google_maps_url');
+    $facebookUrl = data_get($contact, 'facebook_url');
+    $instagramUrl = data_get($contact, 'instagram_url');
+    $twitterUrl = data_get($contact, 'twitter_url');
+    $tiktokUrl = data_get($contact, 'tiktok_url');
 @endphp
 
 <section {{ $attributes->merge(['class' => "relative z-10 mx-auto w-full max-w-[1280px] px-5 md:px-8 lg:px-14 {$class}"]) }}>
@@ -69,7 +69,7 @@
                     Email Kami
                 </h3>
                 <p class="contact-text-soft mt-1 font-['Inter',sans-serif] text-[0.88rem]">
-                    {{ $email }}
+                    {{ $email ?: 'Belum dikonfigurasi' }}
                 </p>
             </div>
 
@@ -79,7 +79,7 @@
                     Hubungi Kami
                 </h3>
                 <p class="contact-text-soft mt-1 font-['Inter',sans-serif] text-[0.88rem]">
-                    {{ $phone }}
+                    {{ $phone ?: 'Belum dikonfigurasi' }}
                 </p>
             </div>
 
@@ -89,18 +89,29 @@
                     Mengikuti
                 </h3>
                 <div class="mt-2 flex items-center gap-2">
-                    <a href="{{ $facebookUrl }}" aria-label="Facebook" class="transition hover:opacity-75">
-                        <img src="{{ asset('images/footer/facebook.png') }}" alt="" class="contact-social-icon h-7 w-7 object-contain">
-                    </a>
-                    <a href="{{ $instagramUrl }}" aria-label="Instagram" class="transition hover:opacity-75">
-                        <img src="{{ asset('images/footer/instagram.png') }}" alt="" class="contact-social-icon h-7 w-7 object-contain">
-                    </a>
-                    <a href="{{ $twitterUrl }}" aria-label="Twitter" class="transition hover:opacity-75">
-                        <img src="{{ asset('images/footer/twitter.png') }}" alt="" class="contact-social-icon h-7 w-7 object-contain">
-                    </a>
-                    <a href="{{ $tiktokUrl }}" aria-label="TikTok" class="transition hover:opacity-75">
-                        <img src="{{ asset('images/footer/tiktok.png') }}" alt="" class="contact-social-icon h-7 w-7 object-contain">
-                    </a>
+                    @if ($facebookUrl)
+                        <a href="{{ $facebookUrl }}" aria-label="Facebook" class="transition hover:opacity-75">
+                            <img src="{{ asset('images/footer/facebook.png') }}" alt="" class="contact-social-icon h-7 w-7 object-contain">
+                        </a>
+                    @endif
+                    @if ($instagramUrl)
+                        <a href="{{ $instagramUrl }}" aria-label="Instagram" class="transition hover:opacity-75">
+                            <img src="{{ asset('images/footer/instagram.png') }}" alt="" class="contact-social-icon h-7 w-7 object-contain">
+                        </a>
+                    @endif
+                    @if ($twitterUrl)
+                        <a href="{{ $twitterUrl }}" aria-label="Twitter" class="transition hover:opacity-75">
+                            <img src="{{ asset('images/footer/twitter.png') }}" alt="" class="contact-social-icon h-7 w-7 object-contain">
+                        </a>
+                    @endif
+                    @if ($tiktokUrl)
+                        <a href="{{ $tiktokUrl }}" aria-label="TikTok" class="transition hover:opacity-75">
+                            <img src="{{ asset('images/footer/tiktok.png') }}" alt="" class="contact-social-icon h-7 w-7 object-contain">
+                        </a>
+                    @endif
+                    @unless ($facebookUrl || $instagramUrl || $twitterUrl || $tiktokUrl)
+                        <span class="contact-text-soft font-['Inter',sans-serif] text-[0.88rem]">Belum dikonfigurasi</span>
+                    @endunless
                 </div>
             </div>
 
@@ -115,7 +126,7 @@
                     </a>
                 @else
                     <p class="contact-text-soft mt-1 font-['Inter',sans-serif] text-[0.88rem] max-w-[20rem]">
-                        {{ $address }}
+                        {{ $address ?: 'Belum dikonfigurasi' }}
                     </p>
                 @endif
             </div>
