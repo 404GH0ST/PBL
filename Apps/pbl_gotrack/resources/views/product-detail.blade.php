@@ -97,7 +97,14 @@
                 <p class="pd-option-label">{{ $type }}</p>
                 <div class="pd-option-list">
                     @foreach ($options as $option)
-                        <button type="button" class="pd-option-btn">{{ $option['name'] }}</button>
+                        <button
+                            type="button"
+                            class="pd-option-btn"
+                            :class="{ active: isOptionSelected({{ \Illuminate\Support\Js::from($type) }}, {{ \Illuminate\Support\Js::from($option['name']) }}) }"
+                            @click="selectOption({{ \Illuminate\Support\Js::from($type) }}, {{ \Illuminate\Support\Js::from($option['name']) }})"
+                        >
+                            {{ $option['name'] }}
+                        </button>
                     @endforeach
                 </div>
             @endforeach
@@ -112,7 +119,16 @@
                     <button class="pd-qty-btn" type="button" @click="incrementQuantity()">+</button>
                 </div>
 
-                <button class="pd-btn-buy" type="button">Beli Sekarang</button>
+                <a
+                    class="pd-btn-buy"
+                    :class="{ 'pd-btn-buy--disabled': !hasOrderWhatsApp() }"
+                    :href="orderWhatsAppUrl()"
+                    target="_blank"
+                    rel="noopener"
+                    @click="if (!hasOrderWhatsApp()) $event.preventDefault()"
+                >
+                    Beli Sekarang
+                </a>
             </div>
 
             {{-- Meta --}}

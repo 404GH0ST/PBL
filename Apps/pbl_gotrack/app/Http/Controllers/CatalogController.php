@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\ProductAddon;
+use App\Models\Contact;
 use App\Models\Review;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
@@ -131,6 +132,13 @@ class CatalogController extends Controller
         $reviewState = [
             'gallery' => $gallery,
             'productName' => $product->name,
+            'order' => [
+                'whatsappNumber' => $this->resolveOrderWhatsappNumber(),
+                'productName' => $product->name,
+                'category' => $product->category?->name,
+                'price' => 'Rp '.number_format($product->price, 0, ',', '.'),
+                'url' => route('product.detail', $product),
+            ],
             'reviews' => $visibleReviews
                 ->map(fn (Review $review) => [
                     'author' => $review->order?->customer_name ?: 'Pelanggan Deenhag',
@@ -293,5 +301,28 @@ class CatalogController extends Controller
         }
 
         return (string) $reviewCount;
+    }
+
+    protected function resolveOrderWhatsappNumber(): ?string
+    {
+        $number = Contact::query()
+            ->where('is_active', true)
+            ->value('whatsapp_number');
+
+        if (! $number) {
+            return null;
+        }
+
+        $digits = preg_replace('/\D+/', '', $number);
+
+        if (! $digits) {
+            return null;
+        }
+
+        if (Str::startsWith($digits, '0')) {
+            return '62'.substr($digits, 1);
+        }
+
+        return $digits;
     }
 }

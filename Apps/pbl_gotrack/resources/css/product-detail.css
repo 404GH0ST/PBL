@@ -308,12 +308,25 @@ html[data-site-theme="dark"] .pd-shell:not([data-theme="light"]) .site-nav-mobil
     border-radius: 15px;
     background: var(--pd-text);
     color: var(--pd-bg);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     font-size: 1.1rem;
     font-weight: 500;
+    text-decoration: none;
     transition: opacity 0.15s;
 }
 
 .pd-btn-buy:hover { opacity: 0.85; }
+
+.pd-btn-buy--disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+}
+
+.pd-btn-buy--disabled:hover {
+    opacity: 0.45;
+}
 
 /* Meta */
 .pd-meta {

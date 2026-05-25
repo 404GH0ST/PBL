@@ -602,6 +602,7 @@ Alpine.data('themePage', () => ({
 
 Alpine.data('productDetailPage', ({
     gallery = [],
+    order = {},
     productName = '',
     reviews = [],
     breakdown = [],
@@ -612,9 +613,11 @@ Alpine.data('productDetailPage', ({
     expandedReviews: false,
     gallery,
     mobileMenuOpen: false,
+    order,
     productName,
     quantity: 1,
     reviews,
+    selectedOptions: {},
     sortOption: 'latest',
     syncSystemThemeHandler: null,
     systemThemeQuery: null,
@@ -643,6 +646,56 @@ Alpine.data('productDetailPage', ({
         if (this.quantity > 1) {
             this.quantity -= 1;
         }
+    },
+
+    selectOption(type, name) {
+        if (this.selectedOptions[type] === name) {
+            delete this.selectedOptions[type];
+            return;
+        }
+
+        this.selectedOptions[type] = name;
+    },
+
+    isOptionSelected(type, name) {
+        return this.selectedOptions[type] === name;
+    },
+
+    hasOrderWhatsApp() {
+        return Boolean(String(this.order.whatsappNumber ?? '').replace(/\D/g, ''));
+    },
+
+    orderWhatsAppUrl() {
+        const number = String(this.order.whatsappNumber ?? '').replace(/\D/g, '');
+
+        if (!number) {
+            return '#';
+        }
+
+        const selectedOptions = Object.entries(this.selectedOptions);
+        const lines = [
+            'Halo Deenhag, saya ingin pesan produk berikut:',
+            '',
+            `Produk: ${this.order.productName ?? this.productName}`,
+            `Kategori: ${this.order.category ?? '-'}`,
+            `Harga: ${this.order.price ?? '-'}`,
+            `Jumlah: ${this.quantity}`,
+        ];
+
+        if (selectedOptions.length > 0) {
+            lines.push('Opsi:');
+            selectedOptions.forEach(([type, value]) => {
+                lines.push(`- ${type}: ${value}`);
+            });
+        }
+
+        lines.push(
+            `Link produk: ${this.order.url ?? window.location.href}`,
+            '',
+            'Mohon info langkah pemesanan selanjutnya.'
+        );
+
+        return `https://wa.me/${number}?text=${encodeURIComponent(lines.join('\n'))}`;
     },
 
     setTab(tab) {
