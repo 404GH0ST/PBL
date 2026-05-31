@@ -10,6 +10,17 @@ class ListContacts extends ListRecords
 {
     protected static string $resource = ContactResource::class;
 
+    public function mount(): void
+    {
+        $contact = \App\Models\Contact::first();
+
+        if ($contact) {
+            $this->redirect(static::getResource()::getUrl('edit', ['record' => $contact]));
+        } else {
+            $this->redirect(static::getResource()::getUrl('create'));
+        }
+    }
+
     protected function getHeaderActions(): array
     {
         return [

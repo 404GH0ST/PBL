@@ -63,7 +63,12 @@ class TrackingController extends Controller
             'product_rating' => $validated['rating'],
             'service_rating' => $validated['rating'],
             'comment' => $validated['comment'] ?? null,
-            'is_visible' => false,
+            'is_visible' => true,
+        ]);
+
+        $order->update([
+            'customer_name' => $validated['customer_name'],
+            'customer_whatsapp' => $validated['customer_whatsapp'],
         ]);
 
         if ($order->status !== 'completed') {

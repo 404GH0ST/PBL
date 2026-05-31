@@ -259,7 +259,7 @@
                         <article class="pd-review-item">
                             <div class="pd-review-top">
                                 <div class="pd-reviewer">
-                                    <img :src="review.avatar" :alt="review.author" class="pd-reviewer-avatar">
+                                    <div class="pd-reviewer-avatar-placeholder" x-text="review.author ? review.author.charAt(0).toUpperCase() : 'P'"></div>
                                     <strong x-text="review.author"></strong>
                                 </div>
                                 <span class="pd-review-date" x-text="review.date"></span>

@@ -86,7 +86,7 @@ const initializePageTransitions = () => {
 
 initializePageTransitions();
 
-Alpine.data('homePageMotion', () => ({
+Alpine.data('homePageMotion', (initialTestimonials = null) => ({
     activeFeatureProduct: 'stempel',
     activeService: null,
     activeTestimonial: 0,
@@ -105,7 +105,7 @@ Alpine.data('homePageMotion', () => ({
         typeof window !== 'undefined'
         && window.matchMedia('(min-width: 1024px)').matches
         && !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-    testimonials: [
+    testimonials: (initialTestimonials && initialTestimonials.length > 0) ? initialTestimonials : [
         {
             avatar: '/images/testimonials/ajeng-febria.png',
             name: 'Ajeng Febria',
@@ -710,11 +710,11 @@ Alpine.data('productDetailPage', ({
         const sorted = [...this.reviews];
 
         if (this.sortOption === 'latest') {
-            return sorted.reverse();
+            return sorted;
         }
 
         if (this.sortOption === 'oldest') {
-            return sorted;
+            return sorted.reverse();
         }
 
         if (this.sortOption === 'highest') {

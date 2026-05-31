@@ -7,7 +7,29 @@ use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome')->name('home');
+Route::get('/', function () {
+    $contact = \Illuminate\Support\Facades\Schema::hasTable('contacts')
+        ? \App\Models\Contact::where('is_active', true)->latest()->first()
+        : null;
+
+    $reviews = \Illuminate\Support\Facades\Schema::hasTable('reviews')
+        ? \App\Models\Review::where('is_visible', true)
+            ->with('order')
+            ->latest()
+            ->get()
+        : collect();
+
+    $testimonials = $reviews->map(function ($review) {
+        return [
+            'avatar' => null,
+            'name' => $review->order?->customer_name ?: 'Pelanggan',
+            'quote' => $review->comment ?: 'Bahan sangat bagus, kualitas luar biasa.',
+            'rating' => (int) $review->product_rating,
+        ];
+    });
+
+    return view('welcome', compact('contact', 'testimonials'));
+})->name('home');
 Route::get('/katalog', [CatalogController::class, 'index'])->name('catalog');
 Route::get('/katalog/{product:slug}', [CatalogController::class, 'show'])->name('product.detail');
 Route::redirect('/product-detail', '/katalog');

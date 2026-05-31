@@ -139,8 +139,11 @@ class OrderForm
 
     protected static function calculateTotal($set, $get): void
     {
-        $productId = $get('product_id');
-        $repeaterItems = $get('selected_addons') ?: [];
+        $isInsideRepeater = $get('selected_addons') === null;
+
+        $productId = $isInsideRepeater ? $get('../../product_id') : $get('product_id');
+        $repeaterItems = $isInsideRepeater ? ($get('../../selected_addons') ?: []) : ($get('selected_addons') ?: []);
+
         $basePrice = 0;
         if ($productId) {
             $product = Product::find($productId);
@@ -158,7 +161,13 @@ class OrderForm
             }
             $totalItemsPrice += ($basePrice + $addonsPrice) * $qty;
         }
-        $set('total_price', $totalItemsPrice);
-        $set('quantity', $totalQuantity);
+
+        if ($isInsideRepeater) {
+            $set('../../total_price', $totalItemsPrice);
+            $set('../../quantity', $totalQuantity);
+        } else {
+            $set('total_price', $totalItemsPrice);
+            $set('quantity', $totalQuantity);
+        }
     }
 }

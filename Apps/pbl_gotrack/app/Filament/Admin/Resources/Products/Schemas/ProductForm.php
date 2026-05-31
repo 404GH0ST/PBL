@@ -56,7 +56,9 @@ class ProductForm
                                 ->label('Harga (Rp)')
                                 ->numeric()
                                 ->prefix('Rp')
-                                ->default(90000),
+                                ->default(90000)
+                                ->required()
+                                ->minValue(0),
                         ])->columns(2),
 
                     // --- STEP 3: GAMBAR & STATUS ---

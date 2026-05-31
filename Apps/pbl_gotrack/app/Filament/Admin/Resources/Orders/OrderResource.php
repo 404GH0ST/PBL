@@ -17,8 +17,8 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Filament\Actions\ViewAction;
 use Filament\Actions\EditAction;
+use App\Filament\Admin\Resources\Orders\Schemas\OrderInfolist;
 use App\Filament\Admin\Resources\Orders\RelationManagers\ProgressRelationManager;
-
 
 class OrderResource extends Resource
 {
@@ -54,6 +54,11 @@ class OrderResource extends Resource
 
             NextProgressAction::make(),
         ]);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return OrderInfolist::configure($schema);
     }
 
     public static function getRelations(): array

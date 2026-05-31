@@ -227,6 +227,38 @@
                     <form action="{{ route('tracking.review', $order->tracking_id) }}" method="POST" class="px-[18px] pt-3 pb-4">
                         @csrf
 
+                        <div class="mb-4">
+                            <label for="customer_name" class="tracking-modal-text font-['Plus_Jakarta_Sans',sans-serif] text-[15px] font-bold">Nama Anda</label>
+                            <input
+                                id="customer_name"
+                                name="customer_name"
+                                type="text"
+                                value="{{ old('customer_name', $order->customer_name) }}"
+                                required
+                                class="tracking-modal-input mt-2 h-[38px] w-full rounded-[8px] border px-3 py-2 text-[10px] font-bold outline-none"
+                                placeholder="Masukkan nama Anda"
+                            >
+                            @error('customer_name')
+                                <p class="mt-2 text-[11px] font-semibold text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="customer_whatsapp" class="tracking-modal-text font-['Plus_Jakarta_Sans',sans-serif] text-[15px] font-bold">Nomor WhatsApp</label>
+                            <input
+                                id="customer_whatsapp"
+                                name="customer_whatsapp"
+                                type="text"
+                                value="{{ old('customer_whatsapp', $order->customer_whatsapp) }}"
+                                required
+                                class="tracking-modal-input mt-2 h-[38px] w-full rounded-[8px] border px-3 py-2 text-[10px] font-bold outline-none"
+                                placeholder="Masukkan nomor WhatsApp"
+                            >
+                            @error('customer_whatsapp')
+                                <p class="mt-2 text-[11px] font-semibold text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
                         <div>
                             <p class="tracking-modal-text font-['Plus_Jakarta_Sans',sans-serif] text-[15px] font-bold">Peringkat Anda</p>
                             <input type="hidden" name="rating" :value="rating">

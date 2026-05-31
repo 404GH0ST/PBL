@@ -15,7 +15,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-[#020607] font-body text-white antialiased">
-    <div x-data="homePageMotion" class="relative isolate min-h-screen">
+    <div x-data="homePageMotion({{ Js::from($testimonials) }})" class="relative isolate min-h-screen">
         <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 bg-[#020607]"></div>
 
         <div class="relative min-h-screen overflow-x-hidden bg-transparent">
@@ -483,7 +483,10 @@
                                             <p class="mt-[2.95rem] max-w-[12.875rem] whitespace-pre-line font-mono text-[0.94rem] leading-[1.35] tracking-[-0.02em]" x-text="previousTestimonialData()?.quote ?? ''"></p>
 
                                             <div class="mt-[2.95rem] flex items-center gap-[0.95rem]">
-                                                <div class="h-[2.95rem] w-[2.95rem] overflow-hidden rounded-full">
+                                                <div class="h-[2.95rem] w-[2.95rem] overflow-hidden rounded-full flex items-center justify-center bg-[#72a3bf] text-white text-[1.1rem] font-bold" x-show="!previousTestimonialData()?.avatar">
+                                                    <span x-text="previousTestimonialData()?.name ? previousTestimonialData().name.charAt(0).toUpperCase() : 'P'"></span>
+                                                </div>
+                                                <div class="h-[2.95rem] w-[2.95rem] overflow-hidden rounded-full" x-show="previousTestimonialData()?.avatar">
                                                     <img :src="previousTestimonialData()?.avatar ?? ''" :alt="previousTestimonialData()?.name ?? ''" class="h-full w-full object-cover opacity-80">
                                                 </div>
                                                 <span class="text-[1.25rem] font-semibold tracking-[-0.03em]" x-text="previousTestimonialData()?.name ?? ''"></span>
@@ -500,7 +503,10 @@
                                             <p class="mt-[3.55rem] max-w-[15.625rem] whitespace-pre-line font-mono text-[1.16rem] leading-[1.4] tracking-[-0.02em] text-white" x-text="currentTestimonial()?.quote ?? ''"></p>
 
                                             <div class="mt-[3.55rem] flex items-center gap-[1.15rem]">
-                                                <div class="h-[3.65rem] w-[3.65rem] overflow-hidden rounded-full shadow-[0_10px_24px_rgba(0,0,0,0.28)]">
+                                                <div class="h-[3.65rem] w-[3.65rem] overflow-hidden rounded-full shadow-[0_10px_24px_rgba(0,0,0,0.28)] flex items-center justify-center bg-[#72a3bf] text-white text-[1.4rem] font-bold" x-show="!currentTestimonial()?.avatar">
+                                                    <span x-text="currentTestimonial()?.name ? currentTestimonial().name.charAt(0).toUpperCase() : 'P'"></span>
+                                                </div>
+                                                <div class="h-[3.65rem] w-[3.65rem] overflow-hidden rounded-full shadow-[0_10px_24px_rgba(0,0,0,0.28)]" x-show="currentTestimonial()?.avatar">
                                                     <img :src="currentTestimonial()?.avatar ?? ''" :alt="currentTestimonial()?.name ?? ''" class="h-full w-full object-cover">
                                                 </div>
                                                 <span class="text-[1.56rem] font-semibold tracking-[-0.04em] text-white" x-text="currentTestimonial()?.name ?? ''"></span>
@@ -520,7 +526,10 @@
                                             <p class="mt-[3.1rem] max-w-[12.5rem] whitespace-pre-line font-mono text-[0.94rem] leading-[1.35] tracking-[-0.02em]" x-text="nextTestimonialData()?.quote ?? ''"></p>
 
                                             <div class="mt-[3.1rem] flex items-center gap-[0.95rem]">
-                                                <div class="h-[2.95rem] w-[2.95rem] overflow-hidden rounded-full">
+                                                <div class="h-[2.95rem] w-[2.95rem] overflow-hidden rounded-full flex items-center justify-center bg-[#72a3bf] text-white text-[1.1rem] font-bold" x-show="!nextTestimonialData()?.avatar">
+                                                    <span x-text="nextTestimonialData()?.name ? nextTestimonialData().name.charAt(0).toUpperCase() : 'P'"></span>
+                                                </div>
+                                                <div class="h-[2.95rem] w-[2.95rem] overflow-hidden rounded-full" x-show="nextTestimonialData()?.avatar">
                                                     <img :src="nextTestimonialData()?.avatar ?? ''" :alt="nextTestimonialData()?.name ?? ''" class="h-full w-full object-cover opacity-80">
                                                 </div>
                                                 <span class="text-[1.25rem] font-semibold tracking-[-0.03em]" x-text="nextTestimonialData()?.name ?? ''"></span>
@@ -606,16 +615,16 @@
                             </p>
 
                             <div class="mt-[2.85rem] flex items-center gap-[0.65rem] text-white">
-                                <a href="#" aria-label="Facebook" class="transition-opacity hover:opacity-75">
+                                <a href="{{ $contact?->facebook_url ?: '#' }}" {{ $contact?->facebook_url ? 'target="_blank"' : '' }} aria-label="Facebook" class="transition-opacity hover:opacity-75">
                                     <img src="{{ asset('images/footer/facebook.png') }}" alt="" class="h-10 w-10 object-contain">
                                 </a>
-                                <a href="#" aria-label="Twitter" class="transition-opacity hover:opacity-75">
+                                <a href="{{ $contact?->twitter_url ?: '#' }}" {{ $contact?->twitter_url ? 'target="_blank"' : '' }} aria-label="Twitter" class="transition-opacity hover:opacity-75">
                                     <img src="{{ asset('images/footer/twitter.png') }}" alt="" class="h-10 w-10 object-contain">
                                 </a>
-                                <a href="#" aria-label="TikTok" class="transition-opacity hover:opacity-75">
+                                <a href="{{ $contact?->tiktok_url ?: '#' }}" {{ $contact?->tiktok_url ? 'target="_blank"' : '' }} aria-label="TikTok" class="transition-opacity hover:opacity-75">
                                     <img src="{{ asset('images/footer/tiktok.png') }}" alt="" class="h-10 w-10 object-contain">
                                 </a>
-                                <a href="#" aria-label="Instagram" class="transition-opacity hover:opacity-75">
+                                <a href="{{ $contact?->instagram_url ?: '#' }}" {{ $contact?->instagram_url ? 'target="_blank"' : '' }} aria-label="Instagram" class="transition-opacity hover:opacity-75">
                                     <img src="{{ asset('images/footer/instagram.png') }}" alt="" class="h-10 w-10 object-contain">
                                 </a>
                             </div>
@@ -653,15 +662,15 @@
                             <div class="mt-[2.2rem] space-y-[0.95rem] text-[0.9375rem] font-medium tracking-[0.05em] text-white/92">
                                 <div class="flex items-center gap-[0.65rem]">
                                     <img src="{{ asset('images/footer/whatsapp.png') }}" alt="" class="h-[1.875rem] w-[1.875rem] shrink-0 object-contain">
-                                    <span>+62 23456789123</span>
+                                    <span>{{ $contact?->whatsapp_number ?: '+62 23456789123' }}</span>
                                 </div>
                                 <div class="flex items-center gap-[0.65rem]">
                                     <img src="{{ asset('images/footer/email.png') }}" alt="" class="h-[1.875rem] w-[1.875rem] shrink-0 object-contain">
-                                    <span>deenhag@gmail.com</span>
+                                    <span>{{ $contact?->email ?: 'deenhag@gmail.com' }}</span>
                                 </div>
                                 <div class="flex items-center gap-[0.65rem]">
                                     <img src="{{ asset('images/footer/address.png') }}" alt="" class="h-[1.875rem] w-[1.875rem] shrink-0 object-contain">
-                                    <span>Ponorogo, Indonesia</span>
+                                    <span>{{ $contact?->address ?: 'Ponorogo, Indonesia' }}</span>
                                 </div>
                             </div>
                         </div>

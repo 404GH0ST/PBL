@@ -120,9 +120,9 @@
                 </div>
 
                 @php
-                    $bigCard    = $featuredList[0];
-                    $midCards   = $featuredList->slice(0, 2)->values();
-                    $smallCards = $featuredList->take(3)->values();
+                    $bigCard    = $featuredList[0] ?? null;
+                    $midCards   = $featuredList->slice(1, 2)->values();
+                    $smallCards = $featuredList->slice(3)->values();
                 @endphp
 
                 <div class="mt-8 flex flex-col gap-8 lg:flex-row lg:gap-8">

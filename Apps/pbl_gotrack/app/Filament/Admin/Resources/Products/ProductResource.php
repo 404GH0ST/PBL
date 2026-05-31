@@ -14,7 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use App\Filament\Admin\Resources\Products\Infolists\ProductInfolist;
+use App\Filament\Admin\Resources\Products\Schemas\ProductInfolist;
 
 class ProductResource extends Resource
 {

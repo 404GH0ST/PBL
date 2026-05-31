@@ -125,6 +125,7 @@ class PostSeeder extends Seeder
                     'content'      => $this->buildContent($data['title'], $data['excerpt']),
                     'excerpt'      => $data['excerpt'],
                     'image_path'   => "https://picsum.photos/seed/{$data['seed']}/1200/720",
+                    'status'       => Post::STATUS_PUBLISHED,
                     'is_published' => true,
                     'published_at' => $now->copy()->subDays($index * 2),
                 ]

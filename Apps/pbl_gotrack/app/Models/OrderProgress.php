@@ -27,4 +27,24 @@ class OrderProgress extends Model
     {
         return $this->belongsTo(User::class, 'staff_id');
     }
+
+    protected static function booted(): void
+    {
+        static::creating(function (self $progress): void {
+            if (!$progress->staff_id) {
+                $progress->staff_id = auth()->id();
+            }
+
+            if (!$progress->title && $progress->production_stage_id) {
+                $stage = \App\Models\ProductionStage::find($progress->production_stage_id);
+                if ($stage) {
+                    $progress->title = $stage->name;
+                }
+            }
+
+            if (!$progress->title) {
+                $progress->title = 'Update Progress';
+            }
+        });
+    }
 }

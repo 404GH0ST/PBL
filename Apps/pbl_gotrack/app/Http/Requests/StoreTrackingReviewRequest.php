@@ -19,6 +19,8 @@ class StoreTrackingReviewRequest extends FormRequest
         return [
             'rating' => ['required', 'integer', 'min:1', 'max:5'],
             'comment' => ['nullable', 'string', 'max:1000'],
+            'customer_name' => ['required', 'string', 'max:255'],
+            'customer_whatsapp' => ['required', 'string', 'max:50'],
         ];
     }
 }

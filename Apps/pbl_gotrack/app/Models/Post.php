@@ -79,4 +79,15 @@ class Post extends Model
             return $date?->translatedFormat('j F Y');
         });
     }
+
+    protected static function booted(): void
+    {
+        static::saving(function (self $post): void {
+            $post->is_published = ($post->status ?? self::STATUS_DRAFT) === self::STATUS_PUBLISHED;
+
+            if ($post->is_published && !$post->published_at) {
+                $post->published_at = now();
+            }
+        });
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Admin\Resources\Orders\Infolists;
+namespace App\Filament\Admin\Resources\Orders\Schemas;
 
 
 use Filament\Schemas\Schema;
