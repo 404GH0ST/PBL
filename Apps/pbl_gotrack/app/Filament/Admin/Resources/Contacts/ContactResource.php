@@ -18,9 +18,11 @@ class ContactResource extends Resource
 {
     protected static ?string $model = Contact::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-phone';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-globe-alt';
     protected static string|UnitEnum|null $navigationGroup = 'Konten';
-    protected static ?string $navigationLabel = 'Contact';
+    protected static ?string $navigationLabel = 'Profil Web';
+    protected static ?string $modelLabel = 'Profil Web';
+    protected static ?string $pluralModelLabel = 'Profil Web';
     protected static ?int $navigationSort = 2;
 
     protected static ?string $recordTitleAttribute = 'title';
