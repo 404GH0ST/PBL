@@ -73,12 +73,12 @@
                     <section class="pt-20 md:pt-24 lg:pt-30">
                         <div class="grid gap-y-10 lg:grid-cols-[27rem_25rem_21rem] lg:grid-rows-[auto_1fr] lg:gap-x-10 lg:gap-y-7">
                             <h2 class="font-display text-[3rem] leading-none font-bold tracking-[-0.05em] text-[#78a4c6] md:text-[4rem] lg:col-span-2">
-                                Tentang Kami
+                                {{ $contact?->about_title ?: 'Tentang Kami' }}
                             </h2>
 
                             <div class="lg:row-start-2">
                                 <p class="max-w-[28rem] text-[1.3rem] leading-[1.5] font-medium tracking-[-0.03em] text-white md:text-[1.55rem] lg:text-[1.12rem] lg:leading-[1.45]">
-                                    Solusi Konveksi dan Digital Printing untuk Kebutuhan Personal, Komunitas, dan Bisnis
+                                    {{ $contact?->about_tagline ?: 'Solusi Konveksi dan Digital Printing untuk Kebutuhan Personal, Komunitas, dan Bisnis' }}
                                 </p>
 
                                 <div class="mt-6 overflow-hidden">
@@ -96,13 +96,21 @@
                             </div>
 
                             <div class="space-y-8 text-[1.04rem] leading-[2] text-white/82 md:text-[1.12rem] lg:row-start-2 lg:pt-1 lg:text-[0.98rem] lg:leading-[2.1]">
-                                <p>
-                                    Deenhag hadir sebagai layanan konveksi dan digital printing yang berfokus pada kualitas, kerapian, dan hasil visual yang maksimal. Kami melayani berbagai kebutuhan seperti kaos custom, jersey, banner, cetak DTF, nota, hingga stempel untuk mendukung kebutuhan promosi, identitas brand, maupun operasional usaha.
-                                </p>
+                                @if($contact?->about_description)
+                                    @foreach(explode("\n\n", str_replace("\r", "", $contact->about_description)) as $paragraph)
+                                        @if(trim($paragraph))
+                                            <p>{!! nl2br(e(trim($paragraph))) !!}</p>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    <p>
+                                        Deenhag hadir sebagai layanan konveksi dan digital printing yang berfokus pada kualitas, kerapian, dan hasil visual yang maksimal. Kami melayani berbagai kebutuhan seperti kaos custom, jersey, banner, cetak DTF, nota, hingga stempel untuk mendukung kebutuhan promosi, identitas brand, maupun operasional usaha.
+                                    </p>
 
-                                <p>
-                                    Dengan proses produksi yang detail, bahan yang berkualitas, serta pelayanan yang responsif, kami berkomitmen memberikan hasil yang tidak hanya menarik secara tampilan, tetapi juga nyaman, fungsional, dan siap digunakan sesuai kebutuhan Anda.
-                                </p>
+                                    <p>
+                                        Dengan proses produksi yang detail, bahan yang berkualitas, serta pelayanan yang responsif, kami berkomitmen memberikan hasil yang tidak hanya menarik secara tampilan, tetapi juga nyaman, fungsional, dan siap digunakan sesuai kebutuhan Anda.
+                                    </p>
+                                @endif
                             </div>
 
                             <div class="flex items-start justify-center lg:col-start-3 lg:row-span-2 lg:justify-end lg:pt-3">

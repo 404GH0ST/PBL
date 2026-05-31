@@ -23,6 +23,9 @@ class Contact extends Model
         'twitter_url',
         'tiktok_url',
         'instagram_url',
+        'about_title',
+        'about_tagline',
+        'about_description',
         'is_active',
     ];
 

@@ -32,6 +32,27 @@ class ContactForm
                     ])
                     ->columns(2),
 
+                Section::make('Tentang Kami')
+                    ->schema([
+                        TextInput::make('about_title')
+                            ->label('Judul Tentang Kami')
+                            ->maxLength(255)
+                            ->placeholder('Tentang Kami'),
+
+                        TextInput::make('about_tagline')
+                            ->label('Tagline Tentang Kami')
+                            ->maxLength(255)
+                            ->columnSpanFull()
+                            ->placeholder('Solusi Konveksi dan Digital Printing untuk Kebutuhan Personal, Komunitas, dan Bisnis'),
+
+                        Textarea::make('about_description')
+                            ->label('Deskripsi Tentang Kami')
+                            ->rows(6)
+                            ->columnSpanFull()
+                            ->placeholder("Deenhag hadir sebagai layanan konveksi...\n\nDengan proses produksi..."),
+                    ])
+                    ->columns(2),
+
                 Section::make('Kontak Utama')
                     ->schema([
                         TextInput::make('whatsapp_number')
