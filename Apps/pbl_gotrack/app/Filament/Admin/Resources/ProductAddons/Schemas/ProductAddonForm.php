@@ -41,6 +41,7 @@ class ProductAddonForm
                     ->numeric()
                     ->default(0)
                     ->required()
+                    ->minValue(0)
                     ->helperText('Isi 0 jika variasi ini gratis (Free).'),
             ]);
     }

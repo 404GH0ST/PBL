@@ -91,6 +91,7 @@ class OrderForm
                                             TextInput::make('quantity')
                                                 ->label('Jumlah Qty')
                                                 ->numeric()->default(1)->required()->live(onBlur: true)
+                                                ->minValue(1)
                                                 ->afterStateUpdated(fn($set, $get) => self::calculateTotal($set, $get))
                                                 ->columnSpan(1),
                                         ])->columns(3)->defaultItems(1)->addActionLabel('+ Tambah Rincian')->columnSpanFull(),
@@ -128,6 +129,7 @@ class OrderForm
                                     TextInput::make('dp_amount')
                                         ->label('Nominal DP (Dibayar Sekarang)')
                                         ->numeric()->prefix('Rp')
+                                        ->minValue(0)
                                         ->visible(fn($get) => $get('payment_status') === 'dp')
                                         ->required(fn($get) => $get('payment_status') === 'dp'),
                                 ]),

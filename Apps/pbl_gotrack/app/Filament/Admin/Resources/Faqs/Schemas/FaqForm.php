@@ -35,7 +35,8 @@ class FaqForm
                             ->label('Urutan')
                             ->numeric()
                             ->default(0)
-                            ->required(),
+                            ->required()
+                            ->minValue(0),
 
                         Toggle::make('is_active')
                             ->label('Aktif')
