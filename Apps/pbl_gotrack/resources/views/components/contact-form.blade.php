@@ -19,47 +19,55 @@
 
     <div class="mt-8 grid gap-10 lg:mt-10 lg:grid-cols-[1fr_1fr] lg:gap-16">
         {{-- Left: Contact Form --}}
-        <form action="#" method="POST" class="space-y-4">
-            @csrf
-            <div>
-                <input
-                    type="text"
-                    name="nama"
-                    placeholder="Nama"
-                    required
-                    class="contact-input w-full rounded-md px-4 py-3 font-['Inter',sans-serif] text-[0.9rem]"
-                >
-            </div>
+        <div>
+            @if (session('contact_success'))
+                <div class="mb-5 rounded-lg bg-green-500/10 p-4 border border-green-500/25 text-green-400 text-[0.88rem] font-medium font-['Inter',sans-serif]">
+                    {{ session('contact_success') }}
+                </div>
+            @endif
 
-            <div>
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    required
-                    class="contact-input w-full rounded-md px-4 py-3 font-['Inter',sans-serif] text-[0.9rem]"
-                >
-            </div>
+            <form action="{{ route('contact.submit') }}" method="POST" class="space-y-4">
+                @csrf
+                <div>
+                    <input
+                        type="text"
+                        name="nama"
+                        placeholder="Nama"
+                        required
+                        class="contact-input w-full rounded-md px-4 py-3 font-['Inter',sans-serif] text-[0.9rem]"
+                    >
+                </div>
 
-            <div>
-                <textarea
-                    name="pesan"
-                    placeholder="Pesan"
-                    rows="5"
-                    required
-                    class="contact-input w-full resize-none rounded-md px-4 py-3 font-['Inter',sans-serif] text-[0.9rem]"
-                ></textarea>
-            </div>
+                <div>
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        required
+                        class="contact-input w-full rounded-md px-4 py-3 font-['Inter',sans-serif] text-[0.9rem]"
+                    >
+                </div>
 
-            <div class="flex justify-end">
-                <button
-                    type="submit"
-                    class="contact-btn rounded-md px-8 py-2.5 font-['Inter',sans-serif] text-[0.88rem] font-semibold transition-opacity"
-                >
-                    Kirim
-                </button>
-            </div>
-        </form>
+                <div>
+                    <textarea
+                        name="pesan"
+                        placeholder="Pesan"
+                        rows="5"
+                        required
+                        class="contact-input w-full resize-none rounded-md px-4 py-3 font-['Inter',sans-serif] text-[0.9rem]"
+                    ></textarea>
+                </div>
+
+                <div class="flex justify-end">
+                    <button
+                        type="submit"
+                        class="contact-btn rounded-md px-8 py-2.5 font-['Inter',sans-serif] text-[0.88rem] font-semibold transition-opacity"
+                    >
+                        Kirim
+                    </button>
+                </div>
+            </form>
+        </div>
 
         {{-- Right: Contact Info --}}
         <div class="space-y-7">

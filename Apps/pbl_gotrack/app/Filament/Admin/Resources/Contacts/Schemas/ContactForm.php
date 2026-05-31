@@ -23,10 +23,12 @@ class ContactForm
 
                         TextInput::make('subtitle')
                             ->label('Subjudul')
+                            ->nullable()
                             ->maxLength(255),
 
                         Textarea::make('description')
                             ->label('Deskripsi')
+                            ->nullable()
                             ->rows(5)
                             ->columnSpanFull(),
                     ])
@@ -36,17 +38,20 @@ class ContactForm
                     ->schema([
                         TextInput::make('about_title')
                             ->label('Judul Tentang Kami')
+                            ->nullable()
                             ->maxLength(255)
                             ->placeholder('Tentang Kami'),
 
                         TextInput::make('about_tagline')
                             ->label('Tagline Tentang Kami')
+                            ->nullable()
                             ->maxLength(255)
                             ->columnSpanFull()
                             ->placeholder('Solusi Konveksi dan Digital Printing untuk Kebutuhan Personal, Komunitas, dan Bisnis'),
 
                         Textarea::make('about_description')
                             ->label('Deskripsi Tentang Kami')
+                            ->nullable()
                             ->rows(6)
                             ->columnSpanFull()
                             ->placeholder("Deenhag hadir sebagai layanan konveksi...\n\nDengan proses produksi..."),
@@ -57,21 +62,25 @@ class ContactForm
                     ->schema([
                         TextInput::make('whatsapp_number')
                             ->label('Nomor WhatsApp')
+                            ->nullable()
                             ->tel()
                             ->maxLength(255),
 
                         TextInput::make('phone_number')
                             ->label('Nomor Telepon')
+                            ->nullable()
                             ->tel()
                             ->maxLength(255),
 
                         TextInput::make('email')
                             ->label('Email')
+                            ->nullable()
                             ->email()
                             ->maxLength(255),
 
                         Textarea::make('address')
                             ->label('Alamat')
+                            ->nullable()
                             ->rows(3)
                             ->columnSpanFull(),
                     ])
@@ -81,12 +90,14 @@ class ContactForm
                     ->schema([
                         TextInput::make('google_maps_url')
                             ->label('URL Google Maps')
+                            ->nullable()
                             ->url()
                             ->maxLength(255)
                             ->columnSpanFull(),
 
                         Textarea::make('google_maps_embed_url')
                             ->label('URL Embed Google Maps')
+                            ->nullable()
                             ->rows(3)
                             ->columnSpanFull(),
                     ]),
@@ -95,21 +106,25 @@ class ContactForm
                     ->schema([
                         TextInput::make('facebook_url')
                             ->label('Facebook URL')
+                            ->nullable()
                             ->url()
                             ->maxLength(255),
 
                         TextInput::make('twitter_url')
                             ->label('Twitter URL')
+                            ->nullable()
                             ->url()
                             ->maxLength(255),
 
                         TextInput::make('tiktok_url')
                             ->label('TikTok URL')
+                            ->nullable()
                             ->url()
                             ->maxLength(255),
 
                         TextInput::make('instagram_url')
                             ->label('Instagram URL')
+                            ->nullable()
                             ->url()
                             ->maxLength(255),
                     ])
