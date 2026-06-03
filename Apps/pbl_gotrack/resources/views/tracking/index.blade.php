@@ -29,6 +29,7 @@
         $statusDateLabel = $statusMoment?->locale('id')->translatedFormat('d F Y, l');
         $canConfirm = $order?->status === 'shipped' && $order?->review === null;
         $addressText = filled($order?->shipping_address) ? $order->shipping_address : 'Data alamat belum tersedia pada pesanan ini.';
+        $customerReview = $order?->review;
     @endphp
 
     <div
@@ -116,6 +117,34 @@
                                                 >
                                                     Konfirmasi
                                                 </button>
+                                            </div>
+                                        @endif
+
+                                        @if ($customerReview)
+                                            <div class="mt-12 border-t tracking-divider pt-5">
+                                                <p class="font-['Inter',sans-serif] text-[15px] font-bold">Ulasan Anda</p>
+                                                <div class="tracking-review-card mt-4 rounded-[14px] border px-4 py-4">
+                                                    <div class="flex items-center justify-between gap-3">
+                                                        <div class="flex items-center gap-1" aria-label="Rating {{ $customerReview->product_rating }} dari 5">
+                                                            @for ($star = 1; $star <= 5; $star++)
+                                                                <span class="{{ $star <= (int) $customerReview->product_rating ? 'text-[#f59e0b]' : 'tracking-review-star-muted' }} text-[18px] leading-none">★</span>
+                                                            @endfor
+                                                        </div>
+                                                        <p class="tracking-card-muted text-right font-['Plus_Jakarta_Sans',sans-serif] text-[11px] font-bold">
+                                                            {{ $customerReview->created_at?->locale('id')->translatedFormat('d F Y') }}
+                                                        </p>
+                                                    </div>
+
+                                                    @if (filled($customerReview->comment))
+                                                        <p class="mt-3 font-['Plus_Jakarta_Sans',sans-serif] text-[14px] font-bold leading-relaxed">
+                                                            “{{ $customerReview->comment }}”
+                                                        </p>
+                                                    @else
+                                                        <p class="tracking-card-muted mt-3 font-['Plus_Jakarta_Sans',sans-serif] text-[14px] font-bold leading-relaxed">
+                                                            Pelanggan memberikan rating tanpa komentar.
+                                                        </p>
+                                                    @endif
+                                                </div>
                                             </div>
                                         @endif
                                     </div>

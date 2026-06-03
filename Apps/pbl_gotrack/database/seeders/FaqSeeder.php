@@ -14,28 +14,28 @@ class FaqSeeder extends Seeder
     {
         $faqs = [
             [
-                'question' => 'Lorem ipsum dolor sit amet consectetur adipiscing elit, quis nostrud exercitation ullamco laboris nisi ut aliquip ...',
-                'answer' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pulvinar mattis nunc sed blandit libero volutpat. Egestas fringilla phasellus faucibus scelerisque eleifend. Iaculis massa id neque aliquam vestibulum morbi.',
+                'question' => 'Bagaimana cara memesan produk di Deenhag?',
+                'answer' => 'Pelanggan dapat memilih produk melalui katalog, kemudian menghubungi admin melalui WhatsApp untuk konsultasi desain, jumlah pesanan, ukuran, dan estimasi biaya. Setelah pembayaran dilakukan, admin akan membuat data pesanan dan mengirimkan kode tracking.',
             ],
             [
-                'question' => 'Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque.',
-                'answer' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore. 13 hendrerit semper vel taciti sapien sociis vel sem porttere. Quisque faucibus ex sapien vitae pellentesque.',
+                'question' => 'Di mana pelanggan dapat melihat progres pesanan?',
+                'answer' => 'Pelanggan dapat membuka menu Lacak Pesanan, memasukkan kode tracking yang diberikan admin, lalu melihat status produksi, riwayat progres, dan informasi pesanan secara mandiri.',
             ],
             [
-                'question' => 'Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque.',
-                'answer' => 'Pulvinar mattis nunc sed blandit libero volutpat. Egestas fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate. Iaculis massa id neque aliquam vestibulum morbi blandit cursus risus.',
+                'question' => 'Apakah pelanggan harus login untuk melacak pesanan?',
+                'answer' => 'Tidak. Pelanggan cukup menggunakan kode tracking yang dikirimkan melalui WhatsApp setelah pesanan dibuat oleh admin.',
             ],
             [
-                'question' => 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ...',
-                'answer' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor. Egestas fringilla phasellus faucibus scelerisque eleifend. Iaculis massa id neque aliquam vestibulum morbi.',
+                'question' => 'Kapan pelanggan dapat memberikan ulasan?',
+                'answer' => 'Ulasan dapat diberikan setelah pesanan selesai atau saat pelanggan mengonfirmasi bahwa pesanan sudah diterima dengan baik.',
             ],
             [
-                'question' => 'Lorem ipsum dolor sit amet consectetur adipiscing elit, quis nostrud exercitation ullamco laboris nisi ut aliquip ...',
-                'answer' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore. Quisque faucibus ex sapien vitae pellentesque sem placerat. 13 hendrerit semper vel taciti sapien sociis porttere.',
+                'question' => 'Produk apa saja yang tersedia di katalog?',
+                'answer' => 'Katalog menampilkan layanan digital printing dan konveksi seperti jersey, banner atau spanduk, serta stempel. Produk dapat dilihat berdasarkan kategori dan detail harga.',
             ],
             [
-                'question' => 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ...',
-                'answer' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt. Egestas fringilla phasellus faucibus scelerisque eleifend donec. 13 hendrerit semper vel taciti sapien sociis vel porttere.',
+                'question' => 'Siapa yang memperbarui status pesanan?',
+                'answer' => 'Admin memperbarui status pesanan melalui dashboard. Setiap perubahan progres akan tampil pada halaman tracking pelanggan sesuai kode pesanan.',
             ],
         ];
 

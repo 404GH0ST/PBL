@@ -31,7 +31,7 @@ class AuthenticatedSessionController extends Controller
         $user = auth()->user();
 
         // 1. Menggunakan '?->' untuk mencegah error jika tabel relasi terputus/kosong
-        if (in_array($user->role?->role_kode, ['super_admin', 'admin'])) {
+        if (in_array($user->role?->role_kode, ['superAdmin', 'admin'])) {
             // 2. Indentasi diperbaiki agar logika if terlihat jelas
             return redirect()->intended(route('filament.admin.pages.dashboard'));
         }

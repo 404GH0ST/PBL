@@ -11,7 +11,7 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600|dm-sans:600,700,800|plus-jakarta-sans:600&display=swap" rel="stylesheet" />
 
-        @if (request()->routeIs('login'))
+        @if (request()->routeIs('login') || request()->routeIs('password.request') || request()->routeIs('password.reset'))
             <x-theme-preload />
         @endif
 
@@ -19,7 +19,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        @if (request()->routeIs('login'))
+        @if (request()->routeIs('login') || request()->routeIs('password.request') || request()->routeIs('password.reset'))
             {{ $slot }}
         @else
             <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">

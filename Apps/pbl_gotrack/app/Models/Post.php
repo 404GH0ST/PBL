@@ -48,6 +48,7 @@ class Post extends Model
     /**
      * Resolve image URL. Supports:
      *  - Full http(s) URLs (e.g. picsum placeholders for seed data)
+     *  - Public asset paths (e.g. "images/blog/foo.jpg")
      *  - Storage paths (e.g. "posts/foo.jpg")
      *  - null (returns a generated placeholder)
      */
@@ -63,6 +64,10 @@ class Post extends Model
 
             if (Str::startsWith($path, ['http://', 'https://'])) {
                 return $path;
+            }
+
+            if (Str::startsWith($path, ['/images/', 'images/'])) {
+                return asset(ltrim($path, '/'));
             }
 
             return asset('storage/' . ltrim($path, '/'));

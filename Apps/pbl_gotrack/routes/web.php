@@ -49,7 +49,7 @@ Route::get('/dashboard', function () {
         return redirect('/');
     }
 
-    if (in_array($user->role?->role_kode, ['super_admin', 'admin'])) {
+    if (in_array($user->role?->role_kode, ['superAdmin', 'admin'])) {
         return redirect()->route('filament.admin.pages.dashboard');
     }
 
