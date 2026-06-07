@@ -18,6 +18,7 @@ class NextProgressAction
             ->label('Next Progress')
             ->icon('heroicon-o-forward')
             ->color('success')
+            ->authorize('updateProgress')
             ->hidden(function ($record) {
                 if (!$record || !$record->product || !$record->product->category_id) return true;
 

@@ -9,6 +9,7 @@ use App\Filament\Admin\Resources\Orders\Schemas\OrderForm;
 use App\Filament\Admin\Resources\Orders\Tables\OrdersTable;
 use App\Filament\Admin\Resources\Orders\Actions\NextProgressAction;
 use App\Models\Order;
+use App\Models\User;
 use BackedEnum;
 use UnitEnum;
 use Filament\Resources\Resource;
@@ -17,6 +18,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Filament\Actions\ViewAction;
 use Filament\Actions\EditAction;
+use Filament\Support\Enums\Width;
 use App\Filament\Admin\Resources\Orders\Schemas\OrderInfolist;
 use App\Filament\Admin\Resources\Orders\RelationManagers\ProgressRelationManager;
 
@@ -49,8 +51,13 @@ class OrderResource extends Resource
     public static function table(Table $table): Table
     {
         return OrdersTable::configure($table)->actions([
-            ViewAction::make('view'),
-            EditAction::make(),
+            ViewAction::make('view')
+                ->authorize('view')
+                ->modalWidth(Width::TwoExtraLarge)
+                ->modalCancelActionLabel('Close'),
+            EditAction::make()
+                ->authorize('update')
+                ->visible(fn(): bool => auth()->user() instanceof User && auth()->user()->isSuperAdmin()),
 
             NextProgressAction::make(),
         ]);

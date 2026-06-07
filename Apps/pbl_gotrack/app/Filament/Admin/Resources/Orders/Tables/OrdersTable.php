@@ -11,10 +11,12 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Schemas\Components\Grid;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Enums\Width;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\ImageEntry;
 use App\Filament\Admin\Resources\Orders\Actions\NextProgressAction;
+use App\Models\Order;
+use App\Models\User;
 
 class OrdersTable
 {
@@ -45,6 +47,7 @@ class OrdersTable
                     ->tooltip('Klik untuk melihat detail riwayat') // Memberi petunjuk kursor bahwa ini bisa diklik
                     ->action(
                         Action::make('riwayat_produksi')
+                            ->authorize('view')
                             ->modalHeading('Riwayat Tahapan Produksi')
                             ->modalWidth('2xl')
                             ->modalSubmitAction(false) // Hilangkan tombol "Submit"
@@ -108,11 +111,17 @@ class OrdersTable
                 //
             ])
             ->recordActions([
-                ViewAction::make(),
+                ViewAction::make()
+                    ->authorize('view')
+                    ->modalWidth(Width::ExtraLarge)
+                    ->modalCancelActionLabel('Close'),
 
-                EditAction::make(),
+                EditAction::make()
+                    ->authorize('update')
+                    ->visible(fn(): bool => auth()->user() instanceof User && auth()->user()->isSuperAdmin()),
 
                 Action::make('riwayat_produksi')
+                    ->authorize('view')
                     ->label('Riwayat')
                     ->icon('heroicon-o-clock')
                     ->color('info')
@@ -163,7 +172,9 @@ class OrdersTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->authorize('deleteAny', Order::class)
+                        ->visible(fn(): bool => auth()->user() instanceof User && auth()->user()->isSuperAdmin()),
                 ]),
             ]);
     }
