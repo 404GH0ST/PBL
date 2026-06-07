@@ -117,21 +117,44 @@ class OrderForm
                                         ->prefix('Rp')
                                         ->extraInputAttributes(['class' => 'text-2xl font-bold text-primary-600'])
                                         ->default(0)->disabled()->dehydrated(),
-                                    Select::make('payment_status')
-                                        ->label('Status Pembayaran')
+                                    Select::make('payment_type')
+                                        ->label('Tipe Pembayaran')
                                         ->options([
-                                            'unpaid' => 'Belum Bayar',
-                                            'dp' => 'DP (Uang Muka)',
-                                            'paid' => 'Lunas',
+                                            'dp' => 'DP / Uang Muka',
+                                            'paid' => 'Lunas Langsung',
                                         ])
-                                        ->default('unpaid')->live()->required()
+                                        ->default('dp')
+                                        ->live()
+                                        ->required()
+                                        ->afterStateUpdated(fn($set, $get) => self::calculatePayment($set, $get))
                                         ->extraInputAttributes(['style' => 'background-image: none; -webkit-appearance: none; appearance: none; padding-right: 1rem;']),
                                     TextInput::make('dp_amount')
-                                        ->label('Nominal DP (Dibayar Sekarang)')
+                                        ->label('DP / Uang Muka')
                                         ->numeric()->prefix('Rp')
                                         ->minValue(0)
-                                        ->visible(fn($get) => $get('payment_status') === 'dp')
-                                        ->required(fn($get) => $get('payment_status') === 'dp'),
+                                        ->default(0)
+                                        ->live(onBlur: true)
+                                        ->afterStateUpdated(fn($set, $get) => self::calculatePayment($set, $get))
+                                        ->visible(fn($get) => $get('payment_type') === 'dp')
+                                        ->required(fn($get) => $get('payment_type') === 'dp'),
+                                    TextInput::make('paid_amount')
+                                        ->label('Total Dibayar')
+                                        ->prefix('Rp')
+                                        ->default(0)
+                                        ->disabled()
+                                        ->dehydrated(false),
+                                    TextInput::make('remaining_payment')
+                                        ->label('Kekurangan Pembayaran')
+                                        ->prefix('Rp')
+                                        ->default(0)
+                                        ->disabled()
+                                        ->dehydrated(false),
+                                    TextInput::make('payment_status')
+                                        ->label('Status Pembayaran')
+                                        ->default('dp')
+                                        ->disabled()
+                                        ->dehydrated(false)
+                                        ->formatStateUsing(fn($state) => $state === 'paid' ? 'Lunas' : 'DP / Belum Lunas'),
                                 ]),
                             // RIWAYAT PRODUKSI DI SINI SUDAH DIHAPUS SEPENUHNYA
                         ])->columnSpan(['default' => 3, 'lg' => 1]),
@@ -167,9 +190,35 @@ class OrderForm
         if ($isInsideRepeater) {
             $set('../../total_price', $totalItemsPrice);
             $set('../../quantity', $totalQuantity);
+            self::calculatePayment(
+                fn(string $key, mixed $value) => $set("../../{$key}", $value),
+                fn(string $key) => $get("../../{$key}")
+            );
         } else {
             $set('total_price', $totalItemsPrice);
             $set('quantity', $totalQuantity);
+            self::calculatePayment($set, $get);
         }
+    }
+
+    protected static function calculatePayment($set, $get): void
+    {
+        $totalPrice = max((int) ($get('total_price') ?? 0), 0);
+        $paymentType = $get('payment_type') === 'paid' ? 'paid' : 'dp';
+
+        if ($paymentType === 'paid') {
+            $set('dp_amount', null);
+            $set('paid_amount', $totalPrice);
+            $set('remaining_payment', 0);
+            $set('payment_status', 'paid');
+
+            return;
+        }
+
+        $dpAmount = min(max((int) ($get('dp_amount') ?? 0), 0), $totalPrice);
+
+        $set('paid_amount', $dpAmount);
+        $set('remaining_payment', max($totalPrice - $dpAmount, 0));
+        $set('payment_status', 'dp');
     }
 }

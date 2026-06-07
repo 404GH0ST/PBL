@@ -19,8 +19,11 @@ class Order extends Model
         'selected_addons',
         'quantity',
         'total_price',
+        'payment_type',
         'payment_status',
         'dp_amount',
+        'paid_amount',
+        'paid_at',
         'notes',
         'completion_proof_path',
         'status',
@@ -31,6 +34,7 @@ class Order extends Model
 
     protected $casts = [
         'selected_addons' => 'array',
+        'paid_at' => 'datetime',
         'shipped_at' => 'datetime',
         'completed_at' => 'datetime',
         'customer_confirmed_at' => 'datetime',
@@ -39,20 +43,73 @@ class Order extends Model
     protected static function booted(): void
     {
         static::saving(function (self $order): void {
-            if (!$order->isDirty('status')) {
-                return;
-            }
+            $order->syncPaymentState();
 
-            if ($order->status === 'shipped' && $order->shipped_at === null) {
-                $order->shipped_at = now();
-            }
+            if ($order->isDirty('status')) {
+                if ($order->status === 'shipped' && $order->shipped_at === null) {
+                    $order->shipped_at = now();
+                }
 
-            if ($order->status === 'completed') {
-                $order->completed_at ??= now();
-                $order->customer_confirmed_at ??= now();
-                $order->shipped_at ??= $order->completed_at;
+                if ($order->status === 'completed') {
+                    $order->completed_at ??= now();
+                    $order->customer_confirmed_at ??= now();
+                    $order->shipped_at ??= $order->completed_at;
+                }
             }
         });
+    }
+
+    public function getRemainingPaymentAttribute(): int
+    {
+        return max((int) $this->total_price - (int) $this->paid_amount, 0);
+    }
+
+    public function getSettlementAmountAttribute(): int
+    {
+        if ($this->payment_status !== 'paid') {
+            return 0;
+        }
+
+        return max((int) $this->total_price - (int) $this->dp_amount, 0);
+    }
+
+    public function getPaymentTypeLabelAttribute(): string
+    {
+        return match ($this->payment_type) {
+            'paid' => 'Lunas Langsung',
+            default => 'DP / Uang Muka',
+        };
+    }
+
+    public function getPaymentStatusLabelAttribute(): string
+    {
+        return match ($this->payment_status) {
+            'paid' => 'Lunas',
+            'dp' => 'DP / Belum Lunas',
+            default => 'Belum Bayar',
+        };
+    }
+
+    protected function syncPaymentState(): void
+    {
+        $totalPrice = max((int) $this->total_price, 0);
+        $this->payment_type = $this->payment_type === 'paid' ? 'paid' : 'dp';
+
+        if ($this->payment_type === 'paid') {
+            $this->dp_amount = $this->dp_amount ?: null;
+            $this->paid_amount = $totalPrice;
+            $this->payment_status = 'paid';
+            $this->paid_at ??= now();
+
+            return;
+        }
+
+        $dpAmount = min(max((int) $this->dp_amount, 0), $totalPrice);
+
+        $this->dp_amount = $dpAmount;
+        $this->paid_amount = $dpAmount;
+        $this->payment_status = 'dp';
+        $this->paid_at = null;
     }
 
     public function product()

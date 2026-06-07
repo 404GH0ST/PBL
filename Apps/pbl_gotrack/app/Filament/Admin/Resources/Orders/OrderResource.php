@@ -8,6 +8,7 @@ use App\Filament\Admin\Resources\Orders\Pages\ListOrders;
 use App\Filament\Admin\Resources\Orders\Schemas\OrderForm;
 use App\Filament\Admin\Resources\Orders\Tables\OrdersTable;
 use App\Filament\Admin\Resources\Orders\Actions\NextProgressAction;
+use App\Filament\Admin\Resources\Orders\Actions\UpdatePaymentAction;
 use App\Models\Order;
 use App\Models\User;
 use BackedEnum;
@@ -60,6 +61,7 @@ class OrderResource extends Resource
                 ->visible(fn(): bool => auth()->user() instanceof User && auth()->user()->isSuperAdmin()),
 
             NextProgressAction::make(),
+            UpdatePaymentAction::make(),
         ]);
     }
 

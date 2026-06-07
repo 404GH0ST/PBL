@@ -15,6 +15,7 @@ use Filament\Support\Enums\Width;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\ImageEntry;
 use App\Filament\Admin\Resources\Orders\Actions\NextProgressAction;
+use App\Filament\Admin\Resources\Orders\Actions\UpdatePaymentAction;
 use App\Models\Order;
 use App\Models\User;
 
@@ -169,6 +170,7 @@ class OrdersTable
 
                 // 4. Tombol Kustom: NEXT PROGRESS
                 NextProgressAction::make(),
+                UpdatePaymentAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

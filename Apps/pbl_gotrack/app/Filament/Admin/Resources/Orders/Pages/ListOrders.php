@@ -17,7 +17,7 @@ class ListOrders extends ListRecords
         return [
             CreateAction::make()
                 ->authorize('create', Order::class)
-                ->visible(fn(): bool => auth()->user() instanceof User && auth()->user()->isSuperAdmin()),
+                ->visible(fn(): bool => auth()->user() instanceof User && auth()->user()->isAdminPanelUser()),
         ];
     }
 }

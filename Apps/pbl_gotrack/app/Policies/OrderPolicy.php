@@ -19,7 +19,7 @@ class OrderPolicy
 
     public function create(User $user): bool
     {
-        return $user->isSuperAdmin();
+        return $this->canUseOrders($user);
     }
 
     public function update(User $user, Order $order): bool
@@ -38,6 +38,11 @@ class OrderPolicy
     }
 
     public function updateProgress(User $user, Order $order): bool
+    {
+        return $this->canUseOrders($user);
+    }
+
+    public function updatePayment(User $user, Order $order): bool
     {
         return $this->canUseOrders($user);
     }
