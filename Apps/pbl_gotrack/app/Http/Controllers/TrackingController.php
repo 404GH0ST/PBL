@@ -53,7 +53,8 @@ class TrackingController extends Controller
             ->firstOrFail();
 
         abort_if($order->review !== null, 409);
-        abort_if($order->status === 'cancelled', 422);
+        abort_unless($order->status === 'shipped', 422);
+        abort_unless($order->payment_status === 'paid', 422);
 
         $validated = $request->validated();
 

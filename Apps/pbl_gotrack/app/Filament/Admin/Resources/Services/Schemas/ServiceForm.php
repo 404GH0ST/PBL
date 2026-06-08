@@ -2,11 +2,10 @@
 
 namespace App\Filament\Admin\Resources\Services\Schemas;
 
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -35,6 +34,8 @@ class ServiceForm
                         FileUpload::make('image')
                             ->label('Gambar Layanan')
                             ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(2048)
                             ->disk('public')
                             ->directory('services')
                             ->visibility('public')

@@ -2,20 +2,20 @@
 
 namespace App\Filament\Admin\Resources\Orders\RelationManagers;
 
+use App\Models\ProductionStage;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Forms\Components\TextInput;
-use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Schemas\Schema;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\FileUpload;
+use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class ProgressRelationManager extends RelationManager
 {
@@ -30,9 +30,11 @@ class ProgressRelationManager extends RelationManager
                     ->required()
                     ->options(function (RelationManager $livewire) {
                         $categoryId = $livewire->getOwnerRecord()->product?->category_id;
-                        if (!$categoryId) return [];
+                        if (! $categoryId) {
+                            return [];
+                        }
 
-                        return \App\Models\ProductionStage::where('category_id', $categoryId)
+                        return ProductionStage::where('category_id', $categoryId)
                             ->orderBy('sequence')
                             ->pluck('name', 'id');
                     }),
@@ -41,7 +43,9 @@ class ProgressRelationManager extends RelationManager
                 FileUpload::make('photo')
                     ->label('Foto Bukti')
                     ->directory('orders/progress-photos')
-                    ->image(),
+                    ->image()
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                    ->maxSize(2048),
             ]);
     }
 

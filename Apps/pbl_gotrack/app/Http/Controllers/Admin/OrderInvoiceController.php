@@ -18,28 +18,25 @@ class OrderInvoiceController extends Controller
         return view('admin.orders.invoice', [
             'order' => $order,
             'invoice' => $this->buildInvoiceData($order),
-            'canDownloadPdf' => class_exists(\Barryvdh\DomPDF\Facade\Pdf::class),
         ]);
     }
 
-    public function download(Order $order)
+    public function showForTracking(string $trackingId)
     {
-        $this->authorizeInvoiceAccess();
+        $order = $this->findOrderByTrackingId($trackingId);
 
-        if (! class_exists(\Barryvdh\DomPDF\Facade\Pdf::class)) {
-            abort(404);
-        }
-
-        $order->load('product');
-        $invoice = $this->buildInvoiceData($order);
-        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin.orders.invoice-pdf', [
+        return view('admin.orders.invoice', [
             'order' => $order,
-            'invoice' => $invoice,
-            'canDownloadPdf' => false,
-            'isPdf' => true,
-        ])->setPaper('a4');
+            'invoice' => $this->buildInvoiceData($order),
+        ]);
+    }
 
-        return $pdf->download($invoice['number'] . '.pdf');
+    private function findOrderByTrackingId(string $trackingId): Order
+    {
+        return Order::query()
+            ->with('product')
+            ->where('tracking_id', $trackingId)
+            ->firstOrFail();
     }
 
     private function authorizeInvoiceAccess(): void
@@ -59,7 +56,7 @@ class OrderInvoiceController extends Controller
         $paymentStatus = $isDirectPaid || $order->payment_status === 'paid' ? 'Lunas' : 'Belum Lunas';
 
         return [
-            'number' => 'INV-' . $order->tracking_id,
+            'number' => 'INV-'.$order->tracking_id,
             'product_name' => $order->custom_product_name ?: $order->product?->name ?: '-',
             'addon_groups' => $this->buildAddonGroups($order),
             'payment_type' => $isDirectPaid ? 'Lunas Langsung' : 'DP',
@@ -79,7 +76,7 @@ class OrderInvoiceController extends Controller
             ->pluck('addons')
             ->flatten()
             ->filter()
-            ->map(fn($id) => (int) $id)
+            ->map(fn ($id) => (int) $id)
             ->unique()
             ->values();
 
@@ -95,7 +92,7 @@ class OrderInvoiceController extends Controller
         return $selectedAddons
             ->map(function (array $group) use ($addons): array {
                 $names = collect($group['addons'] ?? [])
-                    ->map(fn($id) => $addons->get((int) $id)?->name)
+                    ->map(fn ($id) => $addons->get((int) $id)?->name)
                     ->filter()
                     ->values()
                     ->all();
@@ -105,7 +102,7 @@ class OrderInvoiceController extends Controller
                     'names' => $names,
                 ];
             })
-            ->filter(fn(array $group): bool => $group['quantity'] > 0 || ! empty($group['names']))
+            ->filter(fn (array $group): bool => $group['quantity'] > 0 || ! empty($group['names']))
             ->values()
             ->all();
     }

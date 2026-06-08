@@ -53,7 +53,6 @@
                     <a href="{{ route('contact') }}" class="block transition hover:opacity-75">Contact</a>
                     <a href="{{ route('catalog') }}" class="block transition hover:opacity-75">Katalog</a>
                     <a href="{{ route('blog.index') }}" class="block transition hover:opacity-75">Blog</a>
-                    <a href="#" class="block transition hover:opacity-75">Keranjang</a>
                     <a href="{{ route('tracking.index') }}" class="block transition hover:opacity-75">Lacak Pesanan</a>
                 </div>
             </div>

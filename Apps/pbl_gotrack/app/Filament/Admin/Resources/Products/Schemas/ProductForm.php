@@ -2,18 +2,16 @@
 
 namespace App\Filament\Admin\Resources\Products\Schemas;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
+use Filament\Actions\Action;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Toggle;
-use Illuminate\Support\Str;
 use Filament\Schemas\Components\Wizard;
 use Filament\Schemas\Components\Wizard\Step;
-use Filament\Forms\Components\RichEditor;
-use Filament\Actions\Action;
+use Filament\Schemas\Schema;
+use Illuminate\Support\Str;
 
 class ProductForm
 {
@@ -30,7 +28,7 @@ class ProductForm
                                 ->label('Name')
                                 ->required()
                                 ->live(onBlur: true)
-                                ->afterStateUpdated(fn($set, $state) => $set('slug', Str::slug($state))),
+                                ->afterStateUpdated(fn ($set, $state) => $set('slug', Str::slug($state))),
                             TextInput::make('slug')
                                 ->label('Sku / Slug')
                                 ->required()
@@ -69,6 +67,8 @@ class ProductForm
                             FileUpload::make('image_path')
                                 ->label('Upload Gambar Produk')
                                 ->image()
+                                ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                                ->maxSize(2048)
                                 ->directory('products')
                                 ->visibility('public')
                                 ->columnSpanFull(),
@@ -84,7 +84,7 @@ class ProductForm
                             ->label('Save Product')
                             ->color('primary')
                             ->submit('save')
-                    ) // (Opsional) Mengizinkan admin melompat ke step 3 tanpa mengisi step 1
+                    ), // (Opsional) Mengizinkan admin melompat ke step 3 tanpa mengisi step 1
             ]);
     }
 }

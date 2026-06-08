@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
@@ -26,6 +26,7 @@ class Order extends Model
         'paid_at',
         'notes',
         'completion_proof_path',
+        'design_file_path',
         'status',
         'shipped_at',
         'completed_at',
@@ -61,7 +62,24 @@ class Order extends Model
 
     public function getRemainingPaymentAttribute(): int
     {
+        if ($this->payment_status === 'paid') {
+            return 0;
+        }
+
         return max((int) $this->total_price - (int) $this->paid_amount, 0);
+    }
+
+    public function getPaidAmountAttribute($value): int
+    {
+        if ($this->payment_status === 'paid') {
+            return (int) $this->total_price;
+        }
+
+        if ($this->payment_status === 'dp') {
+            return max((int) $value, (int) $this->dp_amount);
+        }
+
+        return (int) $value;
     }
 
     public function getSettlementAmountAttribute(): int
@@ -71,6 +89,15 @@ class Order extends Model
         }
 
         return max((int) $this->total_price - (int) $this->dp_amount, 0);
+    }
+
+    public function getReceivedRevenueAttribute(): int
+    {
+        return match ($this->payment_status) {
+            'paid' => (int) $this->total_price,
+            'dp' => (int) $this->paid_amount,
+            default => 0,
+        };
     }
 
     public function getPaymentTypeLabelAttribute(): string

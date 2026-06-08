@@ -8,7 +8,6 @@
     @include('admin.orders.partials.invoice-document', [
         'order' => $order,
         'invoice' => $invoice,
-        'canDownloadPdf' => false,
         'isPdf' => true,
     ])
 </body>

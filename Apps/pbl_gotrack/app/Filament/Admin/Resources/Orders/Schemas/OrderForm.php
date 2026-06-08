@@ -2,17 +2,19 @@
 
 namespace App\Filament\Admin\Resources\Orders\Schemas;
 
+use App\Models\Order;
 use App\Models\Product;
-use Filament\Schemas\Components\Grid;
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\FileUpload;
-use Filament\Schemas\Components\Group;
-use Filament\Schemas\Schema;
 use App\Models\ProductAddon;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Illuminate\Support\Str;
 
 class OrderForm
 {
@@ -48,7 +50,7 @@ class OrderForm
                                         }),
                                     TextInput::make('tracking_id')
                                         ->label('Nomor Resi')
-                                        ->default('CTX-' . strtoupper(uniqid()))
+                                        ->default(fn (): string => self::generateTrackingId())
                                         ->disabled()->dehydrated()->required(),
                                     Select::make('status')
                                         ->label('Status Produksi')
@@ -59,7 +61,7 @@ class OrderForm
                                             'cancelled' => 'Dibatalkan',
                                         ])
                                         ->default('processing')
-                                        ->required(fn($operation) => $operation !== 'view')
+                                        ->required(fn ($operation) => $operation !== 'view')
                                         ->extraInputAttributes(['style' => 'background-image: none; -webkit-appearance: none; appearance: none; padding-right: 1rem;']),
                                 ])->columns(2),
 
@@ -74,25 +76,30 @@ class OrderForm
                                                 ->extraInputAttributes(['style' => 'background-image: none; -webkit-appearance: none; appearance: none;'])
                                                 ->options(function ($get) {
                                                     $productId = $get('../../product_id');
-                                                    if (!$productId) return [];
+                                                    if (! $productId) {
+                                                        return [];
+                                                    }
                                                     $product = Product::find($productId);
-                                                    if (!$product || !$product->category_id) return [];
+                                                    if (! $product || ! $product->category_id) {
+                                                        return [];
+                                                    }
                                                     $addons = ProductAddon::where('category_id', $product->category_id)->get();
                                                     $groupedOptions = [];
                                                     foreach ($addons as $addon) {
-                                                        $priceText = $addon->price > 0 ? " (+Rp " . number_format($addon->price, 0, ',', '.') . ")" : " (Gratis)";
-                                                        $groupedOptions[$addon->type][$addon->id] = $addon->name . $priceText;
+                                                        $priceText = $addon->price > 0 ? ' (+Rp '.number_format($addon->price, 0, ',', '.').')' : ' (Gratis)';
+                                                        $groupedOptions[$addon->type][$addon->id] = $addon->name.$priceText;
                                                     }
+
                                                     return $groupedOptions;
                                                 })
                                                 ->live()
-                                                ->afterStateUpdated(fn($set, $get) => self::calculateTotal($set, $get))
+                                                ->afterStateUpdated(fn ($set, $get) => self::calculateTotal($set, $get))
                                                 ->columnSpan(2),
                                             TextInput::make('quantity')
                                                 ->label('Jumlah Qty')
                                                 ->numeric()->default(1)->required()->live(onBlur: true)
                                                 ->minValue(1)
-                                                ->afterStateUpdated(fn($set, $get) => self::calculateTotal($set, $get))
+                                                ->afterStateUpdated(fn ($set, $get) => self::calculateTotal($set, $get))
                                                 ->columnSpan(1),
                                         ])->columns(3)->defaultItems(1)->addActionLabel('+ Tambah Rincian')->columnSpanFull(),
                                     TextInput::make('quantity')->label('Total Kuantitas Keseluruhan')->numeric()->default(0)->disabled()->dehydrated()->required(),
@@ -100,7 +107,11 @@ class OrderForm
 
                             Section::make('Berkas & Catatan')
                                 ->schema([
-                                    FileUpload::make('design_file')->label('File Desain (Jika Ada)')->directory('orders/designs'),
+                                    FileUpload::make('design_file_path')
+                                        ->label('File Desain (Jika Ada)')
+                                        ->directory('orders/designs')
+                                        ->acceptedFileTypes(['application/pdf', 'image/jpeg', 'image/png', 'image/webp'])
+                                        ->maxSize(5120),
                                     Textarea::make('notes')->label('Catatan Opsional')->columnSpanFull(),
                                 ]),
                         ])->columnSpan(['default' => 3, 'lg' => 2]),
@@ -126,7 +137,7 @@ class OrderForm
                                         ->default('dp')
                                         ->live()
                                         ->required()
-                                        ->afterStateUpdated(fn($set, $get) => self::calculatePayment($set, $get))
+                                        ->afterStateUpdated(fn ($set, $get) => self::calculatePayment($set, $get))
                                         ->extraInputAttributes(['style' => 'background-image: none; -webkit-appearance: none; appearance: none; padding-right: 1rem;']),
                                     TextInput::make('dp_amount')
                                         ->label('DP / Uang Muka')
@@ -134,9 +145,9 @@ class OrderForm
                                         ->minValue(0)
                                         ->default(0)
                                         ->live(onBlur: true)
-                                        ->afterStateUpdated(fn($set, $get) => self::calculatePayment($set, $get))
-                                        ->visible(fn($get) => $get('payment_type') === 'dp')
-                                        ->required(fn($get) => $get('payment_type') === 'dp'),
+                                        ->afterStateUpdated(fn ($set, $get) => self::calculatePayment($set, $get))
+                                        ->visible(fn ($get) => $get('payment_type') === 'dp')
+                                        ->required(fn ($get) => $get('payment_type') === 'dp'),
                                     TextInput::make('paid_amount')
                                         ->label('Total Dibayar')
                                         ->prefix('Rp')
@@ -154,12 +165,21 @@ class OrderForm
                                         ->default('dp')
                                         ->disabled()
                                         ->dehydrated(false)
-                                        ->formatStateUsing(fn($state) => $state === 'paid' ? 'Lunas' : 'DP / Belum Lunas'),
+                                        ->formatStateUsing(fn ($state) => $state === 'paid' ? 'Lunas' : 'DP / Belum Lunas'),
                                 ]),
                             // RIWAYAT PRODUKSI DI SINI SUDAH DIHAPUS SEPENUHNYA
                         ])->columnSpan(['default' => 3, 'lg' => 1]),
                     ])->columnSpan('full'),
             ]);
+    }
+
+    public static function generateTrackingId(): string
+    {
+        do {
+            $trackingId = 'CTX-'.Str::upper(Str::random(12));
+        } while (Order::where('tracking_id', $trackingId)->exists());
+
+        return $trackingId;
     }
 
     protected static function calculateTotal($set, $get): void
@@ -172,7 +192,9 @@ class OrderForm
         $basePrice = 0;
         if ($productId) {
             $product = Product::find($productId);
-            if ($product) $basePrice = $product->price;
+            if ($product) {
+                $basePrice = $product->price;
+            }
         }
         $totalItemsPrice = 0;
         $totalQuantity = 0;
@@ -181,7 +203,7 @@ class OrderForm
             $totalQuantity += $qty;
             $addonIds = $item['addons'] ?? [];
             $addonsPrice = 0;
-            if (!empty($addonIds)) {
+            if (! empty($addonIds)) {
                 $addonsPrice = ProductAddon::whereIn('id', $addonIds)->sum('price');
             }
             $totalItemsPrice += ($basePrice + $addonsPrice) * $qty;
@@ -191,8 +213,8 @@ class OrderForm
             $set('../../total_price', $totalItemsPrice);
             $set('../../quantity', $totalQuantity);
             self::calculatePayment(
-                fn(string $key, mixed $value) => $set("../../{$key}", $value),
-                fn(string $key) => $get("../../{$key}")
+                fn (string $key, mixed $value) => $set("../../{$key}", $value),
+                fn (string $key) => $get("../../{$key}")
             );
         } else {
             $set('total_price', $totalItemsPrice);

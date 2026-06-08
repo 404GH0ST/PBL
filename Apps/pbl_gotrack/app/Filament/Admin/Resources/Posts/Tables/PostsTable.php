@@ -20,10 +20,8 @@ class PostsTable
     {
         return $table
             ->columns([
-                ImageColumn::make('featured_image')
+                ImageColumn::make('image_url')
                     ->label('Gambar')
-                    ->disk('public')
-                    ->defaultImageUrl(fn ($record) => $record->image_url)
                     ->circular(),
 
                 TextColumn::make('title')

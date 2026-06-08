@@ -2,11 +2,12 @@
 
 namespace App\Filament\Admin\Resources\Orders\Actions;
 
+use App\Models\ProductionStage;
 use Filament\Actions\Action;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\FileUpload;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,29 +21,39 @@ class NextProgressAction
             ->color('success')
             ->authorize('updateProgress')
             ->hidden(function ($record) {
-                if (!$record || !$record->product || !$record->product->category_id) return true;
+                if (! $record || ! $record->product || ! $record->product->category_id) {
+                    return true;
+                }
 
-                $stages = \App\Models\ProductionStage::where('category_id', $record->product->category_id)->orderBy('sequence')->get();
-                if ($stages->isEmpty()) return true;
+                $stages = ProductionStage::where('category_id', $record->product->category_id)->orderBy('sequence')->get();
+                if ($stages->isEmpty()) {
+                    return true;
+                }
 
                 $lastProgress = $record->progress()->latest('id')->first();
-                if ($lastProgress && $lastProgress->production_stage_id == $stages->last()->id) return true;
+                if ($lastProgress && $lastProgress->production_stage_id == $stages->last()->id) {
+                    return true;
+                }
 
                 return false;
             })
             ->form(function ($record) {
-                if (!$record || !$record->product || !$record->product->category_id) return [];
+                if (! $record || ! $record->product || ! $record->product->category_id) {
+                    return [];
+                }
 
-                $stages = \App\Models\ProductionStage::where('category_id', $record->product->category_id)->orderBy('sequence')->get();
-                if ($stages->isEmpty()) return [];
+                $stages = ProductionStage::where('category_id', $record->product->category_id)->orderBy('sequence')->get();
+                if ($stages->isEmpty()) {
+                    return [];
+                }
 
                 $lastProgress = $record->progress()->latest('id')->first();
                 $nextStage = null;
 
-                if (!$lastProgress) {
+                if (! $lastProgress) {
                     $nextStage = $stages->first();
                 } else {
-                    $currentIndex = $stages->search(fn($s) => $s->id == $lastProgress->production_stage_id);
+                    $currentIndex = $stages->search(fn ($s) => $s->id == $lastProgress->production_stage_id);
                     if ($currentIndex !== false) {
                         $nextStage = $stages->get($currentIndex + 1) ?? $stages->first();
                     }
@@ -68,15 +79,27 @@ class NextProgressAction
                     FileUpload::make('photo')
                         ->label('Foto Bukti / Dokumentasi (Opsional)')
                         ->directory('orders/progress-photos')
-                        ->image(),
+                        ->image()
+                        ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                        ->maxSize(2048),
                 ];
             })
             ->action(function ($record, array $data): void {
-                $stage = \App\Models\ProductionStage::find($data['production_stage_id']);
-                $stages = \App\Models\ProductionStage::where('category_id', $record->product->category_id)->orderBy('sequence')->get();
+                $stage = ProductionStage::find($data['production_stage_id']);
+                $stages = ProductionStage::where('category_id', $record->product->category_id)->orderBy('sequence')->get();
 
                 // Cek apakah ini tahapan paling terakhir?
                 $isFinal = $stage && $stages->last() && $stage->id === $stages->last()->id;
+
+                if (self::shouldBlockFinalStageForUnpaidOrder($record, $stage, $stages)) {
+                    Notification::make()
+                        ->title('Pembayaran belum lunas')
+                        ->body('Lunasi pembayaran terlebih dahulu sebelum pesanan masuk tahap pengiriman.')
+                        ->danger()
+                        ->send();
+
+                    return;
+                }
 
                 // 1. Simpan Riwayat Progress
                 $record->progress()->create([
@@ -97,5 +120,13 @@ class NextProgressAction
                     ->success()
                     ->send();
             });
+    }
+
+    public static function shouldBlockFinalStageForUnpaidOrder($record, ?ProductionStage $stage, $stages): bool
+    {
+        return $stage
+            && $stages->last()
+            && $stage->id === $stages->last()->id
+            && $record?->payment_status !== 'paid';
     }
 }

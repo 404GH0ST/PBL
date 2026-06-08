@@ -2,10 +2,10 @@
 
 namespace App\Filament\Admin\Resources\Contacts\Schemas;
 
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -36,6 +36,8 @@ class ContactForm
                         FileUpload::make('logo')
                             ->label('Logo Website')
                             ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(1024)
                             ->disk('public')
                             ->directory('logos')
                             ->visibility('public')
@@ -104,10 +106,11 @@ class ContactForm
                             ->maxLength(255)
                             ->columnSpanFull(),
 
-                        Textarea::make('google_maps_embed_url')
+                        TextInput::make('google_maps_embed_url')
                             ->label('URL Embed Google Maps')
                             ->nullable()
-                            ->rows(3)
+                            ->url()
+                            ->maxLength(2048)
                             ->columnSpanFull(),
                     ]),
 

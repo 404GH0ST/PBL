@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contact;
 use App\Models\Product;
 use App\Models\ProductAddon;
-use App\Models\Contact;
 use App\Models\Review;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class CatalogController extends Controller
@@ -21,10 +20,10 @@ class CatalogController extends Controller
 
         $topProductIds = $products
             ->sortByDesc(fn (Product $product) => [
-                $product->reviews_count,
-                $product->reviews_avg_product_rating ?? 0,
+                (int) ($product->sold_quantity ?? 0),
                 $product->id,
             ])
+            ->filter(fn (Product $product) => (int) ($product->sold_quantity ?? 0) > 0)
             ->take(min(4, $products->count()))
             ->pluck('id')
             ->all();
@@ -62,7 +61,7 @@ class CatalogController extends Controller
                     ->map(fn ($category) => [
                         'slug' => $category->slug,
                         'label' => $category->name,
-                        'icon' => $this->resolveCategoryIcon($category->slug),
+                        'icon' => $category->icon ?: $this->resolveCategoryIcon($category->slug),
                     ])
             )
             ->push(['slug' => 'new', 'label' => 'Produk Baru', 'icon' => 'spark'])
@@ -177,13 +176,16 @@ class CatalogController extends Controller
     {
         return Product::query()
             ->where('is_active', true)
-            ->with('category:id,name,slug')
+            ->with('category:id,name,slug,icon')
             ->withCount([
                 'reviews' => fn ($query) => $query->where('is_visible', true),
             ])
             ->withAvg([
                 'reviews' => fn ($query) => $query->where('is_visible', true),
-            ], 'product_rating');
+            ], 'product_rating')
+            ->withSum([
+                'orders as sold_quantity' => fn ($query) => $query->where('status', '!=', 'cancelled'),
+            ], 'quantity');
     }
 
     protected function mapCatalogProduct(
@@ -250,8 +252,9 @@ class CatalogController extends Controller
     {
         return match ($slug) {
             'jersey' => 'jersey',
-            'banner-spanduk' => 'banner',
+            'banner-spanduk', 'spanduk-banner' => 'banner',
             'stempel' => 'dots',
+            'merchandise' => 'shirt',
             default => 'grid',
         };
     }

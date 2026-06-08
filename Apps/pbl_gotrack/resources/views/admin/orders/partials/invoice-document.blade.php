@@ -307,9 +307,6 @@
     @unless($isPdf ?? false)
         <div class="invoice-toolbar">
             <button type="button" class="btn" onclick="window.print()">Print</button>
-            @if($canDownloadPdf)
-                <a class="btn btn-primary" href="{{ route('admin.orders.invoice.download', $order) }}">Download PDF</a>
-            @endif
         </div>
     @endunless
 

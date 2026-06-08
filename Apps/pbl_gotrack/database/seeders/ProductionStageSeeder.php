@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
+use App\Enums\CategoryIcon;
 use App\Models\Category;
 use App\Models\ProductionStage;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class ProductionStageSeeder extends Seeder
@@ -44,10 +44,20 @@ class ProductionStageSeeder extends Seeder
         ];
 
         foreach ($data as $categoryName => $stages) {
+            $categoryIcon = match ($categoryName) {
+                'Jersey' => CategoryIcon::Jersey->value,
+                'Spanduk & Banner' => CategoryIcon::Banner->value,
+                'Merchandise' => CategoryIcon::Shirt->value,
+                default => CategoryIcon::Grid->value,
+            };
+
             // 1. Cari Kategori berdasarkan nama, jika belum ada buat baru beserta slug-nya
-            $category = Category::firstOrCreate(
+            $category = Category::updateOrCreate(
                 ['name' => $categoryName],
-                ['slug' => Str::slug($categoryName)] // <-- Mengisi kolom slug yang wajib
+                [
+                    'slug' => Str::slug($categoryName),
+                    'icon' => $categoryIcon,
+                ]
             );
 
             // 2. Masukkan tahapan produksi sesuai urutan array

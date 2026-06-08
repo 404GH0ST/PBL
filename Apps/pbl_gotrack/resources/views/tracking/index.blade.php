@@ -27,7 +27,13 @@
         };
 
         $statusDateLabel = $statusMoment?->locale('id')->translatedFormat('d F Y, l');
-        $canConfirm = $order?->status === 'shipped' && $order?->review === null;
+        $paymentStatusLabel = match ($order?->payment_status) {
+            'paid' => 'Lunas',
+            'dp' => 'DP / Belum Lunas',
+            default => 'Belum Bayar',
+        };
+        $isAwaitingPayment = $order?->status === 'shipped' && $order?->payment_status !== 'paid';
+        $canConfirm = $order?->status === 'shipped' && $order?->payment_status === 'paid' && $order?->review === null;
         $addressText = filled($order?->shipping_address) ? $order->shipping_address : 'Data alamat belum tersedia pada pesanan ini.';
         $customerReview = $order?->review;
     @endphp
@@ -154,6 +160,14 @@
                                             <div>
                                                 <p class="tracking-card-muted font-['Plus_Jakarta_Sans',sans-serif] text-[17px] font-semibold">No Pelacakan:</p>
                                                 <p class="mt-2 font-['Plus_Jakarta_Sans',sans-serif] text-[20px] font-extrabold">#{{ $order->tracking_id }}</p>
+                                                <a
+                                                    href="{{ route('tracking.invoice', $order->tracking_id) }}"
+                                                    target="_blank"
+                                                    rel="noopener"
+                                                    class="tracking-confirm-button mt-4 inline-flex items-center justify-center rounded-[10px] px-4 py-2 text-[14px] font-semibold transition hover:opacity-90"
+                                                >
+                                                    Unduh Invoice
+                                                </a>
                                             </div>
 
                                             <p class="font-['DM_Sans',sans-serif] text-[25px] font-extrabold">DEENHAG</p>
@@ -167,6 +181,17 @@
                                                     pada tanggal {{ $statusDateLabel }}
                                                 </p>
                                             @endif
+                                            <div class="mt-6 max-w-[320px] rounded-[12px] border border-black/10 px-4 py-3">
+                                                <p class="tracking-card-muted font-['Plus_Jakarta_Sans',sans-serif] text-[13px] font-bold">Status Pembayaran</p>
+                                                <p class="mt-1 font-['Plus_Jakarta_Sans',sans-serif] text-[18px] font-extrabold">
+                                                    {{ $paymentStatusLabel }}
+                                                </p>
+                                                @if ($isAwaitingPayment)
+                                                    <p class="tracking-card-muted mt-2 font-['Plus_Jakarta_Sans',sans-serif] text-[13px] font-bold leading-relaxed">
+                                                        Konfirmasi penerimaan tersedia setelah pembayaran lunas.
+                                                    </p>
+                                                @endif
+                                            </div>
                                         </div>
 
                                         <div class="pt-5">

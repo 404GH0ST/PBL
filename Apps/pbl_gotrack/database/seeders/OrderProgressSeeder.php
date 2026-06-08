@@ -7,6 +7,7 @@ use App\Models\OrderProgress;
 use App\Models\ProductionStage;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 
 class OrderProgressSeeder extends Seeder
 {
@@ -14,16 +15,16 @@ class OrderProgressSeeder extends Seeder
     {
         $staff = User::where('email', 'admin@gmail.com')->first();
 
-        if (!$staff) {
+        if (! $staff) {
             return;
         }
 
         // Map judul progress ke nama production stage yang sesuai
         $stageMap = [
-            'Pesanan di Terima'        => 'Menunggu Antrean',
-            'Proses Sablon'            => 'Cetak Sublim / Film',
-            'Finishing'                 => 'Finishing / QC',
-            'Pesanan di Kemas'         => 'Siap Diambil',
+            'Pesanan di Terima' => 'Menunggu Antrean',
+            'Proses Sablon' => 'Cetak Sublim / Film',
+            'Finishing' => 'Finishing / QC',
+            'Pesanan di Kemas' => 'Siap Diambil',
             'Pesanan Diserahkan Kurir' => 'Siap Diambil',
         ];
 
@@ -50,14 +51,14 @@ class OrderProgressSeeder extends Seeder
     }
 
     /**
-     * @param array<int, array{title: string, created_at: \Illuminate\Support\Carbon}> $items
-     * @param array<string, string> $stageMap
+     * @param  array<int, array{title: string, created_at: Carbon}>  $items
+     * @param  array<string, string>  $stageMap
      */
     protected function seedForTrackingId(string $trackingId, array $items, int $staffId, array $stageMap): void
     {
         $order = Order::where('tracking_id', $trackingId)->first();
 
-        if (!$order) {
+        if (! $order) {
             return;
         }
 

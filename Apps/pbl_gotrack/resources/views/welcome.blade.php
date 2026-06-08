@@ -656,16 +656,16 @@
                             </p>
 
                             <div class="mt-[2.85rem] flex items-center gap-[0.65rem] text-white">
-                                <a href="{{ $contact?->facebook_url ?: '#' }}" {{ $contact?->facebook_url ? 'target="_blank"' : '' }} aria-label="Facebook" class="transition-opacity hover:opacity-75">
+                                <a href="{{ $contact?->facebook_url ?: '#' }}" {{ $contact?->facebook_url ? 'target="_blank" rel="noopener"' : '' }} aria-label="Facebook" class="transition-opacity hover:opacity-75">
                                     <img src="{{ asset('images/footer/facebook.png') }}" alt="" class="h-10 w-10 object-contain">
                                 </a>
-                                <a href="{{ $contact?->twitter_url ?: '#' }}" {{ $contact?->twitter_url ? 'target="_blank"' : '' }} aria-label="Twitter" class="transition-opacity hover:opacity-75">
+                                <a href="{{ $contact?->twitter_url ?: '#' }}" {{ $contact?->twitter_url ? 'target="_blank" rel="noopener"' : '' }} aria-label="Twitter" class="transition-opacity hover:opacity-75">
                                     <img src="{{ asset('images/footer/twitter.png') }}" alt="" class="h-10 w-10 object-contain">
                                 </a>
-                                <a href="{{ $contact?->tiktok_url ?: '#' }}" {{ $contact?->tiktok_url ? 'target="_blank"' : '' }} aria-label="TikTok" class="transition-opacity hover:opacity-75">
+                                <a href="{{ $contact?->tiktok_url ?: '#' }}" {{ $contact?->tiktok_url ? 'target="_blank" rel="noopener"' : '' }} aria-label="TikTok" class="transition-opacity hover:opacity-75">
                                     <img src="{{ asset('images/footer/tiktok.png') }}" alt="" class="h-10 w-10 object-contain">
                                 </a>
-                                <a href="{{ $contact?->instagram_url ?: '#' }}" {{ $contact?->instagram_url ? 'target="_blank"' : '' }} aria-label="Instagram" class="transition-opacity hover:opacity-75">
+                                <a href="{{ $contact?->instagram_url ?: '#' }}" {{ $contact?->instagram_url ? 'target="_blank" rel="noopener"' : '' }} aria-label="Instagram" class="transition-opacity hover:opacity-75">
                                     <img src="{{ asset('images/footer/instagram.png') }}" alt="" class="h-10 w-10 object-contain">
                                 </a>
                             </div>
@@ -679,7 +679,6 @@
                                 <a href="{{ route('home') }}" class="block transition-opacity hover:opacity-75">Beranda</a>
                                 <a href="{{ route('catalog') }}" class="block transition-opacity hover:opacity-75">Katalog</a>
                                 <a href="#" class="block transition-opacity hover:opacity-75">Blog</a>
-                                <a href="#" class="block transition-opacity hover:opacity-75">Keranjang</a>
                                 <a href="{{ route('tracking.index') }}" class="block transition-opacity hover:opacity-75">Lacak Pesanan</a>
                             </div>
                         </div>

@@ -49,6 +49,8 @@ class PostForm
                         FileUpload::make('featured_image')
                             ->label('Gambar Utama')
                             ->image()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(2048)
                             ->disk('public')
                             ->directory('posts')
                             ->visibility('public')

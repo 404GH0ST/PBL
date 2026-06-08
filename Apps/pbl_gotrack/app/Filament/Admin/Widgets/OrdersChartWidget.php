@@ -9,6 +9,7 @@ use Filament\Widgets\ChartWidget;
 class OrdersChartWidget extends ChartWidget
 {
     protected ?string $heading = 'Grafik Penjualan Bulanan';
+
     protected static ?int $sort = 2;
 
     protected function getData(): array
@@ -20,7 +21,8 @@ class OrdersChartWidget extends ChartWidget
             $totalSales = Order::whereYear('created_at', $date->year)
                 ->whereMonth('created_at', $date->month)
                 ->whereIn('payment_status', ['paid', 'dp'])
-                ->sum('total_price');
+                ->get(['payment_status', 'total_price', 'paid_amount', 'dp_amount'])
+                ->sum->received_revenue;
 
             return [$monthName => $totalSales];
         });

@@ -13,7 +13,9 @@ class StatsOverviewWidget extends BaseWidget
     protected function getStats(): array
     {
         $totalOrders = Order::count();
-        $totalRevenue = Order::whereIn('payment_status', ['paid', 'dp'])->sum('total_price');
+        $totalRevenue = Order::whereIn('payment_status', ['paid', 'dp'])
+            ->get(['payment_status', 'total_price', 'paid_amount', 'dp_amount'])
+            ->sum->received_revenue;
         $processingOrders = Order::where('status', 'processing')->count();
         $completedOrders = Order::where('status', 'completed')->count();
 
@@ -23,8 +25,8 @@ class StatsOverviewWidget extends BaseWidget
                 ->descriptionIcon('heroicon-m-shopping-bag')
                 ->color('info'),
 
-            Stat::make('Total Pendapatan', 'Rp ' . number_format($totalRevenue, 0, ',', '.'))
-                ->description('Total penjualan lunas & DP')
+            Stat::make('Total Pendapatan', 'Rp '.number_format($totalRevenue, 0, ',', '.'))
+                ->description('Total pembayaran yang sudah diterima')
                 ->descriptionIcon('heroicon-m-banknotes')
                 ->color('success'),
 
