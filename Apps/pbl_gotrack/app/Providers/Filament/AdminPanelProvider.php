@@ -30,7 +30,9 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->brandName('GoTrack')
+            ->brandName('Deenhag')
+            ->brandLogo(asset('images/logo_deenhag.png'))
+            ->brandLogoHeight('2.5rem')
             ->profile(EditProfile::class, isSimple: false)
             ->userMenuItems([
                 'profile' => MenuItem::make()->label('Profil Akun'),

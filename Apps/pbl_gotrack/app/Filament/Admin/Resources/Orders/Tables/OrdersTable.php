@@ -168,6 +168,15 @@ class OrdersTable
                             ]),
                     ]),
 
+                Action::make('invoice')
+                    ->authorize('view')
+                    ->label('Invoice')
+                    ->icon('heroicon-o-document-text')
+                    ->color('success')
+                    ->url(fn(Order $record): string => route('admin.orders.invoice', $record))
+                    ->openUrlInNewTab()
+                    ->visible(fn(): bool => auth()->user() instanceof User && auth()->user()->isAdminPanelUser()),
+
                 // 4. Tombol Kustom: NEXT PROGRESS
                 NextProgressAction::make(),
                 UpdatePaymentAction::make(),

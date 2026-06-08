@@ -17,6 +17,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Filament\Actions\Action;
 use Filament\Actions\ViewAction;
 use Filament\Actions\EditAction;
 use Filament\Support\Enums\Width;
@@ -59,6 +60,15 @@ class OrderResource extends Resource
             EditAction::make()
                 ->authorize('update')
                 ->visible(fn(): bool => auth()->user() instanceof User && auth()->user()->isSuperAdmin()),
+
+            Action::make('invoice')
+                ->authorize('view')
+                ->label('Invoice')
+                ->icon('heroicon-o-document-text')
+                ->color('success')
+                ->url(fn(Order $record): string => route('admin.orders.invoice', $record))
+                ->openUrlInNewTab()
+                ->visible(fn(): bool => auth()->user() instanceof User && auth()->user()->isAdminPanelUser()),
 
             NextProgressAction::make(),
             UpdatePaymentAction::make(),
