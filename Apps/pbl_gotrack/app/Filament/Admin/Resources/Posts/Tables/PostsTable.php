@@ -8,6 +8,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -19,6 +20,12 @@ class PostsTable
     {
         return $table
             ->columns([
+                ImageColumn::make('featured_image')
+                    ->label('Gambar')
+                    ->disk('public')
+                    ->defaultImageUrl(fn ($record) => $record->image_url)
+                    ->circular(),
+
                 TextColumn::make('title')
                     ->label('Judul')
                     ->searchable(['title', 'excerpt'])
