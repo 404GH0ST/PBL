@@ -31,18 +31,10 @@ class FaqForm
 
                 Section::make('Pengaturan Tampilan')
                     ->schema([
-                        TextInput::make('sort_order')
-                            ->label('Urutan')
-                            ->numeric()
-                            ->default(0)
-                            ->required()
-                            ->minValue(0),
-
                         Toggle::make('is_active')
                             ->label('Aktif')
                             ->default(true),
-                    ])
-                    ->columns(2),
+                    ]),
             ]);
     }
 }

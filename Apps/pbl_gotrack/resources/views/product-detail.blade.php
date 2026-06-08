@@ -325,24 +325,38 @@
 </main>
 
 {{-- ===== FOOTER ===== --}}
+@php
+    $activeContact = \Illuminate\Support\Facades\Schema::hasTable('contacts')
+        ? \App\Models\Contact::active()
+        : null;
+    $logoUrl = $activeContact?->logo_url ?? asset('images/logo_deenhag.png');
+    $brandTitle = 'Deenhag';
+    $brandDescription = $activeContact?->description ?? 'Kami melayani kebutuhan konveksi dan digital printing untuk personal, komunitas, maupun bisnis, mulai dari apparel custom, media promosi, hingga kebutuhan cetak usaha dengan kualitas yang rapi dan terpercaya.';
+    
+    $fbUrl = $activeContact?->facebook_url ?? '#';
+    $twUrl = $activeContact?->twitter_url ?? '#';
+    $ttUrl = $activeContact?->tiktok_url ?? '#';
+    $igUrl = $activeContact?->instagram_url ?? '#';
+
+    $waNumber = $activeContact?->whatsapp_number ?? '+62 23456789123';
+    $email = $activeContact?->email ?? 'deenhag@gmail.com';
+    $address = $activeContact?->address ?? 'Ponorogo, Indonesia';
+@endphp
 <footer class="pd-footer">
     <div class="pd-container">
         <div class="pd-footer-grid">
             <div class="pd-footer-about">
                 <div class="pd-footer-brand">
-                    <span class="pd-footer-logo"></span>
-                    <span>Deenhag</span>
+                    <img src="{{ $logoUrl }}" alt="{{ $brandTitle }} Logo" class="pd-footer-logo" style="width: 40px; height: 40px; border-radius: 50%; object-fit: contain; background: white; padding: 2px;">
                 </div>
                 <p>
-                    Kami melayani kebutuhan konveksi dan digital printing untuk personal,
-                    komunitas, maupun bisnis, mulai dari apparel custom, media promosi,
-                    hingga kebutuhan cetak usaha dengan kualitas yang rapi dan terpercaya.
+                    {{ $brandDescription }}
                 </p>
                 <div class="pd-footer-social">
-                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
-                    <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="{{ $fbUrl }}" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="{{ $twUrl }}" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="{{ $ttUrl }}" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="{{ $igUrl }}" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
                 </div>
             </div>
 
@@ -369,15 +383,15 @@
             <div>
                 <h4>Hubungi Kami</h4>
                 <ul>
-                    <li><i class="fa-brands fa-whatsapp"></i> +62 23456789123</li>
-                    <li><i class="fa-regular fa-envelope"></i> deenhag@gmail.com</li>
-                    <li><i class="fa-solid fa-location-dot"></i> Ponorogo, Indonesia</li>
+                    <li><i class="fa-brands fa-whatsapp"></i> {{ $waNumber }}</li>
+                    <li><i class="fa-regular fa-envelope"></i> {{ $email }}</li>
+                    <li><i class="fa-solid fa-location-dot"></i> {{ $address }}</li>
                 </ul>
             </div>
         </div>
 
         <div class="pd-footer-copy">
-            © 2026 Deenhag. All rights reserved.
+            © {{ date('Y') }} {{ $brandTitle }}. All rights reserved.
         </div>
     </div>
 </footer>

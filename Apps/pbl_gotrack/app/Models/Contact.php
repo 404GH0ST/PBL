@@ -26,6 +26,7 @@ class Contact extends Model
         'about_title',
         'about_tagline',
         'about_description',
+        'logo',
         'is_active',
     ];
 
@@ -45,5 +46,25 @@ class Contact extends Model
                 ->where('is_active', true)
                 ->update(['is_active' => false]);
         });
+    }
+
+    public static function active(): ?self
+    {
+        return static::where('is_active', true)->first();
+    }
+
+    public function getLogoUrlAttribute(): string
+    {
+        if ($this->logo) {
+            if (\Illuminate\Support\Str::startsWith($this->logo, ['http://', 'https://', '/storage/', '/images/'])) {
+                return \Illuminate\Support\Str::startsWith($this->logo, '/')
+                    ? asset(ltrim($this->logo, '/'))
+                    : $this->logo;
+            }
+
+            return \Illuminate\Support\Facades\Storage::disk('public')->url($this->logo);
+        }
+
+        return asset('images/logo_deenhag.png');
     }
 }

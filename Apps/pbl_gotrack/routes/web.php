@@ -13,6 +13,10 @@ Route::get('/', function () {
         ? \App\Models\Contact::where('is_active', true)->latest()->first()
         : null;
 
+    $services = \Illuminate\Support\Facades\Schema::hasTable('services')
+        ? \App\Models\Service::where('is_active', true)->orderBy('sort_order')->get()
+        : collect();
+
     $reviews = \Illuminate\Support\Facades\Schema::hasTable('reviews')
         ? \App\Models\Review::where('is_visible', true)
             ->with('order')
@@ -29,7 +33,7 @@ Route::get('/', function () {
         ];
     });
 
-    return view('welcome', compact('contact', 'testimonials'));
+    return view('welcome', compact('contact', 'testimonials', 'services'));
 })->name('home');
 Route::get('/katalog', [CatalogController::class, 'index'])->name('catalog');
 Route::get('/katalog/{product:slug}', [CatalogController::class, 'show'])->name('product.detail');

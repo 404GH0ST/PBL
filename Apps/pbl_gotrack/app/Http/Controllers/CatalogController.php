@@ -200,7 +200,7 @@ class CatalogController extends Controller
             'title' => $product->name,
             'category' => $product->category?->slug ?? 'other',
             'category_label' => $product->category?->name ?? 'Produk',
-            'image' => $this->resolveProductImage($product),
+            'image' => $product->image_url,
             'rating' => $averageRating > 0 ? $averageRating : 5.0,
             'reviews' => $this->formatReviewCount($reviewCount),
             'price' => (int) $product->price,
@@ -211,29 +211,9 @@ class CatalogController extends Controller
         ];
     }
 
-    protected function resolveProductImage(Product $product): string
-    {
-        if ($product->image_path) {
-            if (Str::startsWith($product->image_path, ['http://', 'https://', '/storage/', '/images/'])) {
-                return Str::startsWith($product->image_path, '/')
-                    ? asset(ltrim($product->image_path, '/'))
-                    : $product->image_path;
-            }
-
-            return Storage::disk('public')->url($product->image_path);
-        }
-
-        return match ($product->category?->slug) {
-            'jersey' => asset('images/catalog/kaos-black.png'),
-            'banner-spanduk' => asset('images/catalog/tripod-banner.png'),
-            'stempel' => asset('images/catalog/kartu-nama.png'),
-            default => asset('images/product/konveksi-apparel.png'),
-        };
-    }
-
     protected function resolveProductGallery(Product $product): array
     {
-        $primaryImage = $this->resolveProductImage($product);
+        $primaryImage = $product->image_url;
 
         $fallbacks = match ($product->category?->slug) {
             'jersey' => [

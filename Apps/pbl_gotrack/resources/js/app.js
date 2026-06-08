@@ -86,8 +86,8 @@ const initializePageTransitions = () => {
 
 initializePageTransitions();
 
-Alpine.data('homePageMotion', (initialTestimonials = null) => ({
-    activeFeatureProduct: 'stempel',
+Alpine.data('homePageMotion', (initialTestimonials = null, initialServices = []) => ({
+    activeFeatureProduct: '01',
     activeService: null,
     activeTestimonial: 0,
     cleanup: null,
@@ -97,10 +97,11 @@ Alpine.data('homePageMotion', (initialTestimonials = null) => ({
     featurePhase: 'idle',
     featureSwitchPhase: 'idle',
     featureSwitchTimer: null,
-    selectedFeatureProduct: 'stempel',
+    selectedFeatureProduct: '01',
     floatingJerseyStyle: '',
     frameRequested: false,
     menuOpen: false,
+    services: initialServices || [],
     shouldAnimateHeroJersey:
         typeof window !== 'undefined'
         && window.matchMedia('(min-width: 1024px)').matches
@@ -194,6 +195,46 @@ Alpine.data('homePageMotion', (initialTestimonials = null) => ({
 
     currentFeatureProduct() {
         const products = {
+            '01': {
+                title: 'APPAREL',
+                description: 'Pembuatan pakaian custom berkualitas tinggi seperti jersey, kaos, kemeja, jaket, dan seragam sesuai desain keinginan Anda.',
+                image: '/images/product/konveksi-apparel.png',
+            },
+            '02': {
+                title: 'PROMOSI',
+                description: 'Nota custom berkualitas untuk kebutuhan transaksi usaha, toko, dan bisnis dengan hasil cetak yang rapi dan profesional.',
+                image: '/images/product/media-promosi.png',
+            },
+            '03': {
+                title: 'CETAK DTF',
+                description: 'Cetak stiker sablon DTF (Direct to Film) siap tempel dengan warna solid, detail tajam, dan daya tahan cuci yang luar biasa.',
+                image: '/images/product/cetak-dtf.png',
+            },
+            '04': {
+                title: 'BISNIS',
+                description: 'Layanan pembuatan stempel custom yang praktis dan profesional untuk menunjang identitas serta kebutuhan administrasi bisnis Anda.',
+                image: '/images/product/kebutuhan-bisnis.png',
+            },
+            'konveksi-apparel': {
+                title: 'APPAREL',
+                description: 'Pembuatan pakaian custom berkualitas tinggi seperti jersey, kaos, kemeja, jaket, dan seragam sesuai desain keinginan Anda.',
+                image: '/images/product/konveksi-apparel.png',
+            },
+            'media-promosi': {
+                title: 'PROMOSI',
+                description: 'Nota custom berkualitas untuk kebutuhan transaksi usaha, toko, dan bisnis dengan hasil cetak yang rapi dan profesional.',
+                image: '/images/product/media-promosi.png',
+            },
+            'cetak-dtf': {
+                title: 'CETAK DTF',
+                description: 'Cetak stiker sablon DTF (Direct to Film) siap tempel dengan warna solid, detail tajam, dan daya tahan cuci yang luar biasa.',
+                image: '/images/product/cetak-dtf.png',
+            },
+            'kebutuhan-bisnis': {
+                title: 'BISNIS',
+                description: 'Layanan pembuatan stempel custom yang praktis dan profesional untuk menunjang identitas serta kebutuhan administrasi bisnis Anda.',
+                image: '/images/product/kebutuhan-bisnis.png',
+            },
             nota: {
                 title: 'NOTA',
                 description: 'Nota custom berkualitas untuk kebutuhan transaksi usaha, toko, dan bisnis dengan hasil cetak yang rapi dan profesional.',
@@ -206,10 +247,24 @@ Alpine.data('homePageMotion', (initialTestimonials = null) => ({
             },
         };
 
-        return products[this.activeFeatureProduct] ?? products.stempel;
+        let product = products[this.activeFeatureProduct] ?? products['01'];
+
+        if (this.services && this.services.length > 0) {
+            const matchedService = this.services.find(s => s.number === this.activeFeatureProduct);
+            if (matchedService) {
+                product = {
+                    ...product,
+                    title: matchedService.title.toUpperCase(),
+                    description: matchedService.description || product.description,
+                    image: matchedService.image,
+                };
+            }
+        }
+
+        return product;
     },
 
-    openFeatureProduct(product = 'stempel', event = null) {
+    openFeatureProduct(product = '01', event = null) {
         this.activeFeatureProduct = product;
         this.selectedFeatureProduct = product;
         this.featureSwitchPhase = 'idle';
@@ -258,7 +313,16 @@ Alpine.data('homePageMotion', (initialTestimonials = null) => ({
     },
 
     featureHeroStyle() {
-        return `--feature-product-scale: ${this.activeFeatureProduct === 'stempel' ? '1.08' : '1.18'}`;
+        if (this.services && this.services.length > 0) {
+            const matchedService = this.services.find(s => s.number === this.activeFeatureProduct);
+            if (matchedService) {
+                const titleLower = matchedService.title.toLowerCase();
+                if (titleLower.includes('stempel') || titleLower.includes('bisnis') || matchedService.number === '04') {
+                    return '--feature-product-scale: 1.08';
+                }
+            }
+        }
+        return `--feature-product-scale: ${this.activeFeatureProduct === 'stempel' || this.activeFeatureProduct === '04' || this.activeFeatureProduct === 'kebutuhan-bisnis' ? '1.08' : '1.18'}`;
     },
 
     lockPageScroll() {

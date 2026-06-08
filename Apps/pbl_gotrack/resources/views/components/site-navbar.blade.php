@@ -4,8 +4,13 @@
     $isLight = $variant === 'light';
     $pillClass = $isLight ? 'site-nav-pill site-nav-pill--light' : 'site-nav-pill';
     $mobilePillClass = $isLight ? 'site-nav-mobile site-nav-mobile--light' : 'site-nav-mobile';
-    $brandLogoBg = $isLight ? 'bg-[#e3e3e3]' : 'bg-white/90';
     $brandTextClass = $isLight ? '' : 'text-white';
+
+    $activeContact = \Illuminate\Support\Facades\Schema::hasTable('contacts')
+        ? \App\Models\Contact::active()
+        : null;
+    $logoUrl = $activeContact?->logo_url ?? asset('images/logo_deenhag.png');
+    $brandTitle = 'DEENHAG';
 
     $links = [
         'home' => ['label' => 'Beranda', 'href' => route('home')],
@@ -18,9 +23,8 @@
 
 <header class="relative z-20 px-5 pt-5 md:px-8 md:pt-7 lg:px-14 lg:pt-10">
     <div class="mx-auto flex max-w-[1280px] items-center justify-between gap-4">
-        <a href="{{ route('home') }}" class="flex items-center gap-3 {{ $brandTextClass }}" aria-label="Beranda">
-            <span class="block h-10 w-10 rounded-full {{ $brandLogoBg }} lg:h-12 lg:w-12"></span>
-            <span class="font-['DM_Sans',sans-serif] text-sm font-bold tracking-[0.08em] lg:text-base">DEENHAG</span>
+        <a href="{{ route('home') }}" class="flex items-center gap-3" aria-label="Beranda">
+            <img src="{{ $logoUrl }}" alt="{{ $brandTitle }} Logo" class="h-10 w-auto max-w-[120px] object-contain lg:h-12">
         </a>
 
         <nav class="{{ $pillClass }} hidden items-center rounded-full px-3 py-2 text-[1.02rem] font-semibold lg:flex">

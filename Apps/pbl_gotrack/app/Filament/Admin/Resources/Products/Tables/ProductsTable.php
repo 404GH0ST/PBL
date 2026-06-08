@@ -16,9 +16,10 @@ class ProductsTable
     {
         return $table
             ->columns([
-                //
                 ImageColumn::make('image_path')
                     ->label('Foto')
+                    ->disk('public')
+                    ->defaultImageUrl(fn($record) => $record->image_url)
                     ->circular(),
 
                 TextColumn::make('name')

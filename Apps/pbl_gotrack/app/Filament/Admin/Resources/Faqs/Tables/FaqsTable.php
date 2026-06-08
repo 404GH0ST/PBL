@@ -22,10 +22,6 @@ class FaqsTable
                     ->sortable()
                     ->limit(70),
 
-                TextColumn::make('sort_order')
-                    ->label('Urutan')
-                    ->sortable(),
-
                 IconColumn::make('is_active')
                     ->label('Aktif')
                     ->boolean(),
@@ -35,6 +31,7 @@ class FaqsTable
                     ->dateTime()
                     ->sortable(),
             ])
+            ->reorderable('sort_order')
             ->filters([
                 TernaryFilter::make('is_active')
                     ->label('Status Aktif')

@@ -1,3 +1,84 @@
+@php
+    $serviceItems = [];
+    if (isset($services) && $services->isNotEmpty()) {
+        foreach ($services as $index => $service) {
+            $loopIndex = $index % 4;
+            if ($loopIndex == 0) {
+                $mobileImageClass = 'w-[10.75rem] -scale-x-100';
+                $desktopImageClass = 'w-[15rem] -scale-x-100';
+            } elseif ($loopIndex == 1) {
+                $mobileImageClass = 'w-[7.5rem]';
+                $desktopImageClass = 'w-[10.2rem]';
+            } elseif ($loopIndex == 2) {
+                $mobileImageClass = 'w-[8.75rem]';
+                $desktopImageClass = 'w-[11.3rem]';
+            } else {
+                $mobileImageClass = 'w-[8.25rem]';
+                $desktopImageClass = 'w-[11rem]';
+            }
+
+            $formattedNumber = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
+            $serviceItems[] = [
+                'number' => $formattedNumber,
+                'title' => $service->title,
+                'subtitle' => $service->subtitle,
+                'description' => $service->description,
+                'image' => $service->image_url,
+                'mobile_image_class' => $mobileImageClass,
+                'desktop_image_class' => $desktopImageClass,
+                'active_background' => $loopIndex % 2 == 0 ? 'bg-[#101218]' : 'bg-[#04111d]',
+                'feature_product' => $formattedNumber,
+            ];
+        }
+    } else {
+        $serviceItems = [
+            [
+                'number' => '01',
+                'title' => 'Konveksi Apparel',
+                'subtitle' => 'Kualitas presisi',
+                'description' => 'Pembuatan pakaian custom berkualitas tinggi seperti jersey, kaos, kemeja, jaket, dan seragam sesuai desain keinginan Anda.',
+                'image' => asset('images/product/konveksi-apparel.png'),
+                'mobile_image_class' => 'w-[10.75rem] -scale-x-100',
+                'desktop_image_class' => 'w-[15rem] -scale-x-100',
+                'active_background' => 'bg-[#101218]',
+                'feature_product' => '01',
+            ],
+            [
+                'number' => '02',
+                'title' => 'Media Promosi',
+                'subtitle' => 'Warna solid',
+                'description' => 'Nota custom berkualitas untuk kebutuhan transaksi usaha, toko, dan bisnis dengan hasil cetak yang rapi dan profesional.',
+                'image' => asset('images/product/media-promosi.png'),
+                'mobile_image_class' => 'w-[7.5rem]',
+                'desktop_image_class' => 'w-[10.2rem]',
+                'active_background' => 'bg-[#04111d]',
+                'feature_product' => '02',
+            ],
+            [
+                'number' => '03',
+                'title' => 'Cetak DTF',
+                'subtitle' => 'Hasil tajam',
+                'description' => 'Cetak stiker sablon DTF (Direct to Film) siap tempel dengan warna solid, detail tajam, dan daya tahan cuci yang luar biasa.',
+                'image' => asset('images/product/cetak-dtf.png'),
+                'mobile_image_class' => 'w-[8.75rem]',
+                'desktop_image_class' => 'w-[11.3rem]',
+                'active_background' => 'bg-[#101218]',
+                'feature_product' => '03',
+            ],
+            [
+                'number' => '04',
+                'title' => 'Kebutuhan Bisnis',
+                'subtitle' => 'Profesionalitas terjamin',
+                'description' => 'Layanan pembuatan stempel custom yang praktis dan profesional untuk menunjang identitas serta kebutuhan administrasi bisnis Anda.',
+                'image' => asset('images/product/kebutuhan-bisnis.png'),
+                'mobile_image_class' => 'w-[8.25rem]',
+                'desktop_image_class' => 'w-[11rem]',
+                'active_background' => 'bg-[#04111d]',
+                'feature_product' => '04',
+            ],
+        ];
+    }
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -15,7 +96,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-[#020607] font-body text-white antialiased">
-    <div x-data="homePageMotion({{ Js::from($testimonials) }})" class="relative isolate min-h-screen">
+    <div x-data="homePageMotion({{ Js::from($testimonials) }}, {{ Js::from($serviceItems) }})" class="relative isolate min-h-screen">
         <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 bg-[#020607]"></div>
 
         <div class="relative min-h-screen overflow-x-hidden bg-transparent">
@@ -130,46 +211,7 @@
                         </div>
                     </section>
 
-                    @php
-                        $serviceItems = [
-                            [
-                                'number' => '01',
-                                'title' => 'Konveksi Apparel',
-                                'subtitle' => 'Kualitas presisi',
-                                'image' => 'images/product/konveksi-apparel.png',
-                                'mobile_image_class' => 'w-[10.75rem] -scale-x-100',
-                                'desktop_image_class' => 'w-[15rem] -scale-x-100',
-                                'active_background' => 'bg-[#101218]',
-                            ],
-                            [
-                                'number' => '02',
-                                'title' => 'Media Promosi',
-                                'subtitle' => 'Warna solid',
-                                'image' => 'images/product/media-promosi.png',
-                                'mobile_image_class' => 'w-[7.5rem]',
-                                'desktop_image_class' => 'w-[10.2rem]',
-                                'active_background' => 'bg-[#04111d]',
-                            ],
-                            [
-                                'number' => '03',
-                                'title' => 'Cetak DTF',
-                                'subtitle' => 'Hasil tajam',
-                                'image' => 'images/product/cetak-dtf.png',
-                                'mobile_image_class' => 'w-[8.75rem]',
-                                'desktop_image_class' => 'w-[11.3rem]',
-                                'active_background' => 'bg-[#101218]',
-                            ],
-                            [
-                                'number' => '04',
-                                'title' => 'Kebutuhan Bisnis',
-                                'subtitle' => 'Profesionalitas terjamin',
-                                'image' => 'images/product/kebutuhan-bisnis.png',
-                                'mobile_image_class' => 'w-[8.25rem]',
-                                'desktop_image_class' => 'w-[11rem]',
-                                'active_background' => 'bg-[#04111d]',
-                            ],
-                        ];
-                    @endphp
+
 
                     <section class="pt-30 pb-6 md:pt-32 md:pb-8 lg:pt-36 lg:pb-10">
                         <div class="grid gap-6 md:grid-cols-2 xl:hidden">
@@ -181,7 +223,7 @@
 
                                     <div class="mt-8 flex h-[13rem] items-center justify-center">
                                         <img
-                                            src="{{ asset($serviceItem['image']) }}"
+                                            src="{{ $serviceItem['image'] }}"
                                             alt="{{ $serviceItem['title'] }}"
                                             class="h-auto object-contain {{ $serviceItem['mobile_image_class'] }}"
                                         >
@@ -192,10 +234,14 @@
                                             {{ $serviceItem['title'] }}
                                         </h3>
                                         <p class="mt-2 text-[0.98rem] text-white/74">{{ $serviceItem['subtitle'] }}</p>
-                                        <a href="#" class="mt-8 inline-flex items-center gap-1.5 text-[0.95rem] font-semibold text-[#72a3bf]">
+                                        <button
+                                            type="button"
+                                            @click="openFeatureProduct('{{ $serviceItem['number'] }}')"
+                                            class="mt-8 inline-flex items-center gap-1.5 text-[0.95rem] font-semibold text-[#72a3bf]"
+                                        >
                                             View more
                                             <span aria-hidden="true">→</span>
-                                        </a>
+                                        </button>
                                     </div>
                                 </article>
                             @endforeach
@@ -203,7 +249,7 @@
 
                         <div class="relative left-1/2 hidden w-screen -translate-x-1/2 xl:block">
                             <div class="mx-auto max-w-[1512px]">
-                                <div class="grid grid-cols-4 border-b border-white/12">
+                                <div class="grid grid-cols-4">
                                     @foreach ($serviceItems as $index => $serviceItem)
                                         @php
                                             $serviceIndex = $index + 1;
@@ -213,7 +259,7 @@
                                             @mouseleave="resetActiveService()"
                                             @focusin="setActiveService({{ $serviceIndex }})"
                                             @focusout="resetActiveService()"
-                                            class="relative min-h-[41rem] overflow-hidden border-r border-white/12 px-12 py-14 transition-[background-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] last:border-r-0"
+                                            class="relative min-h-[41rem] overflow-hidden border-r border-b border-white/12 px-12 py-14 transition-[background-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] xl:[&:nth-child(4n)]:border-r-0"
                                             :class="activeService === {{ $serviceIndex }} ? '{{ $serviceItem['active_background'] }}' : 'bg-black'"
                                         >
                                             <p
@@ -229,7 +275,7 @@
                                             >
                                                 <img
                                                     data-feature-source-image
-                                                    src="{{ asset($serviceItem['image']) }}"
+                                                    src="{{ $serviceItem['image'] }}"
                                                     alt=""
                                                     class="h-auto object-contain {{ $serviceItem['desktop_image_class'] }}"
                                                 >
@@ -243,7 +289,7 @@
                                                     {{ $serviceItem['title'] }}
                                                 </h3>
                                                 <p class="mt-2 text-[1rem] text-white/74">{{ $serviceItem['subtitle'] }}</p>
-                                                <button type="button" class="mt-8 inline-flex items-center gap-1.5 text-[0.95rem] font-semibold text-[#72a3bf]" @click="openFeatureProduct('{{ $serviceIndex === 4 ? 'stempel' : 'nota' }}')">
+                                                <button type="button" class="mt-8 inline-flex items-center gap-1.5 text-[0.95rem] font-semibold text-[#72a3bf]" @click="openFeatureProduct('{{ $serviceItem['number'] }}')">
                                                     View more
                                                     <span aria-hidden="true">→</span>
                                                 </button>
@@ -278,9 +324,6 @@
 
                         <div class="feature-product-stage relative mx-auto mt-[4.2rem] grid max-w-[1280px] grid-cols-[1fr_0.95fr] gap-12 px-14">
                             <div class="feature-product-copy relative z-10">
-                                <div class="feature-product-meta flex items-center gap-1.5 text-[1.25rem] leading-none text-[#f7d328]" aria-label="Rated 4.5 out of 5">
-                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span><span class="text-white/55">★</span>
-                                </div>
                                 <h3 class="feature-product-title mt-4 font-display text-[8.7rem] leading-[0.8] font-extrabold tracking-[-0.06em] text-white" x-text="currentFeatureProduct().title"></h3>
                                 <p class="feature-product-description mt-8 max-w-[32rem] text-[1.02rem] leading-[1.5] text-white/66" x-text="currentFeatureProduct().description"></p>
 
@@ -294,25 +337,18 @@
                                     </a>
                                 </div>
 
-                                <div class="mt-14 flex items-center gap-5">
-                                    <button
-                                        type="button"
-                                        class="feature-product-thumb"
-                                        :class="selectedFeatureProduct === 'nota' ? 'is-active' : ''"
-                                        @click="selectFeatureProduct('nota')"
-                                        aria-label="Show nota product"
-                                    >
-                                        <img src="{{ asset('images/product/media-promosi.png') }}" alt="" class="h-[3rem] w-auto object-contain">
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="feature-product-thumb"
-                                        :class="selectedFeatureProduct === 'stempel' ? 'is-active' : ''"
-                                        @click="selectFeatureProduct('stempel')"
-                                        aria-label="Show stempel product"
-                                    >
-                                        <img src="{{ asset('images/product/kebutuhan-bisnis.png') }}" alt="" class="h-[3.25rem] w-auto object-contain">
-                                    </button>
+                                <div class="mt-14 flex flex-wrap items-center gap-5">
+                                    @foreach ($serviceItems as $serviceItem)
+                                        <button
+                                            type="button"
+                                            class="feature-product-thumb"
+                                            :class="selectedFeatureProduct === '{{ $serviceItem['number'] }}' ? 'is-active' : ''"
+                                            @click="selectFeatureProduct('{{ $serviceItem['number'] }}')"
+                                            aria-label="Show {{ $serviceItem['title'] }} product"
+                                        >
+                                            <img src="{{ $serviceItem['image'] }}" alt="" class="h-[3rem] w-auto object-contain">
+                                        </button>
+                                    @endforeach
                                 </div>
                             </div>
 
@@ -612,14 +648,11 @@
                     <div class="grid gap-14 lg:grid-cols-[1.8fr_1fr_1fr_1.05fr] lg:gap-x-[6.25rem]">
                         <div class="max-w-[26.125rem]">
                             <div class="flex items-center gap-[1.05rem]">
-                                <span class="block h-14 w-14 rounded-full bg-[#e3e3e3]"></span>
-                                <span class="font-['Montserrat',sans-serif] text-[2.2rem] leading-none font-bold tracking-[-0.04em] text-white">
-                                    Deenhag
-                                </span>
+                                <img src="{{ $contact?->logo_url ?? asset('images/logo_deenhag.png') }}" alt="Deenhag Logo" class="h-14 w-auto max-w-[140px] object-contain">
                             </div>
 
                             <p class="mt-[2.85rem] max-w-[26.125rem] text-[0.9375rem] leading-[1.67] text-white/84">
-                                Kami melayani kebutuhan konveksi dan digital printing untuk personal, komunitas, maupun bisnis, mulai dari apparel custom, media promosi, hingga kebutuhan cetak usaha dengan kualitas yang rapi dan terpercaya.
+                                {{ $contact?->description ?: 'Kami melayani kebutuhan konveksi dan digital printing untuk personal, komunitas, maupun bisnis, mulai dari apparel custom, media promosi, hingga kebutuhan cetak usaha dengan kualitas yang rapi dan terpercaya.' }}
                             </p>
 
                             <div class="mt-[2.85rem] flex items-center gap-[0.65rem] text-white">

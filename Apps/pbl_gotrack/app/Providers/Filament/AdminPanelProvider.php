@@ -31,11 +31,17 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->brandName('Deenhag')
-            ->brandLogo(asset('images/logo_deenhag.png'))
+            ->brandLogo(
+                \Illuminate\Support\Facades\Schema::hasTable('contacts')
+                    ? (\App\Models\Contact::active()?->logo_url ?? asset('images/logo_deenhag.png'))
+                    : asset('images/logo_deenhag.png')
+            )
             ->brandLogoHeight('2.5rem')
             ->profile(EditProfile::class, isSimple: false)
             ->userMenuItems([
-                'profile' => MenuItem::make()->label('Profil Akun'),
+                'profile' => MenuItem::make()
+                    ->label('Profil Akun')
+                    ->url(fn (): string => EditProfile::getUrl()),
                 'logout' => MenuItem::make()->label('Keluar Sistem'),
             ])
             ->colors([

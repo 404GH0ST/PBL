@@ -1,7 +1,25 @@
 @php
     $rupiah = fn($value) => 'Rp ' . number_format((float) ($value ?? 0), 0, ',', '.');
     $date = fn($value) => $value ? $value->timezone(config('app.timezone'))->format('d M Y, H:i') : '-';
-    $logoSrc = ($isPdf ?? false) ? public_path('images/logo_deenhag.png') : asset('images/logo_deenhag.png');
+
+    $activeContact = \Illuminate\Support\Facades\Schema::hasTable('contacts')
+        ? \App\Models\Contact::active()
+        : null;
+
+    $brandTitle = 'Deenhag';
+    $address = $activeContact?->address ?? 'Jl. Sultan Agung No. 24, Ponorogo, Jawa Timur, Indonesia';
+
+    if ($activeContact && $activeContact->logo) {
+        $logoSrc = ($isPdf ?? false)
+            ? public_path('storage/' . $activeContact->logo)
+            : asset('storage/' . $activeContact->logo);
+
+        if (($isPdf ?? false) && !file_exists($logoSrc)) {
+            $logoSrc = public_path('images/logo_deenhag.png');
+        }
+    } else {
+        $logoSrc = ($isPdf ?? false) ? public_path('images/logo_deenhag.png') : asset('images/logo_deenhag.png');
+    }
 @endphp
 
 <style>
@@ -298,8 +316,8 @@
     <article class="invoice-sheet">
         <header class="invoice-header">
            <div class="brand">
-                <img src="{{ asset('images/logo_deenhag.png') }}" alt="Logo Deenhag" style="height: 50px;">
-                <p>Jl. Sultan Agung No. 24, Ponorogo, Jawa Timur, Indonesia</p>
+                <img src="{{ $logoSrc }}" alt="Logo {{ $brandTitle }}" style="height: 50px;">
+                <p>{{ $address }}</p>
             </div>
             <div class="invoice-meta">
                 <h2 class="invoice-title">INVOICE</h2>
