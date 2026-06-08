@@ -42,7 +42,9 @@ class AdminPanelProvider extends PanelProvider
                 'profile' => MenuItem::make()
                     ->label('Profil Akun')
                     ->url(fn (): string => EditProfile::getUrl()),
-                'logout' => MenuItem::make()->label('Keluar Sistem'),
+                'logout' => MenuItem::make()
+                    ->label('Keluar Sistem')
+                    ->postAction(fn (): string => filament()->getLogoutUrl()),
             ])
             ->colors([
                 'primary' => Color::Amber,
