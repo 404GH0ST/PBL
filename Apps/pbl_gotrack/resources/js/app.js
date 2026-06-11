@@ -761,7 +761,6 @@ Alpine.data('productDetailPage', ({
         }
 
         lines.push(
-            `Link produk: ${this.order.url ?? window.location.href}`,
             '',
             'Mohon info langkah pemesanan selanjutnya.'
         );
