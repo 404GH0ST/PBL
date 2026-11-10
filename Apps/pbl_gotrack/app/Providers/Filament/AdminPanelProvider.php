@@ -31,11 +31,9 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->brandName('Deenhag')
-            ->brandLogo(
-                \Illuminate\Support\Facades\Schema::hasTable('contacts')
-                    ? (\App\Models\Contact::active()?->logo_url ?? asset('images/logo_deenhag.png'))
-                    : asset('images/logo_deenhag.png')
-            )
+            ->brandLogo(fn (): string => \Illuminate\Support\Facades\Schema::hasTable('contacts')
+                ? (\App\Models\Contact::active()?->logo_url ?? asset('images/logo_deenhag.png'))
+                : asset('images/logo_deenhag.png'))
             ->brandLogoHeight('2.5rem')
             ->profile(EditProfile::class, isSimple: false)
             ->userMenuItems([
